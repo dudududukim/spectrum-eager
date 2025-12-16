@@ -1,35 +1,34 @@
 ---
-title: "3D Printing 예시 포스트"
+title: "3D Printing Example Post"
 date: 2025-12-16
 section: "3d-printing"
 category: "tutorial"
 categories: ["FDM", "Beginner"]
 tags: ["3d-printing", "ender-3", "pla", "beginner"]
-description: "3D 프린팅 섹션의 예시 포스트입니다. 이 섹션에서는 프린터, 슬라이서, 재료에 대한 노트와 실험을 공유합니다."
+description: "This is an example post for the 3D Printing section. In this section, I share notes and experiments about printers, slicers, and materials."
 reading_time: 3
 ---
 
-# 3D Printing 섹션에 오신 것을 환영합니다!
+# Welcome to the 3D Printing section!
 
-이 포스트는 3D Printing 섹션의 예시입니다.
+This post is an example entry for the 3D Printing section.
 
-## 이 섹션에서 다룰 내용
+## What this section covers
 
-- 프린터 리뷰 및 설정
-- 슬라이서 팁과 프로파일
-- 재료별 특성과 추천
-- 출력 실패 사례와 해결 방법
+- Printer reviews and calibration/settings
+- Slicer tips and profiles
+- Material properties and recommendations
+- Common print failures and how to fix them
 
-## 시작하기
+## Getting started
 
-새 글을 작성하려면 `_posts/` 폴더에 마크다운 파일을 추가하고, front matter에 `section: "3d-printing"`을 지정하세요.
+To write a new post, add a Markdown file under the `_posts/` folder and set `section: "3d-printing"` in the front matter.
 
 ```yaml
 ---
-title: "새 글 제목"
+title: "Your Post Title"
 date: 2025-12-16
 section: "3d-printing"
 category: "tutorial"
 ---
 ```
-

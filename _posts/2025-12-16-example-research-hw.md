@@ -1,35 +1,34 @@
 ---
-title: "Research (HW) 예시 포스트"
+title: "Research (HW) Example Post"
 date: 2025-12-16
 section: "research-hw"
 category: "fpga"
 categories: ["FPGA", "Hardware Design"]
 tags: ["research", "fpga", "xilinx", "hardware"]
-description: "Hardware Research 섹션의 예시 포스트입니다. 이 섹션에서는 하드웨어 연구 로그와 측정 결과를 공유합니다."
+description: "This is an example post for the Hardware Research section. In this section, I share hardware research logs and measurement results."
 reading_time: 3
 ---
 
-# Hardware Research 섹션에 오신 것을 환영합니다!
+# Welcome to the Hardware Research section!
 
-이 포스트는 Research (HW) 섹션의 예시입니다.
+This post is an example entry for the Research (HW) section.
 
-## 이 섹션에서 다룰 내용
+## What this section covers
 
-- FPGA 실험 및 타이밍 분석
-- VLSI 설계 로그
-- 측정 결과 및 분석
-- 하드웨어 최적화 기법
+- FPGA experiments and timing analysis
+- VLSI design logs
+- Measurement results and analysis
+- Hardware optimization techniques
 
-## 시작하기
+## Getting started
 
-새 글을 작성하려면 `_posts/` 폴더에 마크다운 파일을 추가하고, front matter에 `section: "research-hw"`를 지정하세요.
+To write a new post, add a Markdown file under the `_posts/` folder and set `section: "research-hw"` in the front matter.
 
 ```yaml
 ---
-title: "새 글 제목"
+title: "Your Post Title"
 date: 2025-12-16
 section: "research-hw"
 category: "fpga"
 ---
 ```
-
