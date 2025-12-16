@@ -13,7 +13,7 @@ site:
   title: "Duhyeon Kim"
   description: "Personal website showcasing tech insights and development journey"
   url: "https://dudududukim.github.io"
-  baseurl: "/spectrum"
+  baseurl: "/spectrum-eager"
   author: "Duhyeon Kim"
   email: "kdhluck@naver.com"
 
@@ -101,7 +101,7 @@ footer:
   copyright_text: "All rights reserved."
   show_theme_credit: true
   theme_name: "Spectrum"
-  theme_url: "https://github.com/dudududukim/spectrum"
+  theme_url: "https://github.com/dudududukim/spectrum-eager"
 
 # Content Configuration
 content:

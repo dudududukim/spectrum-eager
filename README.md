@@ -11,7 +11,7 @@
 <div align="center">
 
 ### 🚀 **LIVE DEMO**
-**[dudududukim.github.io/spectrum/](https://dudududukim.github.io/spectrum/)**
+**[dudududukim.github.io/spectrum-eager/](https://dudududukim.github.io/spectrum-eager/)**
 
 _👆 Click here to see the live demo!_
 
@@ -46,8 +46,8 @@ A minimal, responsive Jekyll theme with excellent typography and dynamic color t
 ### Installation
 1. Clone the repo
 ```
-git clone https://github.com/dudududukim/spectrum.git
-cd spectrum
+git clone git@github.com:dudududukim/spectrum-eager.git
+cd spectrum-eager
 ```
 2. Install dependencies
 ```
@@ -70,7 +70,7 @@ bundle exec jekyll serve
 
 ### Tech Bites Section
 - **Versatile content space**: Use for blog posts, paper summaries, research notes, or general articles
-- Create Markdown files in `_tech-bites/` with proper front matter
+- Create Markdown files in `_posts/` and set `section: "tech-bites"` in the front matter
 - Perfect for sharing insights, tutorials, or academic work
 
 ### Films Section
@@ -119,7 +119,7 @@ This **Jekyll theme** is ready for immediate deployment with GitHub Actions.
 ## Project Structure
 
 ```
-spectrum/
+<repo-root>/
 ├── .github/
 │   └── workflows/
 │       └── jekyll.yml    # GitHub Actions workflow (included)
@@ -128,13 +128,16 @@ spectrum/
 ├── _includes/            # Reusable components
 ├── _layouts/             # Page templates
 ├── _sass/                # Stylesheets
-├── _tech-bites/          # Blog posts / tech bites / papers
+├── _posts/               # All posts (Tech Bites / 3D Printing / Research / Projects via `section`)
 ├── _films/               # Photography markdown files
+├── _sections/            # Section configs (YAML) used to define/label homepage tabs/blocks
 ├── assets/               # Images and CSS
 ├── _config.yml           # Site configuration including colors
 ├── 404.html              # Custom 404 page
 ├── index.md              # Homepage
 ├── tech-bites.md         # Blog listing
+├── 3d-printing.md         # 3D Printing listing (posts filtered by `section: 3d-printing`)
+├── research-hw.md         # Research (HW) listing (posts filtered by `section: research-hw`)
 ├── films.md              # Photography page
 ├── LINCESE.txt           # License file
 └── README.md
