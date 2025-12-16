@@ -50,6 +50,7 @@ personal:
   tagline: "spectrum jekyll owner"
   bio: "Developer passionate about technology, hardware, and continuous learning"
   location: "Seoul, Korea"
+  photo: "/assets/images/me/me.jpeg"
 
 # Social Media Links
 social:
@@ -173,6 +174,32 @@ homepage_sections:
     show_count: 5
     show_read_more_button: true
     custom_title: "Recent Tech Bites"  # Optional override
+    featured_sections:
+      - key: "tech-bites"
+        title: "Tech Bites"
+        description: "Daily tech insights and discoveries"
+        url: "/tech-bites/"
+        button_text: "View All Tech Bites"
+      - key: "3d-printing"
+        title: "3D Printing"
+        description: "Notes and experiments on printers, slicers, and materials"
+        url: "#3d-printing"
+        button_text: "See 3D Printing Work"
+      - key: "research-hw"
+        title: "Research (HW)"
+        description: "Hardware research logs and measurements"
+        url: "#research-hw"
+        button_text: "Explore HW Research"
+      - key: "research-sw"
+        title: "Research (SW)"
+        description: "Software experiments, prototypes, and tools"
+        url: "#research-sw"
+        button_text: "Explore SW Research"
+      - key: "projects"
+        title: "Projects"
+        description: "Etc. projects I’m building or shipping soon"
+        url: "#projects"
+        button_text: "View Projects"
   
   films_preview:
     enabled: true
