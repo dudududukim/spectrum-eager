@@ -5,8 +5,8 @@ layout: default
 <div class="tech-bite-list-page">
     <div class="container">
         <header class="page-header">
-            <h1 class="page-title">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</h1>
-            <p class="page-description">{{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}</p>
+            <h1 class="page-title">{{ page.title | default: "Posts" }}</h1>
+            <p class="page-description">{{ page.description | default: "Browse all posts" }}</p>
         </header>
 
         <!-- Category Filter -->

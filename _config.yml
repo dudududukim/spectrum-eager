@@ -183,23 +183,23 @@ homepage_sections:
       - key: "3d-printing"
         title: "3D Printing"
         description: "Notes and experiments on printers, slicers, and materials"
-        url: "#3d-printing"
-        button_text: "See 3D Printing Work"
+        url: "/3d-printing/"
+        button_text: "View All 3D Printing"
       - key: "research-hw"
         title: "Research (HW)"
         description: "Hardware research logs and measurements"
-        url: "#research-hw"
-        button_text: "Explore HW Research"
+        url: "/research-hw/"
+        button_text: "View All HW Research"
       - key: "research-sw"
         title: "Research (SW)"
         description: "Software experiments, prototypes, and tools"
-        url: "#research-sw"
-        button_text: "Explore SW Research"
+        url: "/research-sw/"
+        button_text: "View All SW Research"
       - key: "projects"
         title: "Projects"
-        description: "Etc. projects I’m building or shipping soon"
-        url: "#projects"
-        button_text: "View Projects"
+        description: "Etc. projects I'm building or shipping soon"
+        url: "/projects/"
+        button_text: "View All Projects"
   
   films_preview:
     enabled: true
@@ -255,9 +255,9 @@ sections:
 
 # Collections
 collections:
-  tech-bites:
+  posts:
     output: true
-    permalink: /tech-bites/:name/
+    permalink: /posts/:name/
   papers:
     output: true
     permalink: /papers/:name/
@@ -277,9 +277,9 @@ defaults:
       layout: "default"
   - scope:
       path: ""
-      type: "tech-bites"
+      type: "posts"
     values:
-      layout: "tech-bite"
+      layout: "post"
       show_sidebar: true
   - scope:
       path: ""

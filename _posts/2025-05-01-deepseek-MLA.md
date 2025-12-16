@@ -1,6 +1,7 @@
 ---
 title: "DeepSeek MLA: Memory-Efficient Attention for Large-Scale Reasoning"
 date: 2025-05-01
+section: "tech-bites"
 category: "paper"
 categories: ["AI Architecture", "Memory Optimization"]
 tags: ["deepseek", "mla", "attention", "memory-optimization", "gpu-efficiency"]

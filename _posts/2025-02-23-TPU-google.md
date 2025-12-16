@@ -1,6 +1,7 @@
 ---
 title: "Google Ironwood TPU: The First TPU for the Age of Inference"
 date: 2025-02-23
+section: "tech-bites"
 category: "tech-bite"
 categories: ["AI Hardware", "TPU Architecture"]
 tags: ["google", "tpu", "ironwood", "inference", "ai-acceleration"]

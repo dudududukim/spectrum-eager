@@ -64,11 +64,56 @@ layout: default
                     <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>
                 </div>
 
-                <div class="tech-bites-grid">
-                    {% assign recent_tech_bites = site.tech-bites | sort: 'date' | reverse | limit: site.sections.tech_bite.main_page_count | default: 5 %}
-                    {% for tech_bite in recent_tech_bites %}
+                <!-- Tech Bites Grid -->
+                <div class="tech-bites-grid" data-section="tech-bites">
+                    {% assign tech_bites_posts = site.posts | where: "section", "tech-bites" | sort: 'date' | reverse %}
+                    {% for tech_bite in tech_bites_posts limit: 5 %}
                         {% include tech-bite-card.html tech_bite=tech_bite %}
                     {% endfor %}
+                </div>
+
+                <!-- 3D Printing Grid -->
+                <div class="tech-bites-grid" data-section="3d-printing" hidden>
+                    {% assign printing_posts = site.posts | where: "section", "3d-printing" | sort: 'date' | reverse %}
+                    {% for tech_bite in printing_posts limit: 5 %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                    {% if printing_posts.size == 0 %}
+                        <p class="empty-section-message">No posts yet. Coming soon!</p>
+                    {% endif %}
+                </div>
+
+                <!-- Research HW Grid -->
+                <div class="tech-bites-grid" data-section="research-hw" hidden>
+                    {% assign research_posts = site.posts | where: "section", "research-hw" | sort: 'date' | reverse %}
+                    {% for tech_bite in research_posts limit: 5 %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                    {% if research_posts.size == 0 %}
+                        <p class="empty-section-message">No posts yet. Coming soon!</p>
+                    {% endif %}
+                </div>
+
+                <!-- Research SW Grid -->
+                <div class="tech-bites-grid" data-section="research-sw" hidden>
+                    {% assign research_sw_posts = site.posts | where: "section", "research-sw" | sort: 'date' | reverse %}
+                    {% for tech_bite in research_sw_posts limit: 5 %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                    {% if research_sw_posts.size == 0 %}
+                        <p class="empty-section-message">No posts yet. Coming soon!</p>
+                    {% endif %}
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="tech-bites-grid" data-section="projects" hidden>
+                    {% assign projects_posts = site.posts | where: "section", "projects" | sort: 'date' | reverse %}
+                    {% for tech_bite in projects_posts limit: 5 %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                    {% if projects_posts.size == 0 %}
+                        <p class="empty-section-message">No posts yet. Coming soon!</p>
+                    {% endif %}
                 </div>
 
                 <div class="section-footer">
@@ -76,10 +121,6 @@ layout: default
                         <span class="btn-label">{{ site.content.ui.buttons.view_all_tech_bites | default: "View All Tech Bites" }}</span>
                         <span class="btn-icon">→</span>
                     </a>
-                </div>
-
-                <div class="section-tab-placeholder" id="section-tab-placeholder" hidden>
-                    <p>More sections coming soon.</p>
                 </div>
 
                 <script>
@@ -97,8 +138,7 @@ layout: default
 
                     const titleEl = document.getElementById('section-tab-title');
                     const descEl = document.getElementById('section-tab-desc');
-                    const placeholder = document.getElementById('section-tab-placeholder');
-                    const grid = document.querySelector('.tech-bites-grid');
+                    const grids = document.querySelectorAll('.tech-bites-grid[data-section]');
                     const prevBtn = header.querySelector('.section-nav-prev');
                     const nextBtn = header.querySelector('.section-nav-next');
                     const actionBtn = document.querySelector('.section-footer .section-button');
@@ -126,11 +166,12 @@ layout: default
                       titleEl.textContent = tab.title || '';
                       descEl.textContent = tab.description || '';
 
-                      const isTech = tab.key === 'tech-bites';
-                      if (grid && placeholder) {
-                        grid.hidden = !isTech;
-                        placeholder.hidden = isTech;
-                      }
+                      // Show/hide grids based on current section key
+                      const currentKey = tab.key || 'tech-bites';
+                      grids.forEach(grid => {
+                        const gridSection = grid.dataset.section;
+                        grid.hidden = gridSection !== currentKey;
+                      });
 
                       if (actionBtn) {
                         const label = tab.button_text || defaultLabel || tab.title || '';

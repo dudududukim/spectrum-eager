@@ -1,7 +1,9 @@
 ---
-layout: tech-bite-list
+layout: post-list
 title: "Tech Bites"
 description: "Daily tech insights and discoveries from the world of web development"
+section: "tech-bites"
+permalink: /tech-bites/
 ---
 
 {{ site.content.pages.tech_bites.list_page.welcome_message | default: "Welcome to my collection of tech insights!" }} {{ site.content.pages.tech_bites.list_page.intro_text | default: "Here you'll find bite-sized posts covering everything from JavaScript tips to performance optimization techniques, accessibility best practices, and modern web development workflows." }}

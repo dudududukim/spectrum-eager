@@ -1,6 +1,7 @@
 ---
 title: "Chipyard Tutorial (ASPLOS 2023)"
 date: 2025-09-29
+section: "tech-bites"
 category: "tech-bite"
 categories: ["SoC"]
 tags: ["tech-tutorial", "chipyard", "berkeley", "ASIC"]

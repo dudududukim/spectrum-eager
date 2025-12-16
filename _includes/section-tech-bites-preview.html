@@ -44,8 +44,10 @@
     </div>
 
     <div class="tech-bites-grid">
-        {% assign recent_tech_bites = site.tech-bites | sort: 'date' | reverse | limit: section.main_page_count | default: 5 %}
-        {% for tech_bite in recent_tech_bites %}
+        {% assign section_key = section.key | default: "tech-bites" %}
+        {% assign all_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
+        {% assign post_limit = section.main_page_count | default: 5 %}
+        {% for tech_bite in all_posts limit: post_limit %}
             {% include tech-bite-card.html tech_bite=tech_bite %}
         {% endfor %}
     </div>

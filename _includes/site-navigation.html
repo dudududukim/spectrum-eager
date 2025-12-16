@@ -4,20 +4,50 @@
       <a href="{{ '/' | relative_url }}" class="nav-home">{{ site.navigation.home_text | default: "Home" }}</a>
       {% unless page.url == "/" %}
         <span class="nav-separator">/</span>
-        {% if page.layout == 'tech-bite-list' %}
-          <span class="nav-current">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</span>
-        {% elsif page.layout == 'tech-bite' %}
-          <a href="{{ '/tech-bites/' | relative_url }}" class="nav-link">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</a>
+        
+        {% comment %} Post list pages (tech-bites, 3d-printing, research-hw, etc.) {% endcomment %}
+        {% if page.layout == 'post-list' or page.layout == 'tech-bite-list' %}
+          <span class="nav-current">{{ page.title }}</span>
+        
+        {% comment %} Individual post pages {% endcomment %}
+        {% elsif page.layout == 'post' or page.layout == 'tech-bite' %}
+          {% assign post_section = page.section | default: "tech-bites" %}
+          {% if post_section == "tech-bites" %}
+            {% assign section_title = "Tech Bites" %}
+            {% assign section_url = "/tech-bites/" %}
+          {% elsif post_section == "3d-printing" %}
+            {% assign section_title = "3D Printing" %}
+            {% assign section_url = "/3d-printing/" %}
+          {% elsif post_section == "research-hw" %}
+            {% assign section_title = "Research (HW)" %}
+            {% assign section_url = "/research-hw/" %}
+          {% elsif post_section == "research-sw" %}
+            {% assign section_title = "Research (SW)" %}
+            {% assign section_url = "/research-sw/" %}
+          {% elsif post_section == "projects" %}
+            {% assign section_title = "Projects" %}
+            {% assign section_url = "/projects/" %}
+          {% else %}
+            {% assign section_title = post_section | capitalize %}
+            {% assign section_url = "/" | append: post_section | append: "/" %}
+          {% endif %}
+          <a href="{{ section_url | relative_url }}" class="nav-link">{{ section_title }}</a>
           <span class="nav-separator">/</span>
           <span class="nav-current">{{ page.title }}</span>
+        
+        {% comment %} About page {% endcomment %}
         {% elsif page.layout == 'about' %}
           <span class="nav-current">{{ site.content.pages.about.title | default: "About" }}</span>
+        
+        {% comment %} Films pages {% endcomment %}
         {% elsif page.layout == 'films-list' %}
           <span class="nav-current">{{ site.content.pages.films.title | default: "Films" }}</span>
         {% elsif page.layout == 'film-detail' %}
           <a href="{{ '/films/' | relative_url }}" class="nav-link">{{ site.content.pages.films.title | default: "Films" }}</a>
           <span class="nav-separator">/</span>
           <span class="nav-current">{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}</span>
+        
+        {% comment %} Default fallback {% endcomment %}
         {% else %}
           <span class="nav-current">{{ page.title | default: 'Page' }}</span>
         {% endif %}

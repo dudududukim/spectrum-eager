@@ -10,6 +10,11 @@
   padding: 0;
 }
 
+// Properly hide elements with hidden attribute
+[hidden] {
+  display: none !important;
+}
+
 html {
   font-size: 16px;
   line-height: 1.5;
@@ -36,6 +41,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%; /* Always take full available width */
   max-width: var(--max-width, 1125px); /* Expanded by 25% from 900px for better screen utilization */
   margin: 0 auto;
   padding: var(--nav-height, 6rem) 1rem 0; /* Add top padding for fixed navigation, remove bottom padding */

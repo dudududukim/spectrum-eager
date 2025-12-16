@@ -1,6 +1,7 @@
 ---
 title: "My Journey to Tech Balance"
 date: 2025-01-15
+section: "tech-bites"
 category: "life"
 categories: ["Personal Story", "Life Lessons", "Career Journey"]
 tags: ["personal-story", "work-life-balance", "tech-career", "life-lessons", "mental-health"]
