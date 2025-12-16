@@ -13,13 +13,19 @@
     width: 100%; // 전체 너비 사용
   }
 
+  .about-main {
+    display: grid;
+    grid-template-columns: 1fr minmax(220px, 320px);
+    gap: 1.5rem;
+    align-items: start;
+    max-width: var(--content-max-width);
+    margin: 0 auto 1.5rem;
+  }
+
   .about-text {
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-    max-width: var(--content-max-width);
-    margin-left: auto;
-    margin-right: auto;
     width: 100%; // 명시적 전체 너비
 
     h2 {
@@ -57,6 +63,20 @@
     font-weight: 400;
     color: var(--text-color);
     font-size: 0.9rem;
+  }
+
+  .about-photo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+
+    img {
+      width: 100%;
+      max-width: 320px;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      box-shadow: 0 10px 30px var(--shadow-light);
+    }
   }
 }
 
@@ -432,6 +452,52 @@
   margin: 4rem 0;
   padding: 3rem 0;
   border-top: 1px solid var(--border-color);
+
+  .section-header-slider {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    gap: 1rem;
+    max-width: var(--content-max-width);
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+
+  .section-header-text {
+    text-align: center;
+
+    .section-title {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .section-nav-btn {
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    line-height: 1;
+    box-shadow: none;
+    transition: text-shadow var(--transition-fast), transform var(--transition-fast);
+
+    &:hover {
+      text-shadow: 0 6px 18px var(--shadow-light);
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  .section-tab-placeholder {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-top: 1.5rem;
+  }
 
   .section-header {
     text-align: center;
@@ -869,12 +935,26 @@
       padding: 0 0.5rem;
     }
 
+    .about-main {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
     .about-text {
       font-size: 0.9rem;
       line-height: 1.5;
       margin-bottom: 1rem;
       max-width: 100%; // 모바일에서 최대 너비 제거
       padding: 0 0.25rem; // 최소 패딩만 유지
+    }
+
+    .about-photo {
+      justify-content: center;
+
+      img {
+        max-width: 260px;
+      }
     }
 
     .about-details {
@@ -906,6 +986,12 @@
       width: 100%;
       margin-left: 0;
       margin-right: 0;
+    }
+  }
+
+  .tech-bites-preview {
+    .section-header-slider {
+      gap: 0.5rem;
     }
   }
 
