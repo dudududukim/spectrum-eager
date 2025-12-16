@@ -1,0 +1,103 @@
+---
+layout: default
+---
+
+<div class="film-detail-page">
+    <div class="container">
+        <!-- Main Content -->
+        <div class="film-content">
+            <!-- Image Section -->
+            <div class="film-image-section">
+                <div class="film-image-container">
+                    <img
+                        src="{{ page.image_path | relative_url }}"
+                        alt="{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}"
+                        class="film-image"
+                        loading="eager"
+                        decoding="async"
+                    />
+                </div>
+            </div>
+
+            <!-- Metadata Section -->
+            <div class="film-metadata">
+                <!-- Main Content (markdown content) -->
+                <div class="film-main-content">
+                    {{ content }}
+                </div>
+
+                <!-- Metadata Cards -->
+                <div class="metadata-cards">
+                    <!-- Technical Specifications -->
+                    {% if page.camera or page.film %}
+                        <div class="metadata-card card">
+                            <h3 class="metadata-title">
+                                <i class="fas fa-camera"></i>
+                                Technical Details
+                            </h3>
+                            <div class="metadata-content">
+                                {% if page.camera %}
+                                    <div class="metadata-item">
+                                        <span class="metadata-label">Camera:</span>
+                                        <span class="metadata-value">{{ page.camera }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if page.film %}
+                                    <div class="metadata-item">
+                                        <span class="metadata-label">Film:</span>
+                                        <span class="metadata-value">{{ page.film }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Location -->
+                    {% if page.location %}
+                        <div class="metadata-card card">
+                            <h3 class="metadata-title">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Location
+                            </h3>
+                            <div class="metadata-content">
+                                <div class="metadata-item">
+                                    <span class="metadata-label">Location:</span>
+                                    <span class="metadata-value">{{ page.location }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation to other films -->
+        <nav class="post-navigation">
+            {% assign films = site.films | sort: 'date' %}
+            {% for film in films %}
+                {% if film.url == page.url %}
+                    {% assign current_index = forloop.index0 %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+
+            {% if current_index > 0 %}
+                {% assign prev_index = current_index | minus: 1 %}
+                {% assign prev_film = films[prev_index] %}
+                <a href="{{ prev_film.url | relative_url }}" class="nav-link nav-prev">
+                    <span class="nav-direction">← Previous</span>
+                    <span class="nav-title">{{ prev_film.title | default: prev_film.name | remove: '.md' | replace: '-', ' ' | capitalize }}</span>
+                </a>
+            {% endif %}
+
+            {% assign next_index = current_index | plus: 1 %}
+            {% if next_index < films.size %}
+                {% assign next_film = films[next_index] %}
+                <a href="{{ next_film.url | relative_url }}" class="nav-link nav-next">
+                    <span class="nav-direction">Next →</span>
+                    <span class="nav-title">{{ next_film.title | default: next_film.name | remove: '.md' | replace: '-', ' ' | capitalize }}</span>
+                </a>
+            {% endif %}
+        </nav>
+    </div>
+</div>

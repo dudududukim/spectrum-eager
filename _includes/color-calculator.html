@@ -1,0 +1,89 @@
+<!-- Dynamic Color Calculator -->
+<!-- This script generates all theme colors from a single primary color defined in _config.yml -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const primaryColor = '{{ site.site_theme.colors.primary | default: "#3498db" }}';
+  
+  // Convert hex to HSL
+  const hsl = hexToHsl(primaryColor);
+  
+  // Set CSS custom properties for HSL values
+  document.documentElement.style.setProperty('--primary-h', hsl.h);
+  document.documentElement.style.setProperty('--primary-s', hsl.s + '%');
+  document.documentElement.style.setProperty('--primary-l', hsl.l + '%');
+  
+  // Generate and set all color variations
+  generateColorPalette(hsl);
+});
+
+function hexToHsl(hex) {
+  // Remove # if present
+  hex = hex.replace('#', '');
+  
+  // Parse RGB values
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100)
+  };
+}
+
+function generateColorPalette(primaryHsl) {
+  const root = document.documentElement;
+  
+  // Primary color variations
+  root.style.setProperty('--primary-color', `hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${primaryHsl.l}%)`);
+  root.style.setProperty('--primary-hover', `hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${Math.max(primaryHsl.l - 10, 0)}%)`);
+  root.style.setProperty('--primary-light', `hsl(${primaryHsl.h}, ${Math.max(primaryHsl.s - 20, 0)}%, ${Math.min(primaryHsl.l + 20, 100)}%)`);
+  root.style.setProperty('--primary-dark', `hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${Math.max(primaryHsl.l - 20, 0)}%)`);
+  
+  // Secondary color (complementary - hue + 180°)
+  const secondaryH = (primaryHsl.h + 180) % 360;
+  root.style.setProperty('--secondary-color', `hsl(${secondaryH}, ${Math.max(primaryHsl.s - 10, 0)}%, ${Math.max(primaryHsl.l - 15, 0)}%)`);
+  root.style.setProperty('--secondary-hover', `hsl(${secondaryH}, ${Math.max(primaryHsl.s - 10, 0)}%, ${Math.max(primaryHsl.l - 25, 0)}%)`);
+  root.style.setProperty('--secondary-light', `hsl(${secondaryH}, ${Math.max(primaryHsl.s - 20, 0)}%, ${Math.min(primaryHsl.l + 10, 100)}%)`);
+  root.style.setProperty('--secondary-dark', `hsl(${secondaryH}, ${primaryHsl.s}%, ${Math.max(primaryHsl.l - 30, 0)}%)`);
+  
+  // Accent color (triadic - hue + 120°)
+  const accentH = (primaryHsl.h + 120) % 360;
+  root.style.setProperty('--accent-color', `hsl(${accentH}, ${primaryHsl.s}%, ${Math.min(primaryHsl.l + 5, 100)}%)`);
+  root.style.setProperty('--accent-hover', `hsl(${accentH}, ${primaryHsl.s}%, ${Math.max(primaryHsl.l - 10, 0)}%)`);
+  root.style.setProperty('--accent-light', `hsl(${accentH}, ${Math.max(primaryHsl.s - 15, 0)}%, ${Math.min(primaryHsl.l + 25, 100)}%)`);
+  root.style.setProperty('--accent-dark', `hsl(${accentH}, ${primaryHsl.s}%, ${Math.max(primaryHsl.l - 20, 0)}%)`);
+  
+  // Success color (analogous + 30°)
+  const successH = (primaryHsl.h + 30) % 360;
+  root.style.setProperty('--success-color', `hsl(${successH}, ${Math.min(primaryHsl.s + 10, 100)}%, ${Math.max(primaryHsl.l - 5, 0)}%)`);
+  
+  // Warning color (analogous - 30°)
+  const warningH = (primaryHsl.h - 30 + 360) % 360;
+  root.style.setProperty('--warning-color', `hsl(${warningH}, ${Math.min(primaryHsl.s + 15, 100)}%, ${Math.min(primaryHsl.l + 10, 100)}%)`);
+  
+  // Error color (same as accent for consistency)
+  root.style.setProperty('--error-color', `hsl(${accentH}, ${primaryHsl.s}%, ${Math.min(primaryHsl.l + 5, 100)}%)`);
+  
+  // Info color (same as primary)
+  root.style.setProperty('--info-color', `hsl(${primaryHsl.h}, ${primaryHsl.s}%, ${primaryHsl.l}%)`);
+}
+</script>

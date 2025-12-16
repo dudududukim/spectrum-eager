@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+<div class="films-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">{{ site.content.pages.films.title | default: "Films" }}</h1>
+            <p class="page-description">{{ site.content.pages.films.description | default: "Photography collection showcasing moments captured through the lens" }}</p>
+        </header>
+
+        <!-- Films Grid -->
+        <div class="films-grid">
+            {% assign films = site.films | sort: 'date' | reverse %}
+            {% for film in films %}
+                {% include photo-card.html film=film %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

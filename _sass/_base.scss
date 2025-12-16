@@ -1,0 +1,294 @@
+// Base Styles
+// ===========
+
+// Reset and normalize
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-color, #2c3e50);
+  background-color: var(--bg-color, #ffffff);
+  transition: color 0.3s ease, background-color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: var(--max-width, 1125px); /* Expanded by 25% from 900px for better screen utilization */
+  margin: 0 auto;
+  padding: var(--nav-height, 6rem) 1rem 0; /* Add top padding for fixed navigation, remove bottom padding */
+}
+
+.main-content {
+  flex: 1;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+  margin-top: 1.5rem;
+  color: var(--text-color, #2c3e50);
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-top: 0;
+  font-weight: 300;
+}
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.95rem; }
+
+p {
+  margin-bottom: 0.75rem;
+  color: var(--text-color, #2c3e50);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary-color, #3498db);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent-color, #e74c3c);
+  }
+}
+
+// Lists
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+// Code
+code {
+  font-family: var(--font-family, 'JetBrains Mono', Monaco, 'Lucida Console', monospace);
+  font-size: 0.875rem;
+  background-color: var(--border-color, #ecf0f1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  color: var(--accent-color, #e74c3c);
+}
+
+pre {
+  background-color: var(--border-color, #ecf0f1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+
+  code {
+    background: none;
+    padding: 0;
+    color: var(--text-color, #2c3e50);
+  }
+}
+
+// Blockquotes
+blockquote {
+  border-left: 4px solid var(--primary-color, #3498db);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--light-text-color, #7f8c8d);
+}
+
+// Tables
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color, #ecf0f1);
+}
+
+th {
+  font-weight: 600;
+  background-color: var(--border-color, #ecf0f1);
+}
+
+// Images
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Form elements
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+// Utility classes
+.container {
+  max-width: var(--max-width, 1125px); /* Expanded by 25% to match page-wrapper */
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Dark mode styles (moved to _color-variables.scss with data attributes)
+// This section is now handled by [data-theme="dark"] in _color-variables.scss
+
+// Screen reader only content
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Animation utilities
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+// Responsive breakpoints
+@media (max-width: 767px) {
+  .page-wrapper {
+    padding: var(--nav-height-mobile, 5.5rem) 0.5rem 0; // 0.75rem → 0.5rem
+    max-width: 100%; // 최대 너비 100% 보장
+  }
+
+  body {
+    font-size: 0.85rem;
+    overflow-x: hidden; // 가로 스크롤 방지
+  }
+
+  .container {
+    padding: 0 0.5rem; // 패딩 감소
+    max-width: 100%;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.1rem; }
+  h4 { font-size: 1rem; }
+  h5 { font-size: 0.95rem; }
+  h6 { font-size: 0.9rem; }
+
+  p {
+    margin-bottom: 0.6rem;
+  }
+}
+
+// 매우 작은 화면 추가
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: var(--nav-height-mobile, 5.5rem) 0.25rem 0;
+  }
+  
+  .container {
+    padding: 0 0.25rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page-wrapper {
+    padding: var(--nav-height-tablet, 5.75rem) 1.5rem 0; /* Add top padding for fixed navigation on tablet, remove bottom padding */
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-wrapper {
+    padding: var(--nav-height, 6rem) 2rem 0; /* Add top padding for fixed navigation on desktop, remove bottom padding */
+  }
+}

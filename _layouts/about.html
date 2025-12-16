@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="about-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">{{ site.personal.name | default: site.site.author }}</h1>
+            {% if site.personal.tagline %}
+                <p class="page-subtitle">{{ site.personal.tagline }}</p>
+            {% endif %}
+        </header>
+
+        <div class="about-content">
+            <div class="about-text">
+                {% if page.content %}
+                    {{ content }}
+                {% elsif site.personal.bio %}
+                    <p>{{ site.personal.bio }}</p>
+                {% else %}
+                    <p>{{ site.personal.bio | default: "Welcome to my personal website. I'm passionate about technology, design, and sharing knowledge through my daily tech insights and photography." }}</p>
+                {% endif %}
+            </div>
+
+            {% if site.personal.location %}
+                <div class="about-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Location</span>
+                        <span class="detail-value">{{ site.personal.location }}</span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Tech Bites Preview -->
+        {% if site.sections.tech_bite.enabled %}
+            <section class="tech-bites-preview">
+                <div class="section-header">
+                    <h2 class="section-title">{{ site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}</h2>
+                    <p class="section-description">{{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}</p>
+                </div>
+
+                <div class="tech-bites-grid">
+                    {% assign recent_tech_bites = site.tech-bites | sort: 'date' | reverse | limit: site.sections.tech_bite.main_page_count | default: 5 %}
+                    {% for tech_bite in recent_tech_bites %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                </div>
+
+                <div class="section-footer">
+                    <a href="{{ '/tech-bites/' | relative_url }}" class="section-button">
+                        {{ site.content.ui.buttons.view_all_tech_bites | default: "View All Tech Bites" }}
+                        <span class="btn-icon">→</span>
+                    </a>
+                </div>
+            </section>
+        {% endif %}
+
+        <!-- Gallery Track Preview -->
+        {% include gallery-track.html %}
+
+    </div>
+</div>

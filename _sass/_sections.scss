@@ -1,0 +1,163 @@
+// Reusable section styles
+// =======================
+
+// Mixins for reusable styles
+@mixin section-title {
+  font-size: 1.8rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+@mixin section-description {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+// Unified Section Styles
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .section-title {
+    @include section-title;
+  }
+
+  .section-description {
+    @include section-description;
+  }
+}
+
+.section-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.section-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .btn-icon {
+    font-size: 0.8rem;
+  }
+}
+
+// Page header styles (reusable across all pages)
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .page-title {
+    @include section-title;
+  }
+
+  .page-subtitle,
+  .page-description {
+    @include section-description;
+  }
+}
+
+// Content sections
+.content-section {
+  margin-bottom: 3rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Grid layouts
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.section-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+// Section spacing utilities
+.section-spacing-sm {
+  margin-bottom: 1.5rem;
+}
+
+.section-spacing-md {
+  margin-bottom: 2rem;
+}
+
+.section-spacing-lg {
+  margin-bottom: 3rem;
+}
+
+.section-spacing-xl {
+  margin-bottom: 4rem;
+}
+
+// Section background variants
+.section-bg-light {
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  margin: 2rem 0;
+}
+
+.section-bg-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  margin: 2rem 0;
+
+  .section-title,
+  .page-title {
+    color: white;
+  }
+
+  .section-description,
+  .page-description {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+// Section borders
+.section-border-top {
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
+}
+
+.section-border-bottom {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 2rem;
+}
+
+.section-border-both {
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 2rem 0;
+}

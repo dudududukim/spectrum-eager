@@ -1,0 +1,116 @@
+<nav class="site-navigation" role="navigation" aria-label="Site navigation">
+  <div class="nav-container">
+    <div class="nav-path">
+      <a href="{{ '/' | relative_url }}" class="nav-home">{{ site.navigation.home_text | default: "Home" }}</a>
+      {% unless page.url == "/" %}
+        <span class="nav-separator">/</span>
+        {% if page.layout == 'tech-bite-list' %}
+          <span class="nav-current">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</span>
+        {% elsif page.layout == 'tech-bite' %}
+          <a href="{{ '/tech-bites/' | relative_url }}" class="nav-link">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</a>
+          <span class="nav-separator">/</span>
+          <span class="nav-current">{{ page.title }}</span>
+        {% elsif page.layout == 'about' %}
+          <span class="nav-current">{{ site.content.pages.about.title | default: "About" }}</span>
+        {% elsif page.layout == 'films-list' %}
+          <span class="nav-current">{{ site.content.pages.films.title | default: "Films" }}</span>
+        {% elsif page.layout == 'film-detail' %}
+          <a href="{{ '/films/' | relative_url }}" class="nav-link">{{ site.content.pages.films.title | default: "Films" }}</a>
+          <span class="nav-separator">/</span>
+          <span class="nav-current">{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}</span>
+        {% else %}
+          <span class="nav-current">{{ page.title | default: 'Page' }}</span>
+        {% endif %}
+      {% endunless %}
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button 
+      class="mobile-menu-toggle" 
+      id="mobile-menu-toggle"
+      aria-label="Toggle mobile menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      title="Menu"
+    >
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Desktop Theme Toggle Switch -->
+    <button 
+      class="theme-toggle theme-toggle-desktop" 
+      id="theme-toggle"
+      aria-label="Toggle dark mode"
+      aria-pressed="false"
+      role="switch"
+      title="Toggle theme"
+    >
+      <div class="theme-toggle-track">
+        <div class="theme-toggle-slider">
+          <i class="fas fa-sun theme-toggle-icon theme-toggle-sun" aria-hidden="true"></i>
+          <i class="fas fa-moon theme-toggle-icon theme-toggle-moon" aria-hidden="true"></i>
+        </div>
+      </div>
+      <span class="sr-only" id="theme-toggle-description">Switch between light and dark themes</span>
+    </button>
+
+    <!-- Desktop Social Links -->
+    {% if site.navigation.show_social and site.social.enabled %}
+    <div class="nav-social nav-social-desktop">
+      {% for platform in site.social.platforms %}
+        {% if platform[1].enabled and platform[1].url %}
+        <a href="{{ platform[1].url }}" target="_blank" rel="noopener noreferrer" class="nav-social-link" title="{{ platform[1].label }}">
+          <i class="{{ platform[1].icon }}"></i>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-content">
+        <!-- Mobile Social Links -->
+        {% if site.navigation.show_social and site.social.enabled %}
+        <div class="mobile-menu-section">
+          <div class="mobile-menu-title">Connect</div>
+          <div class="nav-social nav-social-mobile">
+            {% for platform in site.social.platforms %}
+              {% if platform[1].enabled and platform[1].url %}
+              <a href="{{ platform[1].url }}" target="_blank" rel="noopener noreferrer" class="nav-social-link" title="{{ platform[1].label }}">
+                <i class="{{ platform[1].icon }}"></i>
+                <span class="social-label">{{ platform[1].label }}</span>
+              </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Mobile Theme Toggle - Moved to bottom -->
+        <div class="mobile-menu-section mobile-menu-theme-section">
+          <button 
+            class="theme-toggle theme-toggle-mobile" 
+            id="theme-toggle-mobile"
+            aria-label="Toggle dark mode"
+            aria-pressed="false"
+            role="switch"
+            title="Toggle theme"
+          >
+            <div class="theme-toggle-track">
+              <div class="theme-toggle-slider">
+                <i class="fas fa-sun theme-toggle-icon theme-toggle-sun" aria-hidden="true"></i>
+                <i class="fas fa-moon theme-toggle-icon theme-toggle-moon" aria-hidden="true"></i>
+              </div>
+            </div>
+            <span class="theme-toggle-label">Theme</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,978 @@
+// Layout-specific styles
+// =====================
+
+// Page layouts
+// .page-wrapper and .main-content styles are defined in _base.scss
+
+// About page layout
+.about-page {
+
+  .about-content {
+    margin-bottom: 2rem;
+    text-align: left;
+    width: 100%; // 전체 너비 사용
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%; // 명시적 전체 너비
+
+    h2 {
+      font-weight: 400; // 더 가벼운 폰트 웨이트
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .about-details {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  .detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .detail-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .detail-value {
+    font-weight: 400;
+    color: var(--text-color);
+    font-size: 0.9rem;
+  }
+}
+
+// Tech Bites list page layout
+.tech-bite-list-page {
+  .tech-bites-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 3rem;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+
+    .tech-bite-card {
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .pagination-info {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .pagination-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .pagination-current {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+}
+
+// Tech Bite individual page layout
+.tech-bite-page {
+  .page-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .post-date {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+
+  .post-categories {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .category-tag {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+    }
+  }
+
+  .tech-bite-content {
+    width: var(--content-max-width);
+    margin: 0 auto 3rem;
+    font-size: 1rem;
+    line-height: 1.6;
+
+    // Typography styles inherited from _base.scss
+    // Only override specific styles if needed
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+      }
+    }
+
+    blockquote {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: var(--bg-secondary);
+      border-left: 4px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    code {
+      background-color: var(--bg-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      color: var(--text-color);
+    }
+
+    pre {
+      background-color: var(--bg-secondary);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin: 2rem 0;
+
+      code {
+        background: none;
+        padding: 0;
+        color: var(--text-color);
+      }
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      margin: 1.5rem 0;
+    }
+  }
+
+  .post-navigation {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .nav-link {
+    flex: 1;
+    max-width: calc(50% - 0.5rem); // 하나만 있을 때도 반만 차지
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-md);
+
+    &:hover {
+      background-color: var(--bg-secondary);
+      color: var(--primary-color);
+    }
+
+    // 하나만 있을 때도 위치에 맞게 정렬
+    &:only-child.nav-prev {
+      max-width: 50%;
+      margin-right: auto; // 왼쪽 정렬
+    }
+
+    &:only-child.nav-next {
+      max-width: 50%;
+      margin-left: auto; // 오른쪽 정렬
+    }
+
+    .nav-direction {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-title {
+      display: block;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    &.nav-prev {
+      text-align: left;
+    }
+
+    &.nav-next {
+      text-align: right;
+    }
+  }
+}
+
+// Film Detail page layout
+.film-detail-page {
+  .film-content {
+    max-width: var(--content-max-width);
+    margin: 0 auto 3rem;
+    font-size: 1rem;
+    line-height: 1.6;
+
+    // Typography styles inherited from _base.scss
+    // Only override specific styles if needed
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+      }
+    }
+
+    blockquote {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background-color: var(--bg-secondary);
+      border-left: 4px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    code {
+      background-color: var(--bg-secondary);
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      color: var(--text-color);
+    }
+
+    pre {
+      background-color: var(--bg-secondary);
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin: 2rem 0;
+
+      code {
+        background: none;
+        padding: 0;
+        color: var(--text-color);
+      }
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      margin: 1.5rem 0;
+    }
+  }
+
+  .post-navigation {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .nav-link {
+    flex: 1;
+    max-width: calc(50% - 0.5rem); // 하나만 있을 때도 반만 차지
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-md);
+
+    &:hover {
+      background-color: var(--bg-secondary);
+      color: var(--primary-color);
+    }
+
+    // 하나만 있을 때도 위치에 맞게 정렬
+    &:only-child.nav-prev {
+      max-width: 50%;
+      margin-right: auto; // 왼쪽 정렬
+    }
+
+    &:only-child.nav-next {
+      max-width: 50%;
+      margin-left: auto; // 오른쪽 정렬
+    }
+
+    .nav-direction {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-title {
+      display: block;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    &.nav-prev {
+      text-align: left;
+    }
+
+    &.nav-next {
+      text-align: right;
+    }
+  }
+}
+
+// Section previews on about page
+.tech-bites-preview {
+  margin: 4rem 0;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border-color);
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-description {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+  }
+
+  .tech-bites-grid {
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+
+    .tech-bite-card {
+      width: 100%;
+      box-sizing: border-box;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .section-footer {
+    text-align: center;
+
+    .section-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-decoration: none;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      background-color: transparent;
+      transition: all var(--transition-fast);
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px hsl(var(--primary-h), var(--primary-s), var(--primary-l), 0.3);
+      }
+
+      .btn-icon {
+        font-size: 1rem;
+        transition: transform var(--transition-fast);
+      }
+
+      &:hover .btn-icon {
+        transform: translateX(2px);
+      }
+    }
+  }
+}
+
+// Gallery Track Preview Section
+.gallery-track-preview {
+  margin: 4rem 0;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border-color);
+  overflow: hidden; // 가로 스크롤 방지
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-description {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+  }
+
+  .section-content {
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .gallery-track-container {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: var(--radius-lg);
+
+    // Hide scrollbars while maintaining scroll functionality
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 1rem;
+    width: fit-content;
+    will-change: transform;
+    transform: translateX(0);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:hover {
+      animation-play-state: paused;
+    }
+  }
+
+  .gallery-item {
+    flex: 0 0 auto;
+    width: 280px; // 기본 크기
+    height: 200px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background-color: var(--bg-color);
+    transition: all var(--transition-normal);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--shadow-light);
+    }
+
+    .gallery-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--radius-lg);
+      }
+
+      .gallery-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform var(--transition-normal);
+      }
+
+      .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          transparent 0%,
+          var(--overlay-light) 50%,
+          var(--overlay-dark) 100%
+        );
+        opacity: 0;
+        transition: opacity var(--transition-normal);
+        display: flex;
+        align-items: flex-end;
+        padding: 1rem;
+
+        .gallery-info {
+          color: white;
+          text-align: left;
+
+          .gallery-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.2;
+            display: block;
+          }
+        }
+      }
+
+      &:hover {
+        .gallery-image {
+          transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .section-footer {
+    text-align: center;
+
+    .section-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-decoration: none;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--radius-md);
+      background-color: transparent;
+      transition: all var(--transition-fast);
+
+      &:hover {
+        background-color: var(--primary-color);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px hsl(var(--primary-h), var(--primary-s), var(--primary-l), 0.3);
+      }
+
+      .btn-icon {
+        font-size: 1rem;
+        transition: transform var(--transition-fast);
+      }
+
+      &:hover .btn-icon {
+        transform: translateX(2px);
+      }
+    }
+  }
+}
+
+// Gallery track animation keyframes
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+// Films page layout
+.films-page {
+  .films-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .photo-card {
+    // Core card properties - ensures consistent behavior across all card types
+    background-color: var(--bg-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    position: relative;
+
+    // Consistent hover effects across all card types
+    &:hover {
+      box-shadow: 0 8px 25px var(--shadow-light);
+      transform: translateY(-2px);
+    }
+
+    .photo-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%; // Square aspect ratio
+      overflow: hidden;
+
+      .photo-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+
+        .photo-image {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+          transition: transform var(--transition-normal);
+        }
+
+        .photo-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            var(--overlay-light) 50%,
+            var(--overlay-dark) 100%
+          );
+          opacity: 0;
+          transition: opacity var(--transition-normal);
+          display: flex;
+          align-items: flex-end;
+          padding: 1rem;
+
+          .photo-info {
+            color: #ffffff;
+            text-align: left;
+
+            .photo-title {
+              font-size: 0.9rem;
+              font-weight: 500;
+              margin: 0 0 0.25rem 0;
+              line-height: 1.2;
+            }
+
+            .photo-meta {
+              font-size: 0.75rem;
+              opacity: 0.8;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+          }
+        }
+
+        &:hover {
+          .photo-image {
+            transform: scale(1.05);
+          }
+
+          .photo-overlay {
+            opacity: 1;
+          }
+        }
+
+        &:focus {
+          outline: 2px solid var(--primary-color);
+          outline-offset: 2px;
+          border-radius: var(--radius-lg);
+        }
+      }
+    }
+  }
+}
+
+// Responsive layout adjustments
+@media (max-width: 767px) {
+  // main-content padding removed - page-wrapper already handles top padding
+
+  .about-page .page-title {
+    font-size: 1.5rem;
+  }
+
+  .tech-bite-list-page .page-title {
+    font-size: 1.5rem;
+  }
+
+  .tech-bite-page {
+    .page-title {
+      font-size: 1.5rem;
+    }
+
+    .tech-bite-content {
+      width: var(--content-max-width);
+      padding: 0 1rem;
+    }
+
+    .post-navigation {
+      flex-direction: row; // column → row로 변경 (한 줄에 나란히)
+      gap: 0.5rem; // 간격 줄임 (1rem → 0.5rem)
+      
+      .nav-link {
+        padding: 0.75rem 0.5rem; // 모바일에서 패딩 줄임
+        font-size: 0.875rem; // 폰트 크기 약간 줄임
+      }
+    }
+
+    .page-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  .film-detail-page {
+    .film-content {
+      padding: 0 1rem;
+    }
+
+    .post-navigation {
+      flex-direction: row; // column → row로 변경 (한 줄에 나란히)
+      gap: 0.5rem; // 간격 줄임 (1rem → 0.5rem)
+      
+      .nav-link {
+        padding: 0.75rem 0.5rem; // 모바일에서 패딩 줄임
+        font-size: 0.875rem; // 폰트 크기 약간 줄임
+      }
+    }
+  }
+
+  .about-page {
+    .about-content {
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .about-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      max-width: 100%; // 모바일에서 최대 너비 제거
+      padding: 0 0.25rem; // 최소 패딩만 유지
+    }
+
+    .about-details {
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 0.5rem 0; // 상단 패딩 추가
+    }
+
+    .detail-item {
+      gap: 0.125rem;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+    }
+
+    .detail-value {
+      font-size: 0.85rem;
+    }
+  }
+
+  .tech-bites-grid {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+
+    .tech-bite-card {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  // Gallery track responsive adjustments for mobile
+  .gallery-track-preview {
+    margin: 2rem 0;
+    padding: 1.5rem 0;
+
+    .section-header {
+      margin-bottom: 1.5rem;
+
+      .section-title {
+        font-size: 1.3rem;
+      }
+
+      .section-description {
+        font-size: 0.9rem;
+      }
+    }
+
+    .gallery-track {
+      gap: 0.5rem;
+      padding: 0 0.75rem;
+    }
+
+    .gallery-item {
+      width: 200px; // 모바일에서 더 작은 크기
+      height: 140px;
+    }
+  }
+}
+
+// Very small screens (480px and below)
+@media (max-width: 480px) {
+  .gallery-track-preview {
+    .gallery-item {
+      width: 160px;
+      height: 120px;
+    }
+  }
+
+  .about-page {
+    .about-text {
+      font-size: 0.85rem;
+      padding: 0;
+    }
+    
+    .about-details {
+      padding: 1rem 0.25rem 0; // 상단 패딩 추가
+    }
+  }
+}
+
+// Tablet responsive adjustments
+@media (min-width: 768px) and (max-width: 1023px) {
+  // Gallery track responsive adjustments for tablet
+  .gallery-track-preview {
+    margin: 3.5rem 0;
+    padding: 2.5rem 0;
+
+    .gallery-item {
+      width: 260px;
+      height: 185px;
+    }
+
+    .gallery-track {
+      gap: 0.875rem;
+    }
+  }
+}

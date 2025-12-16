@@ -1,0 +1,58 @@
+{% assign tech_bite = include.tech_bite %}
+<article class="tech-bite-card"
+         data-date="{{ tech_bite.date | date: '%Y-%m-%d' }}"
+         data-category="{{ tech_bite.category | default: 'tech-bite' }}">
+    <div class="card-content">
+        <header class="card-header">
+            <div class="card-title-row">
+                <h3 class="card-title">
+                    <a href="{{ tech_bite.url | relative_url }}" class="card-link">
+                        {{ tech_bite.title }}
+                    </a>
+                </h3>
+                <span class="category-badge category-{{ tech_bite.category | default: 'tech-bite' }}">
+                    {{ tech_bite.category | default: 'tech-bite' | capitalize }}
+                </span>
+            </div>
+
+            <div class="card-meta">
+                {% if site.sections.tech_bite.show_dates and tech_bite.date %}
+                    <time class="card-date" datetime="{{ tech_bite.date | date_to_xmlschema }}">
+                        {{ tech_bite.date | date: "%b %d, %Y" }}
+                    </time>
+                {% endif %}
+
+                {% if site.sections.tech_bite.show_categories and tech_bite.categories %}
+                    <div class="card-categories">
+                        {% for category in tech_bite.categories limit: 2 %}
+                            <span class="category-tag">{{ category }}</span>
+                        {% endfor %}
+                        {% if tech_bite.categories.size > 2 %}
+                            <span class="category-more">+{{ tech_bite.categories.size | minus: 2 }}</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="card-body">
+            {% if tech_bite.description %}
+                <p class="card-excerpt">{{ tech_bite.description | strip_html | truncate: 150 }}</p>
+            {% elsif tech_bite.excerpt %}
+                <p class="card-excerpt">{{ tech_bite.excerpt | strip_html | truncate: 150 }}</p>
+            {% endif %}
+
+        </div>
+
+        <footer class="card-footer">
+            <a href="{{ tech_bite.url | relative_url }}" class="read-more">
+                {{ site.content.pages.tech_bites.card.read_more_text | default: "Read More" }}
+                <span class="read-more-icon">→</span>
+            </a>
+
+            {% if tech_bite.reading_time %}
+                <span class="reading-time">{{ tech_bite.reading_time }} {{ site.content.pages.tech_bites.card.min_read_text | default: "min read" }}</span>
+            {% endif %}
+        </footer>
+    </div>
+</article>

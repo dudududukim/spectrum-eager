@@ -1,0 +1,12 @@
+<!-- Section Header Component -->
+<!-- Usage: {% include section-header.html title="Section Title" description="Section description" %} -->
+
+<div class="section-header">
+  {% if include.title %}
+    <h2 class="section-title">{{ include.title }}</h2>
+  {% endif %}
+
+  {% if include.description %}
+    <p class="section-description">{{ include.description }}</p>
+  {% endif %}
+</div>

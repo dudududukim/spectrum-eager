@@ -1,0 +1,59 @@
+<!-- Gallery Track Component -->
+<!-- Horizontal scrolling gallery showing recent films -->
+{% assign animation_duration = site.sections.gallery_track.animation_duration | default: 45 %}
+
+<style>
+    .gallery-track {
+        animation: scroll-left {{ animation_duration }}s linear infinite !important;
+    }
+</style>
+
+<section class="gallery-track-preview">
+    <div class="section-header">
+        <h2 class="section-title">Recent Films</h2>
+        <p class="section-description">Latest photography from my collection</p>
+    </div>
+
+    <div class="section-content">
+        <div class="gallery-track-container">
+            <div class="gallery-track" id="gallery-track">
+                {% assign image_count = site.sections.gallery_track.image_count | default: 6 %}
+                {% assign films = site.films | sort: 'date' | reverse %}
+                {% assign recent_films = films | limit: image_count %}
+
+                <!-- Generate gallery items with seamless loop duplication -->
+                
+                {% for i in (1..2) %}
+                    {% for film in recent_films %}
+                        {% assign image_path = film.image_path | relative_url %}
+
+                        <div class="gallery-item">
+                            <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
+                                <img
+                                    src="{{ image_path }}"
+                                    alt="{{ film.title }}"
+                                    class="gallery-image"
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                                <div class="gallery-overlay">
+                                    <div class="gallery-info">
+                                        <span class="gallery-title">{{ film.title }}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="section-footer">
+            <a href="{{ '/films/' | relative_url }}" class="section-button">
+                View All Films
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+

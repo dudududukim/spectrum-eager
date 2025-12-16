@@ -1,0 +1,30 @@
+<!-- Content Card Component -->
+<!-- Usage: {% include content-card.html title="Card Title" meta="Meta info" content="Card content" %} -->
+
+<article class="content-card card">
+  {% if include.title %}
+    <div class="card-header">
+      <h3 class="card-title">
+        {% if include.url %}
+          <a href="{{ include.url }}">{{ include.title }}</a>
+        {% else %}
+          {{ include.title }}
+        {% endif %}
+      </h3>
+    </div>
+  {% endif %}
+
+  {% if include.meta %}
+    <div class="card-meta">{{ include.meta }}</div>
+  {% endif %}
+
+  {% if include.content %}
+    <div class="card-body">
+      <div class="card-content">{{ include.content }}</div>
+    </div>
+  {% endif %}
+
+  {% if include.footer %}
+    <div class="card-footer">{{ include.footer }}</div>
+  {% endif %}
+</article>

@@ -1,0 +1,64 @@
+---
+description: When editing Jekyll sites focused on YAML-based user customization and data-driven content management
+globs: ["_data/**/*.yml", "_layouts/**/*.html", "_includes/**/*.html", "_config.yml", "*.md"]
+alwaysApply: false
+---
+
+# Jekyll YAML-First Customization Rules
+
+This Jekyll site prioritizes **maximum user customization** through YAML configuration files. The core philosophy is enabling non-technical users to completely transform the site by editing only YAML files, never touching HTML/CSS/JS.
+
+## Core Architecture Principles
+
+**Never hardcode content in templates** - All text, images, colors, settings, and layout options must be configurable through YAML data files in `_data/` directory.
+
+**Design for non-developers** - Use intuitive field names, provide comprehensive examples, and include detailed comments in YAML files explaining each option.
+
+**Modular component system** - Create reusable includes that accept YAML parameters and can be toggled on/off with `enabled: true/false` flags.
+
+## Data Structure Guidelines
+
+- Store ALL customizable content in `_data/` directory with logical organization
+- Use descriptive YAML keys that make sense to non-technical users (e.g., `hero_title` not `ht`)
+- Include `enabled: true/false` flags for every optional section
+- Provide sensible fallbacks for missing or empty YAML values using `| default:` filters
+- Group related settings in nested objects for better organization
+
+## Template Development Rules
+
+When creating/editing layouts and includes:
+- Use Liquid loops and conditionals to render YAML data dynamically
+- Pass YAML data as parameters to includes: `{% include section.html data=site.data.homepage.hero %}`
+- Handle missing data gracefully with default values and conditional rendering
+- Make every visual element (colors, fonts, spacing, images) configurable through YAML
+- Support both simple and advanced configuration modes for different user skill levels
+
+## Required YAML File Structure
+
+Organize data files by function:
+- `_data/site.yml` - Global branding, contact info, SEO settings
+- `_data/theme.yml` - Colors, fonts, layout preferences, responsive breakpoints
+- `_data/homepage.yml` - Landing page sections, hero, features, testimonials  
+- `_data/navigation.yml` - Header/footer menus, social media links
+- `_data/content.yml` - Business-specific content (services, portfolio, team, etc.)
+
+## User Experience Requirements
+
+- Include detailed YAML comments explaining each configuration option
+- Provide multiple example configurations for different industries (restaurant, portfolio, agency, blog, etc.)
+- Test all template configurations work with various content amounts (empty, minimal, extensive)
+- Ensure complete mobile responsiveness for all layout combinations
+- Create comprehensive non-technical documentation
+
+## Multi-Purpose Flexibility
+
+Design templates to work for diverse use cases through YAML configuration alone:
+- Personal portfolios, business websites, blogs, documentation sites
+- Industry-specific sites: restaurants, agencies, non-profits, events, e-commerce
+- Different layouts: single-page, multi-page, landing pages, galleries
+
+## Quality Assurance
+
+Before implementing any new feature, ask: "Can a non-technical user configure this entirely through YAML editing?" If not, redesign the approach.
+
+Always test edge cases: missing YAML values, empty arrays, disabled sections, mobile devices, and different content lengths.

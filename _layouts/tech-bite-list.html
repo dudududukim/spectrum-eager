@@ -1,0 +1,150 @@
+---
+layout: default
+---
+
+<div class="tech-bite-list-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">{{ site.content.pages.tech_bites.title | default: "Tech Bites" }}</h1>
+            <p class="page-description">{{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}</p>
+        </header>
+
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="paper">Paper</button>
+                <button class="filter-btn" data-category="tech-bite">Tech Bite</button>
+                <button class="filter-btn" data-category="life">Life</button>
+            </div>
+        </div>
+
+        <!-- Tech Bites Grid -->
+        <div class="tech-bites-grid">
+            {% assign sorted_tech_bites = site.tech-bites | sort: 'date' | reverse %}
+            {% for tech_bite in sorted_tech_bites %}
+                {% include tech-bite-card.html tech_bite=tech_bite %}
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if site.sections.tech_bite.pagination %}
+            {% assign pagination_size = site.sections.tech_bite.pagination | default: 10 %}
+            {% assign total_pages = sorted_tech_bites.size | divided_by: pagination_size | plus: 1 %}
+
+            {% if total_pages > 1 %}
+                <nav class="pagination">
+                    <div class="pagination-info">
+                        {{ site.content.ui.pagination.showing_text | default: "Showing" }} {{ pagination_size }} {{ site.content.ui.pagination.of_text | default: "of" }} {{ sorted_tech_bites.size }} {{ site.content.ui.pagination.tech_bites_text | default: "tech bites" }}
+                    </div>
+
+                    <div class="pagination-links">
+                        <button class="pagination-btn" id="prev-page" disabled>{{ site.content.ui.pagination.previous_text | default: "Previous" }}</button>
+                        <span class="pagination-current">
+                            {{ site.content.ui.pagination.page_text | default: "Page" }} <span id="current-page">1</span> {{ site.content.ui.pagination.of_text | default: "of" }} {{ total_pages }}
+                        </span>
+                        <button class="pagination-btn" id="next-page">{{ site.content.ui.pagination.next_text | default: "Next" }}</button>
+                    </div>
+                </nav>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Category filtering and pagination functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const techBites = document.querySelectorAll('.tech-bite-card');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const itemsPerPage = {{ site.sections.tech_bite.pagination | default: 10 }};
+    let currentPage = 1;
+    let currentCategory = 'all';
+
+    // Category filtering functionality
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update current category
+            currentCategory = this.getAttribute('data-category');
+            currentPage = 1; // Reset to first page when filtering
+            
+            updateDisplay();
+        });
+    });
+
+    // Pagination functionality
+    const prevBtn = document.getElementById('prev-page');
+    const nextBtn = document.getElementById('next-page');
+    const currentPageSpan = document.getElementById('current-page');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplay();
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            const filteredTechBites = getFilteredTechBites();
+            const totalPages = Math.ceil(filteredTechBites.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDisplay();
+            }
+        });
+    }
+
+    function getFilteredTechBites() {
+        if (currentCategory === 'all') {
+            return Array.from(techBites);
+        }
+        return Array.from(techBites).filter(card => {
+            return card.getAttribute('data-category') === currentCategory;
+        });
+    }
+
+    function updateDisplay() {
+        const filteredTechBites = getFilteredTechBites();
+        const totalPages = Math.ceil(filteredTechBites.length / itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        // Hide all items first
+        techBites.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Show filtered items for current page
+        filteredTechBites.slice(startIndex, endIndex).forEach(card => {
+            card.style.display = 'block';
+        });
+
+        // Update pagination controls
+        if (prevBtn) {
+            prevBtn.disabled = currentPage === 1;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = currentPage >= totalPages;
+        }
+        if (currentPageSpan) {
+            currentPageSpan.textContent = currentPage;
+        }
+
+        // Update pagination info if it exists
+        const paginationInfo = document.querySelector('.pagination-info');
+        if (paginationInfo) {
+            const showingCount = Math.min(itemsPerPage, filteredTechBites.length - startIndex);
+            paginationInfo.textContent = `Showing ${showingCount} of ${filteredTechBites.length} tech bites`;
+        }
+    }
+
+    // Initial display
+    updateDisplay();
+});
+</script>

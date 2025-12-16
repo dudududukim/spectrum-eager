@@ -1,0 +1,22 @@
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.personal.name | default: site.title }}",
+  "url": "{{ site.url }}{{ site.baseurl }}",
+  "description": "{{ site.description }}",
+  {% if site.personal.social_links %}
+  "sameAs": [
+    {% if site.personal.social_links.github %}"https://github.com/{{ site.personal.social_links.github }}"{% unless forloop.last %},{% endunless %}{% endif %}
+    {% if site.personal.social_links.linkedin %}"https://linkedin.com/in/{{ site.personal.social_links.linkedin }}"{% unless forloop.last %},{% endunless %}{% endif %}
+    {% if site.personal.social_links.twitter %}"https://twitter.com/{{ site.personal.social_links.twitter }}"{% unless forloop.last %},{% endunless %}{% endif %}
+  ],
+  {% endif %}
+  "jobTitle": "{{ site.personal.title | default: 'Developer' }}",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "{{ site.personal.company | default: 'Freelance' }}"
+  }
+}
+</script>

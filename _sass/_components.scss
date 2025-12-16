@@ -1,0 +1,1629 @@
+// Component Styles
+// ================
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px hsl(var(--primary-h), var(--primary-s), var(--primary-l), 0.3);
+    }
+  }
+
+  &.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: var(--secondary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px hsl(var(--secondary-h), var(--secondary-s), var(--secondary-l), 0.3);
+    }
+  }
+
+  &.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+
+    &:hover:not(:disabled) {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  }
+
+  &.btn-ghost {
+    background-color: transparent;
+    color: var(--text-color);
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-secondary);
+    }
+  }
+
+  &.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  &.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+}
+
+// Category Filter
+.category-filter {
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background-color: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+
+      &:hover {
+        background-color: var(--bg-tertiary);
+        color: var(--text-color);
+        border-color: var(--border-light);
+      }
+
+      // All button (default)
+      &.active[data-category="all"] {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+
+        &:hover {
+          background-color: var(--primary-hover);
+          border-color: var(--primary-hover);
+        }
+      }
+
+      // Paper category button
+      &[data-category="paper"] {
+        &:hover {
+          background-color: #e3f2fd;
+          color: #1565c0;
+          border-color: #1565c0;
+        }
+
+        &.active {
+          background-color: #e3f2fd;
+          color: #1565c0;
+          border-color: #1565c0;
+
+          &:hover {
+            background-color: #bbdefb;
+            border-color: #0d47a1;
+          }
+        }
+      }
+
+      // Tech-bite category button
+      &[data-category="tech-bite"] {
+        &:hover {
+          background-color: #f3e5f5;
+          color: #7b1fa2;
+          border-color: #7b1fa2;
+        }
+
+        &.active {
+          background-color: #f3e5f5;
+          color: #7b1fa2;
+          border-color: #7b1fa2;
+
+          &:hover {
+            background-color: #e1bee7;
+            border-color: #4a148c;
+          }
+        }
+      }
+
+      // Life category button
+      &[data-category="life"] {
+        &:hover {
+          background-color: #e8f5e8;
+          color: #2e7d32;
+          border-color: #2e7d32;
+        }
+
+        &.active {
+          background-color: #e8f5e8;
+          color: #2e7d32;
+          border-color: #2e7d32;
+
+          &:hover {
+            background-color: #c8e6c9;
+            border-color: #1b5e20;
+          }
+        }
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+    }
+
+    // Dark mode styles for filter buttons
+    html[data-theme="dark"] & {
+      .filter-btn {
+        // Paper category button (dark mode)
+        &[data-category="paper"] {
+          &:hover {
+            background-color: #1a237e;
+            color: #90caf9;
+            border-color: #90caf9;
+          }
+
+          &.active {
+            background-color: #1a237e;
+            color: #90caf9;
+            border-color: #90caf9;
+
+            &:hover {
+              background-color: #283593;
+              border-color: #bbdefb;
+            }
+          }
+        }
+
+        // Tech-bite category button (dark mode)
+        &[data-category="tech-bite"] {
+          &:hover {
+            background-color: #4a148c;
+            color: #ce93d8;
+            border-color: #ce93d8;
+          }
+
+          &.active {
+            background-color: #4a148c;
+            color: #ce93d8;
+            border-color: #ce93d8;
+
+            &:hover {
+              background-color: #6a1b9a;
+              border-color: #e1bee7;
+            }
+          }
+        }
+
+        // Life category button (dark mode)
+        &[data-category="life"] {
+          &:hover {
+            background-color: #1b5e20;
+            color: #a5d6a7;
+            border-color: #a5d6a7;
+          }
+
+          &.active {
+            background-color: #1b5e20;
+            color: #a5d6a7;
+            border-color: #a5d6a7;
+
+            &:hover {
+              background-color: #2e7d32;
+              border-color: #c8e6c9;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+
+    .filter-buttons {
+      gap: 0.375rem;
+
+      .filter-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// Base Card System
+// ================
+// Standardized card styling for consistent width, spacing, and responsive behavior
+// All card variants should extend this base class for consistency
+
+.card {
+  // Core card properties - ensures consistent behavior across all card types
+  background-color: var(--bg-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  box-sizing: border-box; // Ensures padding/border included in width calculation
+  width: 100%; // Full width within container
+
+  // Consistent hover effects across all card types
+  &:hover {
+    box-shadow: 0 8px 25px var(--shadow-light);
+    transform: translateY(-2px);
+  }
+
+  // Standardized internal spacing structure
+  .card-header {
+    padding: 1rem 1.5rem 0;
+  }
+
+  .card-body {
+    padding: 1rem 1.5rem;
+  }
+
+  .card-footer {
+    padding: 0 1.5rem 1.5rem;
+  }
+}
+
+// Card utility classes for consistent spacing and layout
+.card-container {
+  // Container for multiple cards - ensures consistent spacing
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  @media (max-width: 767px) {
+    gap: 1rem;
+  }
+}
+
+.card-grid {
+  // Grid layout for cards when needed
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // 300px → 280px로 감소
+  gap: 1.5rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr; // 모바일에서 단일 컬럼
+    gap: 1rem;
+  }
+  
+  // 매우 작은 화면에서 추가 조정
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+// Tech Bite Cards - Ultra-Compact and Streamlined Design
+// ======================================================
+// Extends the base .card class with significantly reduced vertical bulk for maximum content density
+// All tech bite cards maintain consistent width while being extremely compact vertically
+// Optimized for wider layout with enhanced content density
+
+.tech-bite-card {
+  // Inherit all base card styling (width, border, background, hover effects, etc.)
+  @extend .card;
+  border: 1px solid var(--border-color); // Add border back for tech-bite cards
+
+  // Compact padding for maximum content density
+  padding: 0.5rem 0.75rem; // Reduced vertical padding, kept horizontal padding
+  margin-bottom: 1.5rem; // Consistent spacing between cards
+  text-align: left; // Left-align content within cards
+
+  &:last-child {
+    margin-bottom: 0; // Remove bottom margin from last card
+  }
+
+  .card-title-row {
+    display: flex;
+    align-items: baseline; // Align badge with card-link baseline
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .card-title {
+    margin-bottom: 0; // Remove margin since it's now in the row
+    border: none; // Ensure no borders on title
+    flex: 1; // Take up remaining space
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.3; // Match badge height
+
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 1.5rem; // Match the line height of card-link
+    line-height: 1;
+
+    &.category-paper {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+
+    &.category-tech-bite {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    &.category-life {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+    }
+
+    // Dark mode styles
+    html[data-theme="dark"] & {
+      &.category-paper {
+        background-color: #1a237e;
+        color: #90caf9;
+      }
+
+      &.category-tech-bite {
+        background-color: #4a148c;
+        color: #ce93d8;
+      }
+
+      &.category-life {
+        background-color: #1b5e20;
+        color: #a5d6a7;
+      }
+    }
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.3rem; // Reduced spacing
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    border: none; // Ensure no borders on meta
+  }
+
+  .card-excerpt {
+    color: var(--text-secondary);
+    line-height: 1.4; // Tighter line height
+    margin-bottom: 0.3rem; // Reduced spacing
+    font-size: 0.9rem;
+    border: none; // Ensure no borders on excerpt
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.3rem; // Reduced spacing
+    padding-top: 0.3rem; // Reduced spacing
+    border: none; // Ensure no borders on footer
+    border-top: none; // Explicitly remove any top border
+    border-bottom: none; // Explicitly remove any bottom border
+
+    .read-more {
+      color: var(--primary-color);
+      font-weight: 400;
+      text-decoration: none;
+      font-size: 0.9rem;
+
+      &:hover {
+        color: var(--primary-hover);
+      }
+    }
+
+    .reading-time {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  }
+}
+
+// Fixed Site Navigation
+.site-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-light);
+  padding: 1rem 0;
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--site-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+  }
+
+  // Mobile Menu Toggle Button
+  .mobile-menu-toggle {
+    display: none; // Hidden by default, shown on mobile
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    position: relative;
+    z-index: 1001;
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    .hamburger-line {
+      width: 18px;
+      height: 2px;
+      background-color: var(--text-color);
+      margin: 1.5px 0;
+      border-radius: 1px;
+    }
+  }
+
+  .nav-path {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+
+    .nav-home {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      font-weight: 500;
+
+      &:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+      }
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      font-weight: 500;
+
+      &:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+      }
+    }
+
+    .nav-separator {
+      color: var(--text-muted);
+      font-weight: 300;
+      user-select: none;
+    }
+
+    .nav-current {
+      color: var(--text-color);
+      font-weight: 500;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // Theme Toggle Switch - Desktop version (centered)
+  .theme-toggle-desktop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+    
+    // Mobile touch target optimization (minimum 44px)
+    min-width: 44px;
+    min-height: 44px;
+    
+    // Accessibility improvements
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+    
+    // Touch feedback for mobile
+    &:active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      outline: none;
+    }
+
+    .theme-toggle-track {
+      width: 3rem;
+      height: 1.5rem;
+      background-color: var(--bg-secondary);
+      border-radius: 1rem;
+      position: relative;
+      box-shadow: 
+        inset 2px 2px 4px var(--shadow-light),
+        inset -2px -2px 4px var(--overlay-light);
+    }
+
+    .theme-toggle-slider {
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: var(--bg-color);
+      border-radius: 50%;
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      box-shadow: 
+        2px 2px 4px var(--shadow-light),
+        -1px -1px 2px var(--overlay-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-toggle-icon {
+      position: absolute;
+      font-size: 0.7rem;
+
+      &.theme-toggle-sun {
+        opacity: 1;
+        color: var(--text-secondary);
+      }
+
+      &.theme-toggle-moon {
+        opacity: 0;
+        color: var(--text-color);
+      }
+    }
+
+    // Dark mode state
+    html[data-theme="dark"] & {
+      .theme-toggle-track {
+        background-color: var(--bg-tertiary);
+      }
+
+      .theme-toggle-slider {
+        transform: translateX(1.5rem);
+      }
+
+      .theme-toggle-sun {
+        opacity: 0;
+      }
+
+      .theme-toggle-moon {
+        opacity: 1;
+      }
+    }
+
+    // Light mode state (when explicitly set)
+    html[data-theme="light"] & {
+      .theme-toggle-track {
+        background-color: var(--bg-secondary);
+      }
+
+      .theme-toggle-slider {
+        transform: translateX(0);
+      }
+
+      .theme-toggle-sun {
+        opacity: 1;
+      }
+
+      .theme-toggle-moon {
+        opacity: 0;
+      }
+    }
+  }
+
+  .nav-social {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .nav-social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+
+      &:hover {
+        color: var(--primary-color);
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+      }
+
+      i {
+        font-size: 1.2rem;
+        line-height: 1;
+      }
+    }
+  }
+
+  // Mobile Menu Overlay
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: var(--bg-color);
+    border-left: 1px solid var(--border-light);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+
+    &.active {
+      transform: translateX(0);
+    }
+  }
+
+  .mobile-menu-content {
+    padding: 6rem 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+  }
+
+  .mobile-menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-menu-theme-section {
+    position: absolute;
+    bottom: 4rem;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background-color: var(--bg-color);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .mobile-menu-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  // Mobile Theme Toggle
+  .theme-toggle-mobile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    .theme-toggle-track {
+      width: 2.5rem;
+      height: 1.25rem;
+      background-color: var(--bg-color);
+      border-radius: 1rem;
+      position: relative;
+      box-shadow: 
+        inset 2px 2px 4px var(--shadow-light),
+        inset -2px -2px 4px var(--overlay-light);
+    }
+
+    .theme-toggle-slider {
+      width: 1rem;
+      height: 1rem;
+      background-color: var(--bg-color);
+      border-radius: 50%;
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      box-shadow: 
+        2px 2px 4px var(--shadow-light),
+        -1px -1px 2px var(--overlay-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition-fast);
+    }
+
+    .theme-toggle-icon {
+      position: absolute;
+      font-size: 0.6rem;
+
+      &.theme-toggle-sun {
+        opacity: 1;
+        color: var(--text-secondary);
+      }
+
+      &.theme-toggle-moon {
+        opacity: 0;
+        color: var(--text-color);
+      }
+    }
+
+    .theme-toggle-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    // Dark mode state
+    html[data-theme="dark"] & {
+      .theme-toggle-track {
+        background-color: var(--bg-tertiary);
+      }
+
+      .theme-toggle-slider {
+        transform: translateX(1.25rem);
+      }
+
+      .theme-toggle-sun {
+        opacity: 0;
+      }
+
+      .theme-toggle-moon {
+        opacity: 1;
+      }
+    }
+
+    // Light mode state (when explicitly set)
+    html[data-theme="light"] & {
+      .theme-toggle-track {
+        background-color: var(--bg-color);
+      }
+
+      .theme-toggle-slider {
+        transform: translateX(0);
+      }
+
+      .theme-toggle-sun {
+        opacity: 1;
+      }
+
+      .theme-toggle-moon {
+        opacity: 0;
+      }
+    }
+  }
+
+  // Mobile Social Links
+  .nav-social-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+
+    .nav-social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      justify-content: flex-start;
+      width: 100%;
+      text-align: left;
+
+      &:hover {
+        background-color: transparent;
+        color: var(--primary-color);
+        transform: translateX(4px);
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+      }
+
+      i {
+        font-size: 1.1rem;
+        width: 20px;
+        text-align: left;
+        flex-shrink: 0;
+      }
+
+      .social-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Site Footer
+// ===========
+.site-footer {
+  background-color: var(--bg-color);
+  border-top: 1px solid var(--border-light);
+  padding: 0.75rem 0 1rem 0;
+  margin-top: 1.5rem;
+
+  .footer-content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+
+    .footer-copyright {
+      p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        line-height: 1.3;
+      }
+    }
+
+    .footer-theme {
+      p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.3;
+
+        a {
+          color: var(--primary-color);
+          text-decoration: none;
+          transition: color var(--transition-fast);
+
+          &:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+          }
+
+          &:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+          }
+        }
+      }
+    }
+
+  }
+}
+
+// Navigation - Removed for minimal design
+
+// Mobile Navigation - Removed for minimal design
+
+
+
+
+// Responsive adjustments
+@media (max-width: 767px) {
+  .site-navigation {
+    padding: 0.75rem 0;
+
+    .nav-container {
+      padding: 0 0.75rem;
+    }
+
+    .nav-path {
+      font-size: 0.8rem;
+      gap: 0.375rem;
+
+      .nav-current {
+        max-width: 150px;
+      }
+    }
+
+    // Show mobile menu button, hide desktop elements
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    .theme-toggle-desktop {
+      display: none;
+    }
+
+    .nav-social-desktop {
+      display: none;
+    }
+
+    // Mobile menu overlay adjustments
+    .mobile-menu {
+      width: 260px;
+    }
+
+    .mobile-menu-content {
+      padding: 5.5rem 1rem 0;
+    }
+
+    .mobile-menu-section {
+      gap: 0.75rem;
+    }
+
+    .mobile-menu-theme-section {
+      padding: 1rem;
+      bottom: 3rem;
+    }
+
+    .theme-toggle-mobile {
+      padding: 0.75rem 0;
+      gap: 0.75rem;
+
+      .theme-toggle-track {
+        width: 2.25rem;
+        height: 1.125rem;
+      }
+
+      .theme-toggle-slider {
+        width: 0.875rem;
+        height: 0.875rem;
+        top: 0.125rem;
+      }
+
+      .theme-toggle-icon {
+        font-size: 0.55rem;
+      }
+
+      .theme-toggle-label {
+        font-size: 0.85rem;
+      }
+
+      html[data-theme="dark"] & .theme-toggle-slider {
+        transform: translateX(1.125rem);
+      }
+    }
+
+    .nav-social-mobile {
+      gap: 0.375rem;
+      align-items: flex-start;
+
+      .nav-social-link {
+        padding: 0.375rem 0;
+        gap: 0.625rem;
+        width: 100%;
+        text-align: left;
+
+        i {
+          font-size: 1rem;
+          width: 18px;
+          text-align: left;
+          flex-shrink: 0;
+        }
+
+        .social-label {
+          font-size: 0.85rem;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  // Footer responsive adjustments for mobile
+  .site-footer {
+    padding: 0.5rem 0 0.75rem 0;
+    margin-top: 1rem;
+
+    .footer-content {
+      padding: 0 0.75rem;
+      gap: 0.3rem;
+
+      .footer-copyright p {
+        font-size: 0.8rem;
+        line-height: 1.2;
+      }
+
+      .footer-theme p {
+        font-size: 0.75rem;
+        line-height: 1.2;
+      }
+
+    }
+  }
+
+  // Standardized card responsive behavior - Mobile (≤767px)
+  // =======================================================
+  // Ensures all card types have consistent padding and spacing on mobile devices
+
+
+  .card {
+    padding: 1rem; // Reduced padding for mobile screens
+    margin-bottom: 1rem; // Consistent spacing between cards
+  }
+
+  .tech-bite-card {
+    padding: 0.25rem; // Ultra-compact mobile design (4px) for maximum density
+    margin-bottom: 1rem; // Match base card spacing for consistency
+
+    .card-title-row {
+      gap: 0.5rem; // Reduce gap on mobile
+    }
+
+    .category-badge {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.6rem;
+      height: 1.3rem;
+    }
+  }
+
+
+  .slider-info .slider-title {
+    font-size: 1.5rem;
+  }
+
+  .slider-info .slider-description {
+    font-size: 1rem;
+  }
+}
+
+// Tablet responsive adjustments
+@media (min-width: 768px) and (max-width: 1023px) {
+  .site-navigation {
+    .nav-path {
+      font-size: 0.85rem;
+      gap: 0.4rem;
+
+      .nav-current {
+        max-width: 200px;
+      }
+    }
+
+    .theme-toggle {
+      .theme-toggle-track {
+        width: 2.75rem;
+        height: 1.375rem;
+      }
+
+      .theme-toggle-slider {
+        width: 1.125rem;
+        height: 1.125rem;
+        top: 0.125rem;
+      }
+
+      .theme-toggle-icon {
+        font-size: 0.65rem;
+      }
+
+      html[data-theme="dark"] & .theme-toggle-slider {
+        transform: translateX(1.375rem);
+      }
+    }
+
+    .nav-social {
+      gap: 0.875rem;
+
+      .nav-social-link {
+        i {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+
+  // Footer responsive adjustments for tablet
+  .site-footer {
+    padding: 0.625rem 0 0.875rem 0;
+    margin-top: 1.25rem;
+
+    .footer-content {
+      gap: 0.35rem;
+
+    }
+  }
+
+  // Standardized card tablet behavior - Tablet (768px-1023px)
+  // ========================================================
+  // Ensures all card types have consistent padding and spacing on tablet devices
+
+  .card {
+    padding: 1.25rem; // Medium padding for tablet screens
+    margin-bottom: 1.25rem; // Consistent spacing between cards
+  }
+
+  .tech-bite-card {
+    padding: 0.3125rem; // Ultra-compact tablet design (5px) for maximum density
+    margin-bottom: 1.25rem; // Match base card spacing for consistency
+  }
+}
+
+// Photo Card Styles
+.photo-card {
+  .photo-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+
+    .photo-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .photo-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform var(--transition-normal);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, var(--overlay-dark));
+      padding: 1rem;
+      transform: translateY(100%);
+      transition: transform var(--transition-normal);
+
+      .photo-info {
+        .photo-meta {
+          color: #ffffff;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+
+      }
+    }
+
+    &:hover {
+      .photo-image {
+        transform: scale(1.05);
+      }
+
+      .photo-overlay {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+// Film Detail Page Styles
+// ======================
+
+.film-detail-page {
+  padding-bottom: 0;
+}
+
+
+// Film Content Layout
+.film-content {
+  max-width: var(--content-max-width);
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Film Image Section
+.film-image-section {
+  .film-image-container {
+    position: relative;
+    border-radius: 0; // 둥근 모서리 제거
+    overflow: hidden;
+
+    .film-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0;
+      border-radius: 0;
+    }
+  }
+}
+
+// Landscape device (가로 디바이스) - 세로 사진 높이 제한
+@media (orientation: landscape) and (min-width: 768px) {
+  .film-image-section {
+    .film-image-container {
+      max-height: 70vh; // 뷰포트 높이의 70%로 제한
+      
+      .film-image {
+        width: 100%;
+        height: auto;
+        max-height: 70vh;
+        object-fit: contain; // 비율 유지하면서 컨테이너에 맞춤
+        object-position: center;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Portrait device (세로 디바이스) - 너비에 맞춰서 표시
+@media (orientation: portrait) {
+  .film-image-section {
+    .film-image-container {
+      .film-image {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// 큰 가로 화면에서 추가 제한
+@media (orientation: landscape) and (min-width: 1200px) {
+  .film-image-section {
+    .film-image-container {
+      max-height: 60vh; // 더 큰 화면에서는 60%로 제한
+      
+      .film-image {
+        max-height: 60vh;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Film Metadata
+.film-metadata {
+  .film-main-content {
+    margin-bottom: 2rem;
+
+    // Typography styles inherited from _base.scss
+    // Only override specific styles if needed
+    h1 {
+      font-size: 2rem;
+      font-weight: 400; // 700 → 400으로 변경 (더 가벼운 폰트)
+      margin-top: 0;
+
+      @media (max-width: 767px) {
+        font-size: 1.5rem;
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+    }
+
+    p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    ul, ol {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    blockquote {
+      border-left: 4px solid var(--primary-color);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      margin: 1rem 0;
+    }
+  }
+}
+
+// Metadata Table
+.metadata-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background-color: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+  .metadata-card {
+    background-color: var(--bg-color);
+    padding: 1.5rem 1.25rem 1.5rem 2rem;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition: background-color var(--transition-fast);
+    position: relative;
+
+  &:hover {
+    background-color: var(--bg-secondary);
+    transform: none;
+    box-shadow: none;
+  }
+
+  // Add subtle border between cards
+  &:not(:last-child):not(:nth-last-child(2)) {
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  &:nth-child(odd) {
+    border-right: 1px solid var(--border-light);
+  }
+
+  .metadata-title {
+    font-size: 0.85rem !important;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0;
+    border-bottom: none;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .metadata-content {
+    display: block;
+  }
+
+  .metadata-item {
+    display: block;
+    padding: 0;
+    gap: 0;
+
+    .metadata-label {
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-bottom: 0.375rem;
+      min-width: auto;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .metadata-value {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+// Film Additional Content
+.film-additional-content {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
+
+  h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  ul, ol {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+}
+
+// Responsive adjustments for film detail page
+@media (max-width: 767px) {
+  .film-detail-page {
+    padding-bottom: 0;
+  }
+
+
+  .film-content {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .film-metadata {
+    .film-header {
+      margin-bottom: 1rem;
+    }
+
+    .film-description {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  .metadata-cards {
+    grid-template-columns: 1fr;
+    gap: 0.5rem; // 카드 간 간격 줄임 (1rem → 0.5rem)
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    display: flex; // Grid 대신 flex 사용으로 겹침 방지
+    flex-direction: column;
+    background-color: transparent; // 회색 배경 제거
+    border: none; // 테두리 제거
+    overflow: visible; // overflow 제거
+  }
+
+  .metadata-card {
+    padding: 1.5rem 1rem; // 상하 패딩을 동일하게 맞춤
+    position: static; // position: relative 제거
+    width: 100%; // 전체 너비 보장
+    min-height: 4rem; // 최소 높이 설정으로 균형 맞춤
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // 내용을 세로 중앙 정렬
+    background-color: var(--bg-color); // 각 카드에 배경색 추가
+    border: 1px solid var(--border-color); // 각 카드에 테두리 추가
+    border-radius: var(--radius-md); // 각 카드에 둥근 모서리 추가
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 각 카드에 그림자 추가
+
+    // Remove right border on mobile
+    &:nth-child(odd) {
+      border-right: none;
+    }
+
+    // Remove bottom border for all except last
+    &:not(:last-child) {
+      border-bottom: none; // 하단 테두리 제거 (gap으로 간격 처리)
+    }
+
+    .metadata-title {
+      font-size: 0.8rem !important;
+      margin-top: 0 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .metadata-item {
+      .metadata-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .metadata-value {
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+    }
+  }
+
+}
