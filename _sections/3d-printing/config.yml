@@ -1,0 +1,8 @@
+title: "3D Printing"
+description: "Notes and experiments on printers, slicers, and materials"
+button_text: "Browse 3D Printing"
+button_url: "#3d-printing"
+order: 20
+type: "tech-bites-preview"
+enabled: false
+
