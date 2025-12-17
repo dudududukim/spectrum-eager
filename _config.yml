@@ -8,12 +8,13 @@ highlighter: rouge
 permalink: pretty
 timezone: UTC
 
+url: "https://dudududukim.github.io"
+baseurl: "/spectrum-eager"  
+
 # Site Identity
 site:
   title: "Duhyeon Kim"
   description: "Personal website showcasing tech insights and development journey"
-  url: "https://dudududukim.github.io"
-  baseurl: "/spectrum-eager"
   author: "Duhyeon Kim"
   email: "kdhluck@naver.com"
 
