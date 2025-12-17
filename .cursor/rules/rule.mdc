@@ -43,6 +43,10 @@ alwaysApply: false
 - Is mobile responsive?
 - Are defaults sensible when YAML values are missing?
 
+## MUST
+- WRITE CODE IN ENGLISH ONLY.
+- COMMENTS ALSO ENGLSIH.
+
 ## Forbidden
 
 - DO NOT! Hardcoding section lists

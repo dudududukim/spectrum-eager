@@ -47,7 +47,7 @@ site_theme:
 # Personal Information
 personal:
   name: "Duhyeon Kim"
-  tagline: "spectrum jekyll owner"
+  tagline: "spectrum-eager jekyll owner"
   bio: "Developer passionate about technology, hardware, and continuous learning"
   location: "Seoul, Korea"
   photo: "/assets/images/me/me.jpeg"
@@ -82,14 +82,6 @@ social:
       label: "Instagram"
       icon: "fa-brands fa-instagram"
 
-# Accessibility Configuration
-accessibility:
-  skip_links: true
-  focus_indicators: true
-  screen_reader_text: "Skip to main content"
-  high_contrast_mode: false
-  reduced_motion: false
-
 # Navigation Configuration
 navigation:
   home_text: "Home"
@@ -100,7 +92,7 @@ navigation:
 footer:
   copyright_text: "All rights reserved."
   show_theme_credit: true
-  theme_name: "Spectrum"
+  theme_name: "Spectrum-Eager"
   theme_url: "https://github.com/dudududukim/spectrum-eager"
 
 # Content Configuration
@@ -119,23 +111,6 @@ content:
     tech_bites:
       title: "Tech Bites"
       description: "Daily tech insights and discoveries"
-      list_page:
-        welcome_message: "Welcome to my collection of tech insights!"
-        intro_text: "Here you'll find bite-sized posts covering everything from JavaScript tips to performance optimization techniques, accessibility best practices, and modern web development workflows."
-        description: "Each post is designed to be a quick read while providing practical, actionable information that you can apply to your own projects. Whether you're a seasoned developer or just starting out, there's something here for everyone."
-        categories_title: "Categories"
-        categories:
-          - name: "JavaScript"
-            description: "Modern ES6+ features, frameworks, and best practices"
-          - name: "CSS"
-            description: "Layout techniques, animations, and responsive design"
-          - name: "Performance"
-            description: "Optimization strategies and Core Web Vitals"
-          - name: "Accessibility"
-            description: "Building inclusive web experiences"
-          - name: "Development"
-            description: "Workflows, tools, and productivity tips"
-        closing_text: "Browse through the posts below, or use the category filter to find content that interests you most."
       card:
         read_more_text: "Read More"
         min_read_text: "min read"
@@ -152,13 +127,6 @@ content:
       view_all_tech_bites: "View All Tech Bites"
       read_more: "Read More"
     
-    pagination:
-      showing_text: "Showing"
-      of_text: "of"
-      tech_bites_text: "tech bites"
-      page_text: "Page"
-      previous_text: "Previous"
-      next_text: "Next"
     
     error:
       404:
@@ -171,51 +139,10 @@ content:
 homepage_sections:
   tech_bites_preview:
     enabled: true
-    show_count: 5
-    show_read_more_button: true
-    custom_title: "Recent Tech Bites"  # Optional override
-    featured_sections:
-      - key: "tech-bites"
-        title: "Tech Bites"
-        description: "Daily tech insights and discoveries"
-        url: "/tech-bites/"
-        button_text: "View All Tech Bites"
-      - key: "3d-printing"
-        title: "3D Printing"
-        description: "Notes and experiments on printers, slicers, and materials"
-        url: "/3d-printing/"
-        button_text: "View All 3D Printing"
-      - key: "research-hw"
-        title: "Research (HW)"
-        description: "Hardware research logs and measurements"
-        url: "/research-hw/"
-        button_text: "View All HW Research"
-      - key: "research-sw"
-        title: "Research (SW)"
-        description: "Software experiments, prototypes, and tools"
-        url: "/research-sw/"
-        button_text: "View All SW Research"
-      - key: "projects"
-        title: "Projects"
-        description: "Etc. projects I'm building or shipping soon"
-        url: "/projects/"
-        button_text: "View All Projects"
+    # Note: featured_sections is now automatically loaded from _sections/*/config.yml files
   
   films_preview:
     enabled: true
-    show_count: 6
-    show_view_all_button: true
-    custom_title: "Recent Films"    # Optional override
-    animation_duration: 60
-  
-  # Future extensibility
-  papers_preview:
-    enabled: false
-    show_count: 3
-  
-  gallery_preview:
-    enabled: false
-    show_count: 8
 
 # Design Customization (maintain current defaults)
 design_options:
@@ -240,14 +167,9 @@ design_options:
     compact_layout: true       # Current design
 
 # Section Configuration
+# Note: Section-specific settings are now managed in _sections/<name>/config.yml
+# Only global section settings should be here
 sections:
-  tech_bite:
-    enabled: true
-    main_page_count: 5
-    show_categories: true
-    show_dates: true
-    pagination: 10
-  
   gallery_track:
     enabled: true
     image_count: 6
@@ -267,6 +189,9 @@ collections:
   films:
     output: true
     permalink: /films/:name/
+  sections:
+    output: false
+    files: true
 
 # Default Front Matter
 defaults:

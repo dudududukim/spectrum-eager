@@ -1,0 +1,73 @@
+# Section definitions loaded from _sections folder
+# This file mirrors _sections/*/config.yml files for Jekyll to access
+# Note: In the future, this could be auto-generated from _sections folder
+
+tech-bites:
+  title: "Tech Bites"
+  key: "tech-bites"
+  description: "Daily tech insights and discoveries"
+  button_text: "View All Tech Bites"
+  button_url: "/tech-bites/"
+  order: 10
+  type: "tech-bites-preview"
+  enabled: true
+  main_page_count: 3
+  pagination: 10
+  show_dates: true
+  show_categories: true
+
+"3d-printing":
+  title: "3D Printing"
+  key: "3d-printing"
+  description: "Notes and experiments on printers, slicers, and materials"
+  button_text: "Browse 3D Printing"
+  button_url: "/3d-printing/"
+  order: 20
+  type: "tech-bites-preview"
+  enabled: true
+  main_page_count: 3
+  pagination: 10
+  show_dates: true
+  show_categories: true
+
+research-hw:
+  title: "Research (HW)"
+  key: "research-hw"
+  description: "Hardware research logs and measurements"
+  button_text: "Explore HW Research"
+  button_url: "/research-hw/"
+  order: 30
+  type: "tech-bites-preview"
+  enabled: true
+  main_page_count: 3
+  pagination: 10
+  show_dates: true
+  show_categories: true
+
+research-sw:
+  title: "Research (SW)"
+  key: "research-sw"
+  description: "Software experiments, prototypes, and tools"
+  button_text: "View All SW Research"
+  button_url: "/research-sw/"
+  order: 40
+  type: "tech-bites-preview"
+  enabled: true
+  main_page_count: 3
+  pagination: 10
+  show_dates: true
+  show_categories: true
+
+projects:
+  title: "Projects"
+  key: "projects"
+  description: "Etc. projects I'm building or shipping soon"
+  button_text: "View All Projects"
+  button_url: "/projects/"
+  order: 50
+  type: "tech-bites-preview"
+  enabled: true
+  main_page_count: 3
+  pagination: 10
+  show_dates: true
+  show_categories: true

@@ -37,18 +37,9 @@ body {
   flex-direction: column;
 }
 
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%; /* Always take full available width */
-  max-width: var(--max-width, 1125px); /* Expanded by 25% from 900px for better screen utilization */
-  margin: 0 auto;
-  padding: var(--nav-height, 6rem) 1rem 0; /* Add top padding for fixed navigation, remove bottom padding */
-}
-
 .main-content {
   flex: 1;
+  padding-top: var(--nav-height, 6rem); /* Add top padding for fixed navigation */
 }
 
 // Typography
@@ -170,7 +161,7 @@ button {
 
 // Utility classes
 .container {
-  max-width: var(--max-width, 1125px); /* Expanded by 25% to match page-wrapper */
+  max-width: var(--max-width, 1125px); /* Expanded by 25% from 900px for better screen utilization */
   margin: 0 auto;
   padding: 0 1rem;
 
@@ -249,9 +240,8 @@ button {
 
 // Responsive breakpoints
 @media (max-width: 767px) {
-  .page-wrapper {
-    padding: var(--nav-height-mobile, 5.5rem) 0.5rem 0; // 0.75rem → 0.5rem
-    max-width: 100%; // 최대 너비 100% 보장
+  .main-content {
+    padding-top: var(--nav-height-mobile, 5.5rem);
   }
 
   body {
@@ -278,8 +268,8 @@ button {
 
 // 매우 작은 화면 추가
 @media (max-width: 480px) {
-  .page-wrapper {
-    padding: var(--nav-height-mobile, 5.5rem) 0.25rem 0;
+  .main-content {
+    padding-top: var(--nav-height-mobile, 5.5rem);
   }
   
   .container {
@@ -288,13 +278,13 @@ button {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .page-wrapper {
-    padding: var(--nav-height-tablet, 5.75rem) 1.5rem 0; /* Add top padding for fixed navigation on tablet, remove bottom padding */
+  .main-content {
+    padding-top: var(--nav-height-tablet, 5.75rem);
   }
 }
 
 @media (min-width: 1024px) {
-  .page-wrapper {
-    padding: var(--nav-height, 6rem) 2rem 0; /* Add top padding for fixed navigation on desktop, remove bottom padding */
+  .main-content {
+    padding-top: var(--nav-height, 6rem);
   }
 }

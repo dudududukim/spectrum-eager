@@ -7,6 +7,7 @@ categories: ["Personal Story", "Life Lessons", "Career Journey"]
 tags: ["personal-story", "work-life-balance", "tech-career", "life-lessons", "mental-health"]
 description: "A personal story about my journey in the tech industry, the challenges of constant learning, and how I found balance between work and life."
 reading_time: 4
+pdf_path: /assets/posts/pdfs/example.pdf
 ---
 
 ## 🌱 My Personal Tech Journey

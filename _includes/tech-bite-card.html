@@ -16,13 +16,15 @@
             </div>
 
             <div class="card-meta">
-                {% if site.sections.tech_bite.show_dates and tech_bite.date %}
+                {% assign tech_bite_section = tech_bite.section | default: "tech-bites" %}
+                {% include get-section-config.html section_key=tech_bite_section %}
+                {% if section_config.show_dates and tech_bite.date %}
                     <time class="card-date" datetime="{{ tech_bite.date | date_to_xmlschema }}">
                         {{ tech_bite.date | date: "%b %d, %Y" }}
                     </time>
                 {% endif %}
 
-                {% if site.sections.tech_bite.show_categories and tech_bite.categories %}
+                {% if section_config.show_categories and tech_bite.categories %}
                     <div class="card-categories">
                         {% for category in tech_bite.categories limit: 2 %}
                             <span class="category-tag">{{ category }}</span>

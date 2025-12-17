@@ -78,12 +78,12 @@
         {% endif %}
 
         /* Hide content until CSS loads */
-        .page-wrapper {
+        .main-content {
             opacity: 0;
         }
 
         /* Show content after CSS loads */
-        .css-loaded .page-wrapper {
+        .css-loaded .main-content {
             opacity: 1;
             transition: opacity 0.2s ease;
         }
@@ -117,28 +117,26 @@
     <!-- Fixed Site Navigation -->
     {% include site-navigation.html %}
 
-    <div class="page-wrapper">
-        <!-- Main Content -->
-        <main class="main-content">
-            {{ content }}
-        </main>
+    <!-- Main Content -->
+    <main class="main-content">
+        {{ content }}
+    </main>
 
-        <!-- Footer -->
-        <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-copyright">
-                    <p>&copy; {{ 'now' | date: "%Y" }} {{ site.personal.name | default: site.site.author }}. {{ site.footer.copyright_text | default: "All rights reserved." }}</p>
-                </div>
-
-                {% if site.footer.show_theme_credit %}
-                <div class="footer-theme">
-                    <p>Built with <a href="{{ site.footer.theme_url | default: '#' }}" target="_blank" rel="noopener noreferrer">{{ site.footer.theme_name | default: 'Spectrum' }}</a></p>
-                </div>
-                {% endif %}
-
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                <p>&copy; {{ 'now' | date: "%Y" }} {{ site.personal.name | default: site.site.author }}. {{ site.footer.copyright_text | default: "All rights reserved." }}</p>
             </div>
-        </footer>
-    </div>
+
+            {% if site.footer.show_theme_credit %}
+            <div class="footer-theme">
+                <p>Built with <a href="{{ site.footer.theme_url | default: '#' }}" target="_blank" rel="noopener noreferrer">{{ site.footer.theme_name | default: 'Spectrum' }}</a></p>
+            </div>
+            {% endif %}
+
+        </div>
+    </footer>
 
 
     <!-- Critical JavaScript - Theme Detection and Transition Management -->
