@@ -1,0 +1,32 @@
+{% if page.pdf_path %}
+{% assign pdf_first_char = page.pdf_path | slice: 0, 1 %}
+{% if pdf_first_char == '/' %}
+  {% assign pdf_url = page.pdf_path | prepend: site.baseurl %}
+{% else %}
+  {% assign pdf_url = page.pdf_path | relative_url %}
+{% endif %}
+<div class="pdf-viewer-container">
+    <div class="pdf-viewer-header">
+        <h3 class="pdf-viewer-title">PDF Document</h3>
+        <a href="{{ pdf_url }}" 
+           class="pdf-download-link" 
+           download 
+           target="_blank"
+           rel="noopener noreferrer">
+            <i class="fa-solid fa-download"></i> Download PDF
+        </a>
+    </div>
+    <div class="pdf-viewer-wrapper">
+        <iframe 
+            src="{{ pdf_url }}#toolbar=1&navpanes=0&scrollbar=1" 
+            class="pdf-viewer"
+            title="PDF Document Viewer"
+            loading="lazy">
+            <p>Your browser does not support PDFs. 
+               <a href="{{ pdf_url }}" download>Download the PDF</a> instead.
+            </p>
+        </iframe>
+    </div>
+</div>
+{% endif %}
+

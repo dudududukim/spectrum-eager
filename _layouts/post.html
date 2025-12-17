@@ -28,6 +28,9 @@ layout: default
             {{ content }}
         </article>
 
+        <!-- PDF Viewer -->
+        {% include pdf_viewer.html %}
+
         <!-- Navigation to other tech bites -->
         <nav class="post-navigation">
             {% assign current_section = page.section | default: "tech-bites" %}

@@ -464,6 +464,40 @@
   }
 }
 
+// Reading Progress Bar
+// ===================
+#reading-progress,
+.reading-progress-bar {
+  position: fixed !important;
+  top: var(--nav-height, 6rem) !important; /* Desktop: 네비게이션 높이에 맞춤 (JavaScript에서 동적으로 조정) */
+  left: 0 !important;
+  right: 0 !important;
+  width: 0% !important;
+  height: 3px !important;
+  background: var(--primary-color, #3498db) !important;
+  transition: width 0.1s linear;
+  z-index: 999 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  display: block !important;
+}
+
+// Responsive adjustments for reading progress bar
+@media (max-width: 767px) {
+  #reading-progress,
+  .reading-progress-bar {
+    top: var(--nav-height-mobile, 5.5rem) !important; /* Mobile: 네비게이션 높이에 맞춤 */
+    height: 2px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  #reading-progress,
+  .reading-progress-bar {
+    top: var(--nav-height-tablet, 5.75rem) !important; /* Tablet: 네비게이션 높이에 맞춤 */
+  }
+}
+
 // Fixed Site Navigation
 .site-navigation {
   position: fixed;
@@ -1545,6 +1579,105 @@
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 1rem;
+  }
+}
+
+// PDF Viewer Styles
+// =================
+.pdf-viewer-container {
+  margin: 2rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 8px var(--shadow-light);
+
+  .pdf-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+
+    .pdf-viewer-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .pdf-download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+
+      &:hover {
+        background-color: var(--bg-tertiary);
+        color: var(--primary-hover);
+      }
+
+      &:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .pdf-viewer-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; // 4:3 aspect ratio
+    background-color: var(--bg-secondary);
+
+    .pdf-viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      min-height: 600px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+
+    .pdf-viewer-header {
+      padding: 0.75rem 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      .pdf-viewer-title {
+        font-size: 1rem;
+      }
+
+      .pdf-download-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    .pdf-viewer-wrapper {
+      padding-bottom: 100%; // Mobile에서 더 높은 비율
+
+      .pdf-viewer {
+        min-height: 500px;
+      }
+    }
   }
 }
 
