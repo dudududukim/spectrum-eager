@@ -162,6 +162,21 @@ create_index_md() {
     print_success "Created ${index_file}"
 }
 
+# Create films.md from template
+create_films_md() {
+    local template_url="${THEME_BASE_URL}/films.md.template"
+    local films_file="films.md"
+    
+    if [ -f "$films_file" ]; then
+        print_warning "${films_file} already exists. Skipping..."
+        return
+    fi
+    
+    print_info "Creating ${films_file}..."
+    download_file "films.md.template" "$films_file"
+    print_success "Created ${films_file}"
+}
+
 # Create/update Gemfile
 create_gemfile() {
     local template_url="${THEME_BASE_URL}/Gemfile.template"
@@ -285,6 +300,7 @@ main() {
     # Create/update files
     create_config_yml
     create_index_md
+    create_films_md
     create_gemfile
     download_plugin
     create_example_section
