@@ -22,8 +22,33 @@
                 {% assign recent_films = films | limit: image_count %}
 
                 {% if recent_films.size > 0 %}
-                    <!-- Generate gallery items with seamless loop duplication -->
-                    {% for i in (1..2) %}
+                    <!-- Generate gallery items with seamless loop duplication (only if enough images) -->
+                    {% if recent_films.size >= 3 %}
+                        <!-- For seamless infinite scroll, duplicate items when we have enough images -->
+                        {% for i in (1..2) %}
+                            {% for film in recent_films %}
+                                {% assign image_path = film.image_path | relative_url %}
+
+                                <div class="gallery-item">
+                                    <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
+                                        <img
+                                            src="{{ image_path }}"
+                                            alt="{{ film.title }}"
+                                            class="gallery-image"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                        <div class="gallery-overlay">
+                                            <div class="gallery-info">
+                                                <span class="gallery-title">{{ film.title }}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <!-- For small number of images, show without duplication -->
                         {% for film in recent_films %}
                             {% assign image_path = film.image_path | relative_url %}
 
@@ -44,7 +69,7 @@
                                 </a>
                             </div>
                         {% endfor %}
-                    {% endfor %}
+                    {% endif %}
                 {% else %}
                     <div class="empty-gallery-message">
                         <p>No films yet. Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
