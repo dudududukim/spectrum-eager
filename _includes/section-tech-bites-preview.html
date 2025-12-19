@@ -120,9 +120,18 @@
             {% for section_pair in site.section_definitions %}
                 {% assign section_key = section_pair[0] %}
                 {% assign section_posts = site.posts | where: "section", section_key %}
-                postCounts['{{ section_key }}'] = {{ section_posts.size }};
+                {% if section_key %}
+                    postCounts['{{ section_key }}'] = {{ section_posts.size }};
+                {% endif %}
             {% endfor %}
         {% endif %}
+        
+        // Also ensure all tabs have post counts initialized
+        tabs.forEach(tab => {
+            if (tab && tab.key && postCounts[tab.key] === undefined) {
+                postCounts[tab.key] = 0;
+            }
+        });
 
         let idx = 0;
 
@@ -145,8 +154,11 @@
           descEl.textContent = tab.description || '';
 
           const isTech = tab.key === 'tech-bites';
-          const postCount = postCounts[tab.key] || 0;
+          const postCount = postCounts[tab.key] !== undefined ? postCounts[tab.key] : 0;
           const hasPosts = postCount > 0;
+          
+          // Debug: check values
+          console.log('Section:', tab.key, 'PostCount:', postCount, 'HasPosts:', hasPosts, 'PostCounts:', postCounts);
           
           if (grid && placeholder && emptyMessage) {
             if (isTech && hasPosts) {
