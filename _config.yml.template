@@ -301,6 +301,9 @@ exclude:
   - .sass-cache/
   - .jekyll-cache/
   - .jekyll-metadata
+  - _sections/**/config.yml
+  - _sections/**/*.template
+  - examples
 
 # ===========================================
 # SASS CONFIGURATION

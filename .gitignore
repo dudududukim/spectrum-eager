@@ -79,3 +79,6 @@ build/
 _config.local.yml
 
 test
+_posts
+assets/images
+_films

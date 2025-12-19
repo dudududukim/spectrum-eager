@@ -244,6 +244,8 @@ exclude:
   - .jekyll-cache/
   - .jekyll-metadata
   - _sections/**/config.yml
+  - _sections/**/*.template
+  - examples
 
 # Sass Configuration
 sass:

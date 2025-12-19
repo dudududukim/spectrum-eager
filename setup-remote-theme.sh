@@ -294,6 +294,64 @@ create_workflow() {
     print_success "Created ${workflow_file}"
 }
 
+# Copy example files from examples/ folder
+copy_examples() {
+    local examples_dir="examples"
+    
+    if [ ! -d "$examples_dir" ]; then
+        print_action "examples/ folder not found, skipping"
+        return
+    fi
+    
+    # Copy example posts
+    if [ -d "${examples_dir}/_posts" ] && [ "$(ls -A ${examples_dir}/_posts 2>/dev/null)" ]; then
+        mkdir -p "_posts"
+        for file in "${examples_dir}/_posts"/*.md; do
+            if [ -f "$file" ]; then
+                local filename=$(basename "$file")
+                if [ ! -f "_posts/${filename}" ]; then
+                    cp "$file" "_posts/${filename}"
+                    print_success "Copied ${filename} to _posts/"
+                else
+                    print_action "_posts/${filename} exists, skipping"
+                fi
+            fi
+        done
+    fi
+    
+    # Copy example films
+    if [ -d "${examples_dir}/_films" ] && [ "$(ls -A ${examples_dir}/_films 2>/dev/null)" ]; then
+        mkdir -p "_films"
+        for file in "${examples_dir}/_films"/*.md; do
+            if [ -f "$file" ]; then
+                local filename=$(basename "$file")
+                if [ ! -f "_films/${filename}" ]; then
+                    cp "$file" "_films/${filename}"
+                    print_success "Copied ${filename} to _films/"
+                else
+                    print_action "_films/${filename} exists, skipping"
+                fi
+            fi
+        done
+    fi
+    
+    # Copy example images
+    if [ -d "${examples_dir}/assets/images/films" ] && [ "$(ls -A ${examples_dir}/assets/images/films 2>/dev/null)" ]; then
+        mkdir -p "assets/images/films"
+        for file in "${examples_dir}/assets/images/films"/*; do
+            if [ -f "$file" ]; then
+                local filename=$(basename "$file")
+                if [ ! -f "assets/images/films/${filename}" ]; then
+                    cp "$file" "assets/images/films/${filename}"
+                    print_success "Copied ${filename} to assets/images/films/"
+                else
+                    print_action "assets/images/films/${filename} exists, skipping"
+                fi
+            fi
+        done
+    fi
+}
+
 # Check Ruby/Bundler and run bundle install
 run_bundle_install() {
     if ! command_exists ruby; then
@@ -348,6 +406,7 @@ main() {
     download_plugin
     create_example_section
     create_workflow
+    copy_examples
     
     echo ""
     echo "=========================================="
