@@ -1,0 +1,265 @@
+# ===========================================
+# SPECTRUM JEKYLL THEME - MAIN CONFIGURATION
+# ===========================================
+
+# Remote Theme Configuration
+remote_theme: dudududukim/spectrum-eager@v2.0.6
+
+# Jekyll Core Settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+timezone: UTC
+
+url: "https://dudududukim.github.io"
+baseurl: 
+
+# Site Identity
+site:
+  title: "Duhyeon Kim"
+  description: "Personal website showcasing tech insights and development journey"
+  author: "Duhyeon Kim"
+  email: "kdhluck@naver.com"
+
+# Theme Configuration
+site_theme:
+  colors:
+    primary: "#3498db"  # Change this color to customize your entire theme!
+  
+  typography:
+    font_family: "Lato"
+    font_weights:
+      light: 300
+      normal: 400
+      medium: 500
+      semibold: 600
+      bold: 700
+    font_sizes:
+      xs: "0.75rem"
+      sm: "0.875rem"
+      base: "1rem"
+      lg: "1.125rem"
+      xl: "1.25rem"
+      "2xl": "1.5rem"
+      "3xl": "1.875rem"
+      "4xl": "2.25rem"
+    line_heights:
+      tight: 1.25
+      normal: 1.5
+      relaxed: 1.75
+
+# Personal Information
+personal:
+  name: "Duhyeon Kim"
+  tagline: "spectrum-eager jekyll owner"
+  bio: "Developer passionate about technology, hardware, and continuous learning"
+  location: "Seoul, Korea"
+  photo: "/assets/images/me/me.jpeg"
+
+# Social Media Links
+social:
+  enabled: true
+  platforms:
+    email:
+      enabled: true
+      url: "mailto:kdhluck@naver.com"
+      label: "Email"
+      icon: "fa-solid fa-envelope"
+    github:
+      enabled: true
+      url: "https://github.com/dudududukim"
+      label: "GitHub"
+      icon: "fa-brands fa-github"
+    linkedin:
+      enabled: true
+      url: "https://www.linkedin.com/in/duhyeon-kim-6623082b1/"
+      label: "LinkedIn"
+      icon: "fa-brands fa-linkedin"
+    twitter:
+      enabled: false
+      url: "https://twitter.com/username"
+      label: "Twitter"
+      icon: "fa-brands fa-twitter"
+    instagram:
+      enabled: false
+      url: "https://instagram.com/username"
+      label: "Instagram"
+      icon: "fa-brands fa-instagram"
+
+# Navigation Configuration
+navigation:
+  home_text: "Home"
+  show_social: true
+  social_position: "right"
+
+# Footer Configuration
+footer:
+  copyright_text: "All rights reserved."
+  show_theme_credit: true
+  theme_name: "Spectrum-Eager"
+  theme_url: "https://github.com/dudududukim/spectrum-eager"
+
+# Content Configuration
+content:
+  pages:
+    about:
+      title: "About"
+      welcome_message: "Welcome 🤗"
+      intro_text: "I'm Duhyeon Kim, an Electrical and Electronic Engineering major from Korea University. I have a broad curiosity about all things AI, and I enjoy diving deep into areas where I can focus and grow."
+      main_description: "My hope is that, even if just a little, the path I take will leave something valuable for humanity. My dreams are big, but I'm still figuring out how to make them a reality."
+      sections:
+        - title: "Areas of Study & Work"
+          content: "Here are a few topics I've studied or worked on:\n\n- Computer vision / NLP\n- FPGA & VLSI\n- Computer architecture"
+      closing_text: "🌈 Wishing everyone a wonderful day!"
+    
+    tech_bites:
+      title: "Tech Bites"
+      description: "Daily tech insights and discoveries"
+      card:
+        read_more_text: "Read More"
+        min_read_text: "min read"
+      navigation:
+        previous_text: "← Previous"
+        next_text: "Next →"
+    
+    films:
+      title: "Films"
+      description: "Photography collection showcasing moments captured through the lens"
+  
+  ui:
+    buttons:
+      view_all_tech_bites: "View All Tech Bites"
+      read_more: "Read More"
+    
+    
+    error:
+      404:
+        title: "Page Not Found"
+        message: "Sorry, the page you're looking for doesn't exist."
+        suggestion: "You might want to go back to the homepage or check out our tech bites."
+        back_home_text: "Back to Home"
+
+# Homepage Section Controls
+homepage_sections:
+  tech_bites_preview:
+    enabled: true
+    # Note: featured_sections is now automatically loaded from _sections/*/config.yml files
+  
+  films_preview:
+    enabled: true
+
+# Design Customization (maintain current defaults)
+design_options:
+  tech_bite_cards:
+    compact_mode: true          # Current ultra-compact design
+    show_excerpts: true
+    show_reading_time: true
+    max_excerpt_length: 150
+  
+  gallery_track:
+    auto_scroll: true
+    scroll_speed: 60           # Current animation duration
+    show_overlay_on_hover: true
+    
+  navigation:
+    fixed_position: true
+    show_breadcrumbs: true
+    social_position: "right"   # Current position
+  
+  footer:
+    show_theme_credit: true    # Current setting
+    compact_layout: true       # Current design
+
+# Section Configuration
+# Note: Section-specific settings are now managed in _sections/<name>/config.yml
+# Only global section settings should be here
+sections:
+  gallery_track:
+    enabled: true
+    image_count: 6
+    animation_duration: 60
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /posts/:name/
+  papers:
+    output: true
+    permalink: /papers/:name/
+  gallery:
+    output: true
+    permalink: /gallery/:name/
+  films:
+    output: true
+    permalink: /films/:name/
+  sections:
+    output: true
+    files: true
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      show_sidebar: true
+  - scope:
+      path: ""
+      type: "films"
+    values:
+      layout: "film-detail"
+      show_sidebar: false
+  - scope:
+      path: "_sections"
+      type: "sections"
+    values:
+      layout: "post-list"
+
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Build Settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - .gitignore
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
+  - _sections/**/config.yml
+
+# Sass Configuration
+sass:
+  style: compressed
+  sass_dir: _sass
+  load_paths:
+    - assets/css
+
+# Kramdown Configuration
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+

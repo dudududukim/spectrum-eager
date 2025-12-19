@@ -1,0 +1,24 @@
+---
+layout: post-list
+title: "Tech Bites"
+description: "Daily tech insights and discoveries"
+section: "tech-bites"
+permalink: /tech-bites/
+---
+
+This is the Tech Bites listing page. Posts with `section: "tech-bites"` in their front matter will appear here.
+
+To create a new post, add a markdown file to `_posts/` with the following front matter:
+
+```yaml
+---
+layout: post
+title: "Your Post Title"
+date: 2024-01-01
+section: "tech-bites"
+categories: [category1, category2]
+---
+
+Your post content here...
+```
+

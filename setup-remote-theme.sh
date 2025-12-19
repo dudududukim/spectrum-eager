@@ -1,251 +1,314 @@
 #!/bin/bash
 
-# Spectrum-Eager Remote Theme Setup Script
-# This script sets up your Jekyll site to use the remote theme
-# by copying necessary files from the remote theme repository
+# ===========================================
+# Spectrum-Eager Jekyll Theme Setup Script
+# ===========================================
+# This script automates the setup of the Spectrum-Eager theme
+# for use as a remote theme in your Jekyll site.
+#
+# Usage:
+#   curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
+#   or
+#   wget -O- https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
 
-set -e
+set -e  # Exit on error
 
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Theme repository information
 THEME_REPO="dudududukim/spectrum-eager"
 THEME_BRANCH="theme"
-THEME_VERSION="${1:-v2.0.7}"
+THEME_VERSION="v3.0.0"
+THEME_BASE_URL="https://raw.githubusercontent.com/${THEME_REPO}/${THEME_BRANCH}"
 
-echo "🚀 Setting up Spectrum-Eager Remote Theme..."
-echo "📦 Theme: ${THEME_REPO}@${THEME_VERSION}"
-echo ""
+# Function to print colored messages
+print_info() {
+    echo -e "${BLUE}ℹ${NC} $1"
+}
 
-# Check if we're in a Jekyll site directory
-# If _config.yml doesn't exist, create a minimal one
-if [ ! -f "_config.yml" ]; then
-    echo "⚠️  _config.yml not found. Creating a minimal configuration file..."
-    echo ""
+print_success() {
+    echo -e "${GREEN}✓${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}⚠${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}✗${NC} $1"
+}
+
+# Function to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Check if we're in a git repository
+check_git_repo() {
+    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+        print_error "Not a git repository. Please run this script in your Jekyll site directory."
+        exit 1
+    fi
+    print_success "Git repository detected"
+}
+
+# Extract GitHub repository information
+extract_github_info() {
+    local remote_url=$(git remote get-url origin 2>/dev/null || echo "")
     
-    # Try to detect GitHub Pages repository
-    GITHUB_REPO=""
-    if [ -d ".git" ]; then
-        # Try to get remote URL
-        REMOTE_URL=$(git remote get-url origin 2>/dev/null || echo "")
-        if [[ "$REMOTE_URL" == *"github.com"* ]]; then
-            # Extract repo name from URL
-            if [[ "$REMOTE_URL" == *".git" ]]; then
-                GITHUB_REPO=$(basename "$REMOTE_URL" .git)
+    if [ -z "$remote_url" ]; then
+        print_warning "No 'origin' remote found. Using default values."
+        GITHUB_USER="yourusername"
+        GITHUB_REPO="yourusername.github.io"
+        SITE_URL="https://yourusername.github.io"
+        BASEURL=""
+        return
+    fi
+    
+    # Extract username and repo from various URL formats
+    if [[ $remote_url =~ github\.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
+        GITHUB_USER="${BASH_REMATCH[1]}"
+        GITHUB_REPO="${BASH_REMATCH[2]%.git}"
+        
+        # Determine if it's a user.github.io repo or project page
+        if [[ $GITHUB_REPO =~ ^.*\.github\.io$ ]]; then
+            SITE_URL="https://${GITHUB_USER}.github.io"
+            BASEURL=""
+        else
+            SITE_URL="https://${GITHUB_USER}.github.io"
+            BASEURL="/${GITHUB_REPO}"
+        fi
+        
+        print_success "Detected GitHub repository: ${GITHUB_USER}/${GITHUB_REPO}"
+        print_info "Site URL: ${SITE_URL}"
+        print_info "Base URL: ${BASEURL:-/}"
+    else
+        print_warning "Could not parse GitHub URL. Using default values."
+        GITHUB_USER="yourusername"
+        GITHUB_REPO="yourusername.github.io"
+        SITE_URL="https://yourusername.github.io"
+        BASEURL=""
+    fi
+}
+
+# Download file from theme repository
+download_file() {
+    local file_path=$1
+    local output_path=$2
+    local url="${THEME_BASE_URL}/${file_path}"
+    
+    print_info "Downloading ${file_path}..."
+    
+    if command_exists curl; then
+        curl -fsSL "$url" -o "$output_path" || {
+            print_error "Failed to download ${file_path}"
+            return 1
+        }
+    elif command_exists wget; then
+        wget -q "$url" -O "$output_path" || {
+            print_error "Failed to download ${file_path}"
+            return 1
+        }
+    else
+        print_error "Neither curl nor wget is available. Please install one of them."
+        exit 1
+    fi
+    
+    print_success "Downloaded ${file_path}"
+}
+
+# Create _config.yml from template
+create_config_yml() {
+    local template_url="${THEME_BASE_URL}/_config.yml.template"
+    local config_file="_config.yml"
+    
+    if [ -f "$config_file" ]; then
+        print_warning "${config_file} already exists. Creating backup..."
+        cp "$config_file" "${config_file}.backup.$(date +%Y%m%d_%H%M%S)"
+    fi
+    
+    print_info "Creating ${config_file}..."
+    
+    if command_exists curl; then
+        curl -fsSL "$template_url" | \
+            sed "s|https://CHANGE-THIS.github.io|${SITE_URL}|g" | \
+            sed "s|baseurl: \"\"|baseurl: \"${BASEURL}\"|g" > "$config_file"
+    elif command_exists wget; then
+        wget -q -O- "$template_url" | \
+            sed "s|https://CHANGE-THIS.github.io|${SITE_URL}|g" | \
+            sed "s|baseurl: \"\"|baseurl: \"${BASEURL}\"|g" > "$config_file"
+    fi
+    
+    print_success "Created ${config_file} with auto-detected URL settings"
+}
+
+# Create index.md from template
+create_index_md() {
+    local template_url="${THEME_BASE_URL}/index.md.template"
+    local index_file="index.md"
+    
+    if [ -f "$index_file" ]; then
+        print_warning "${index_file} already exists. Skipping..."
+        return
+    fi
+    
+    print_info "Creating ${index_file}..."
+    download_file "index.md.template" "$index_file"
+    print_success "Created ${index_file}"
+}
+
+# Create/update Gemfile
+create_gemfile() {
+    local template_url="${THEME_BASE_URL}/Gemfile.template"
+    local gemfile="Gemfile"
+    
+    if [ -f "$gemfile" ]; then
+        # Check if jekyll-remote-theme is already in Gemfile
+        if grep -q "jekyll-remote-theme" "$gemfile"; then
+            print_info "${gemfile} already contains jekyll-remote-theme. Skipping..."
+            return
+        else
+            print_warning "${gemfile} exists but doesn't have jekyll-remote-theme. Adding it..."
+            # Add jekyll-remote-theme to existing Gemfile
+            if ! grep -q "group :jekyll_plugins" "$gemfile"; then
+                echo "" >> "$gemfile"
+                echo "group :jekyll_plugins do" >> "$gemfile"
+                echo "  gem \"jekyll-remote-theme\", \"0.4.3\"" >> "$gemfile"
+                echo "end" >> "$gemfile"
             else
-                GITHUB_REPO=$(basename "$REMOTE_URL")
+                # Add to existing group
+                sed -i.bak '/group :jekyll_plugins do/a\
+  gem "jekyll-remote-theme", "0.4.3"
+' "$gemfile" 2>/dev/null || \
+                sed -i '' '/group :jekyll_plugins do/a\
+  gem "jekyll-remote-theme", "0.4.3"
+' "$gemfile"
             fi
+            print_success "Added jekyll-remote-theme to ${gemfile}"
+            return
         fi
     fi
     
-    # Create minimal _config.yml
-    cat > _config.yml << EOF
-# ===========================================
-# SPECTRUM JEKYLL THEME - MAIN CONFIGURATION
-# ===========================================
-
-# Remote Theme Configuration
-remote_theme: ${THEME_REPO}@${THEME_VERSION}
-
-# Jekyll Core Settings
-markdown: kramdown
-highlighter: rouge
-permalink: pretty
-timezone: UTC
-
-# Site URL (update with your GitHub Pages URL)
-url: "https://${GITHUB_REPO:-your-username.github.io}"
-baseurl: ""
-
-# Site Identity
-site:
-  title: "Your Site Title"
-  description: "Your site description"
-  author: "Your Name"
-  email: "your-email@example.com"
-
-# Collections (required for sections to work)
-collections:
-  posts:
-    output: true
-    permalink: /posts/:name/
-  sections:
-    output: true
-    files: true
-
-# Default Front Matter (required for sections)
-defaults:
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "default"
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: "_sections"
-      type: "sections"
-    values:
-      layout: "post-list"
-
-# Plugins
-plugins:
-  - jekyll-remote-theme
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-
-# Build Settings
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/
-  - README.md
-  - .gitignore
-  - _sections/**/config.yml
-EOF
-    
-    echo "✅ Created minimal _config.yml"
-    echo "   Please update it with your site settings (url, title, author, etc.)"
-    echo ""
-fi
-
-# Create necessary directories
-echo "📁 Creating directories..."
-mkdir -p _plugins
-mkdir -p _sections/tech-bites
-mkdir -p _sections/3d-printing
-echo "✅ Directories created"
-
-# Download plugin from GitHub
-echo ""
-echo "📥 Downloading required plugin..."
-PLUGIN_URL="https://raw.githubusercontent.com/${THEME_REPO}/${THEME_VERSION}/_plugins/sections_generator.rb"
-curl -s -o _plugins/sections_generator.rb "${PLUGIN_URL}" || {
-    echo "⚠️  Warning: Could not download plugin from GitHub."
-    echo "   Please manually copy _plugins/sections_generator.rb from the theme repository."
+    print_info "Creating ${gemfile}..."
+    download_file "Gemfile.template" "$gemfile"
+    print_success "Created ${gemfile}"
 }
 
-if [ -f "_plugins/sections_generator.rb" ]; then
-    echo "✅ Plugin downloaded successfully"
-else
-    echo "❌ Error: Plugin file not found. Please check your internet connection or theme version."
-    exit 1
-fi
-
-# Create example section configs if they don't exist
-if [ ! -f "_sections/tech-bites/config.yml" ]; then
-    echo ""
-    echo "📝 Creating example section configs..."
-    cat > _sections/tech-bites/config.yml << 'EOF'
-title: "Tech Bites"
-key: "tech-bites"
-description: "Daily tech insights and discoveries"
-button_text: "View All Tech Bites"
-button_url: "/tech-bites/"
-order: 10
-type: "tech-bites-preview"
-enabled: true
-main_page_count: 3
-pagination: 10
-show_dates: true
-show_categories: true
-EOF
-
-    cat > _sections/tech-bites/page.md << 'EOF'
----
-layout: post-list
-title: "Tech Bites"
-description: "Daily tech insights and discoveries"
-section: "tech-bites"
-permalink: /tech-bites/
----
-
-This is an example Tech Bites listing page. Users should customize this page with their own content.
-EOF
-
-    cat > _sections/3d-printing/config.yml << 'EOF'
-title: "3D Printing"
-key: "3d-printing"
-description: "Notes and experiments on printers, slicers, and materials"
-button_text: "Browse 3D Printing"
-button_url: "/3d-printing/"
-order: 20
-type: "tech-bites-preview"
-enabled: true
-main_page_count: 3
-pagination: 10
-show_dates: true
-show_categories: true
-EOF
-
-    cat > _sections/3d-printing/page.md << 'EOF'
----
-layout: post-list
-title: "3D Printing"
-description: "Notes and experiments on printers, slicers, and materials"
-section: "3d-printing"
-permalink: /3d-printing/
----
-
-This is an example 3D Printing listing page. Users should customize this page with their own content.
-EOF
-
-    echo "✅ Example section configs created"
-fi
-
-# Check _config.yml for remote_theme setting
-if ! grep -q "remote_theme:" _config.yml; then
-    echo ""
-    echo "⚠️  Warning: remote_theme not found in _config.yml"
-    echo "   Please add the following to your _config.yml:"
-    echo "   remote_theme: ${THEME_REPO}@${THEME_VERSION}"
-fi
-
-# Check Gemfile for jekyll-remote-theme
-if [ -f "Gemfile" ]; then
-    if ! grep -q "jekyll-remote-theme" Gemfile; then
-        echo ""
-        echo "⚠️  Warning: jekyll-remote-theme not found in Gemfile"
-        echo "   Please add the following to your Gemfile:"
-        echo "   gem \"jekyll-remote-theme\", \"0.4.3\""
+# Download plugin
+download_plugin() {
+    local plugin_dir="_plugins"
+    local plugin_file="${plugin_dir}/sections_generator.rb"
+    local plugin_url="${THEME_BASE_URL}/_plugins/sections_generator.rb"
+    
+    print_info "Setting up Jekyll plugin..."
+    
+    mkdir -p "$plugin_dir"
+    
+    if [ -f "$plugin_file" ]; then
+        print_warning "${plugin_file} already exists. Skipping..."
+        return
     fi
-else
+    
+    print_info "Downloading sections_generator.rb..."
+    download_file "_plugins/sections_generator.rb" "$plugin_file"
+    print_success "Plugin installed"
+}
+
+# Create example section
+create_example_section() {
+    local section_dir="_sections/tech-bites"
+    local config_file="${section_dir}/config.yml"
+    local page_file="${section_dir}/page.md"
+    
+    print_info "Creating example section: tech-bites..."
+    
+    mkdir -p "$section_dir"
+    
+    if [ ! -f "$config_file" ]; then
+        download_file "_sections/tech-bites/config.yml.template" "$config_file"
+        print_success "Created ${config_file}"
+    else
+        print_warning "${config_file} already exists. Skipping..."
+    fi
+    
+    if [ ! -f "$page_file" ]; then
+        download_file "_sections/tech-bites/page.md.template" "$page_file"
+        print_success "Created ${page_file}"
+    else
+        print_warning "${page_file} already exists. Skipping..."
+    fi
+}
+
+# Create GitHub Actions workflow
+create_workflow() {
+    local workflow_dir=".github/workflows"
+    local workflow_file="${workflow_dir}/jekyll.yml"
+    local template_url="${THEME_BASE_URL}/.github/workflows/jekyll.yml.template"
+    
+    print_info "Setting up GitHub Actions workflow..."
+    
+    mkdir -p "$workflow_dir"
+    
+    if [ -f "$workflow_file" ]; then
+        print_warning "${workflow_file} already exists. Skipping..."
+        return
+    fi
+    
+    print_info "Creating GitHub Actions workflow..."
+    download_file ".github/workflows/jekyll.yml.template" "$workflow_file"
+    print_success "Created GitHub Actions workflow"
+}
+
+# Main setup function
+main() {
     echo ""
-    echo "⚠️  Warning: Gemfile not found"
-    echo "   Please create a Gemfile with jekyll-remote-theme"
-fi
+    echo "=========================================="
+    echo "  Spectrum-Eager Theme Setup"
+    echo "=========================================="
+    echo ""
+    
+    # Check prerequisites
+    check_git_repo
+    
+    # Extract GitHub information
+    extract_github_info
+    
+    echo ""
+    print_info "Starting setup process..."
+    echo ""
+    
+    # Create/update files
+    create_config_yml
+    create_index_md
+    create_gemfile
+    download_plugin
+    create_example_section
+    create_workflow
+    
+    echo ""
+    echo "=========================================="
+    print_success "Setup completed successfully!"
+    echo "=========================================="
+    echo ""
+    print_info "Next steps:"
+    echo "  1. Review and customize _config.yml with your information"
+    echo "  2. Install dependencies: bundle install"
+    echo "  3. Test locally: bundle exec jekyll serve"
+    echo "  4. Visit http://localhost:4000 in your browser"
+    echo ""
+    print_info "To deploy to GitHub Pages:"
+    echo "  1. Push your changes to GitHub"
+    echo "  2. Go to Settings > Pages in your repository"
+    echo "  3. Set Source to 'GitHub Actions'"
+    echo ""
+    print_warning "Don't forget to customize _config.yml with your personal information!"
+    echo ""
+}
 
-echo ""
-echo "✨ Setup complete!"
-echo ""
-echo "📋 Next steps:"
-echo "   1. Update _config.yml with your site settings:"
-echo "      - Update url and baseurl (if needed)"
-echo "      - Update site title, description, and author"
-echo "      - Add personal information and social links"
-echo ""
-echo "   2. Create or update Gemfile:"
-echo "      Add the following to your Gemfile:"
-echo "      source \"https://rubygems.org\""
-echo "      gem \"jekyll\", \"~> 4.3.0\""
-echo "      gem \"openssl\", \"~> 3.3.1\""
-echo "      group :jekyll_plugins do"
-echo "        gem \"jekyll-remote-theme\", \"0.4.3\""
-echo "        gem \"jekyll-feed\", \"~> 0.12\""
-echo "        gem \"jekyll-sitemap\""
-echo "        gem \"jekyll-seo-tag\""
-echo "      end"
-echo ""
-echo "   3. Install dependencies:"
-echo "      bundle install"
-echo ""
-echo "   4. Run Jekyll server:"
-echo "      bundle exec jekyll serve"
-echo ""
-echo "   5. Visit: http://localhost:4000"
-echo ""
-echo "📚 For more information, see:"
-echo "   https://github.com/${THEME_REPO}/blob/${THEME_VERSION}/USAGE.md"
-
+# Run main function
+main

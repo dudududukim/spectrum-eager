@@ -1,0 +1,320 @@
+# ===========================================
+# SPECTRUM JEKYLL THEME - CONFIGURATION TEMPLATE
+# ===========================================
+# This template will be used by setup-remote-theme.sh to generate _config.yml
+# Users should customize the values marked with "TODO" or "CHANGE THIS"
+
+# ===========================================
+# REMOTE THEME CONFIGURATION
+# ===========================================
+# This tells Jekyll to use the Spectrum-Eager theme from GitHub
+# The setup script will automatically set this to the correct version
+remote_theme: dudududukim/spectrum-eager@v3.0.0
+
+# ===========================================
+# JEKYLL CORE SETTINGS
+# ===========================================
+# These are standard Jekyll settings. Usually no need to change.
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+timezone: UTC
+
+# ===========================================
+# SITE URL CONFIGURATION
+# ===========================================
+# TODO: The setup script will auto-detect these from your GitHub repo
+# For user.github.io: url should be "https://username.github.io", baseurl should be ""
+# For project pages: url should be "https://username.github.io", baseurl should be "/repo-name"
+url: "https://CHANGE-THIS.github.io"  # Will be auto-filled by setup script
+baseurl: ""  # Will be auto-filled by setup script (empty for user.github.io, "/repo-name" for project pages)
+
+# ===========================================
+# SITE IDENTITY
+# ===========================================
+# TODO: Change these to match your site
+site:
+  title: "Your Site Title"  # CHANGE THIS: Your site's title
+  description: "Your site description"  # CHANGE THIS: Brief description of your site
+  author: "Your Name"  # CHANGE THIS: Your name
+  email: "your.email@example.com"  # CHANGE THIS: Your email
+
+# ===========================================
+# THEME CONFIGURATION
+# ===========================================
+# Customize your theme's appearance by changing the primary color
+# All UI elements will automatically adapt to this color
+site_theme:
+  colors:
+    primary: "#3498db"  # CHANGE THIS: Your primary theme color (hex code)
+    # Examples: "#3498db" (blue), "#e74c3c" (red), "#2ecc71" (green), "#9b59b6" (purple)
+  
+  typography:
+    font_family: "Lato"  # Theme font family
+    font_weights:
+      light: 300
+      normal: 400
+      medium: 500
+      semibold: 600
+      bold: 700
+    font_sizes:
+      xs: "0.75rem"
+      sm: "0.875rem"
+      base: "1rem"
+      lg: "1.125rem"
+      xl: "1.25rem"
+      "2xl": "1.5rem"
+      "3xl": "1.875rem"
+      "4xl": "2.25rem"
+    line_heights:
+      tight: 1.25
+      normal: 1.5
+      relaxed: 1.75
+
+# ===========================================
+# PERSONAL INFORMATION
+# ===========================================
+# TODO: Update with your personal information
+personal:
+  name: "Your Name"  # CHANGE THIS
+  tagline: "Your tagline"  # CHANGE THIS: Short tagline shown on homepage
+  bio: "Your bio"  # CHANGE THIS: Brief bio description
+  location: "Your Location"  # CHANGE THIS: Your location
+  photo: "/assets/images/me/me.jpeg"  # CHANGE THIS: Path to your profile photo
+
+# ===========================================
+# SOCIAL MEDIA LINKS
+# ===========================================
+# TODO: Enable and configure your social media links
+# Set enabled: true for platforms you want to show, false to hide
+social:
+  enabled: true
+  platforms:
+    email:
+      enabled: true
+      url: "mailto:your.email@example.com"  # CHANGE THIS
+      label: "Email"
+      icon: "fa-solid fa-envelope"
+    github:
+      enabled: false  # CHANGE THIS: Set to true and update URL
+      url: "https://github.com/username"  # CHANGE THIS
+      label: "GitHub"
+      icon: "fa-brands fa-github"
+    linkedin:
+      enabled: false  # CHANGE THIS: Set to true and update URL
+      url: "https://www.linkedin.com/in/username/"  # CHANGE THIS
+      label: "LinkedIn"
+      icon: "fa-brands fa-linkedin"
+    twitter:
+      enabled: false  # CHANGE THIS: Set to true and update URL
+      url: "https://twitter.com/username"  # CHANGE THIS
+      label: "Twitter"
+      icon: "fa-brands fa-twitter"
+    instagram:
+      enabled: false  # CHANGE THIS: Set to true and update URL
+      url: "https://instagram.com/username"  # CHANGE THIS
+      label: "Instagram"
+      icon: "fa-brands fa-instagram"
+
+# ===========================================
+# NAVIGATION CONFIGURATION
+# ===========================================
+navigation:
+  home_text: "Home"
+  show_social: true
+  social_position: "right"
+
+# ===========================================
+# FOOTER CONFIGURATION
+# ===========================================
+footer:
+  copyright_text: "All rights reserved."
+  show_theme_credit: true
+  theme_name: "Spectrum-Eager"
+  theme_url: "https://github.com/dudududukim/spectrum-eager"
+
+# ===========================================
+# CONTENT CONFIGURATION
+# ===========================================
+# TODO: Customize your homepage and content pages
+content:
+  pages:
+    about:
+      title: "About"
+      welcome_message: "Welcome 🤗"  # CHANGE THIS: Homepage welcome message
+      intro_text: "Your introduction text"  # CHANGE THIS: Brief intro
+      main_description: "Your main description"  # CHANGE THIS: Main description text
+      sections:
+        - title: "Section Title"  # CHANGE THIS: Section heading
+          content: "Section content"  # CHANGE THIS: Section content
+      closing_text: "Closing text"  # CHANGE THIS: Closing message
+    
+    tech_bites:
+      title: "Tech Bites"
+      description: "Daily tech insights and discoveries"
+      card:
+        read_more_text: "Read More"
+        min_read_text: "min read"
+      navigation:
+        previous_text: "← Previous"
+        next_text: "Next →"
+    
+    films:
+      title: "Films"
+      description: "Photography collection showcasing moments captured through the lens"
+  
+  ui:
+    buttons:
+      view_all_tech_bites: "View All Tech Bites"
+      read_more: "Read More"
+    
+    error:
+      404:
+        title: "Page Not Found"
+        message: "Sorry, the page you're looking for doesn't exist."
+        suggestion: "You might want to go back to the homepage or check out our tech bites."
+        back_home_text: "Back to Home"
+
+# ===========================================
+# HOMEPAGE SECTION CONTROLS
+# ===========================================
+# Enable or disable sections on the homepage
+homepage_sections:
+  tech_bites_preview:
+    enabled: true
+    # Note: featured_sections is automatically loaded from _sections/*/config.yml files
+  
+  films_preview:
+    enabled: true
+
+# ===========================================
+# DESIGN CUSTOMIZATION
+# ===========================================
+# Fine-tune the appearance of various components
+design_options:
+  tech_bite_cards:
+    compact_mode: true          # Compact card design
+    show_excerpts: true
+    show_reading_time: true
+    max_excerpt_length: 150
+  
+  gallery_track:
+    auto_scroll: true
+    scroll_speed: 60           # Animation duration in seconds
+    show_overlay_on_hover: true
+    
+  navigation:
+    fixed_position: true
+    show_breadcrumbs: true
+    social_position: "right"
+  
+  footer:
+    show_theme_credit: true
+    compact_layout: true
+
+# ===========================================
+# SECTION CONFIGURATION
+# ===========================================
+# Note: Section-specific settings are managed in _sections/<name>/config.yml
+# Only global section settings should be here
+sections:
+  gallery_track:
+    enabled: true
+    image_count: 6
+    animation_duration: 60
+
+# ===========================================
+# COLLECTIONS
+# ===========================================
+# Jekyll collections for organizing content
+collections:
+  posts:
+    output: true
+    permalink: /posts/:name/
+  papers:
+    output: true
+    permalink: /papers/:name/
+  gallery:
+    output: true
+    permalink: /gallery/:name/
+  films:
+    output: true
+    permalink: /films/:name/
+  sections:
+    output: false
+    files: true
+
+# ===========================================
+# DEFAULT FRONT MATTER
+# ===========================================
+# Default values for pages and posts
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      show_sidebar: true
+  - scope:
+      path: ""
+      type: "films"
+    values:
+      layout: "film-detail"
+      show_sidebar: false
+
+# ===========================================
+# PLUGINS
+# ===========================================
+# Jekyll plugins required for this theme
+plugins:
+  - jekyll-remote-theme  # Required for using this theme remotely
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# ===========================================
+# BUILD SETTINGS
+# ===========================================
+# Files and directories to exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - .gitignore
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
+
+# ===========================================
+# SASS CONFIGURATION
+# ===========================================
+sass:
+  style: compressed
+  sass_dir: _sass
+  load_paths:
+    - assets/css
+
+# ===========================================
+# KRAMDOWN CONFIGURATION
+# ===========================================
+# Markdown parser settings
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+

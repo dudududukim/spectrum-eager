@@ -2,69 +2,86 @@
 
 A minimal, section-based Jekyll theme for personal websites and blogs.
 
-## Quick Start with Remote Theme
+## Using as Remote Theme
 
-### 1. Create a New Jekyll Site
+The easiest way to use this theme is as a remote theme in your own Jekyll site. This allows you to use the theme without forking the repository and automatically receive updates.
+
+### Quick Setup (Recommended)
+
+#### Step 1: Clone Your Repository
+
+If you're setting up a new GitHub Pages site:
 
 ```bash
-jekyll new my-awesome-site
-cd my-awesome-site
+git clone https://github.com/yourusername/yourusername.github.io.git
+cd yourusername.github.io
 ```
 
-### 2. Run Setup Script
+Or if you already have a repository:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash -s v2.0.7
+cd yourusername.github.io
 ```
 
-This will automatically:
-- Download required plugin (`_plugins/sections_generator.rb`)
-- Create example section configurations
-- Set up the necessary folder structure
+#### Step 2: Run the Automated Setup Script
 
-### 3. Configure Your Site
+The setup script will automatically configure everything for you:
 
-Edit `_config.yml`:
-
-```yaml
-# Remote Theme Configuration
-remote_theme: dudududukim/spectrum-eager@v2.0.7
-
-# Your site settings
-url: "https://your-username.github.io"
-baseurl: "" # or "/your-repo-name" for project pages
-
-site:
-  title: "Your Site Title"
-  description: "Your site description"
-  author: "Your Name"
+```bash
+curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
 ```
 
-### 4. Update Gemfile
+**What the script does:**
+- ✅ Automatically detects your GitHub repository information
+- ✅ Creates `_config.yml` with correct URL settings
+- ✅ Creates `index.md` for your homepage
+- ✅ Sets up `Gemfile` with required dependencies
+- ✅ Downloads the required plugin (`_plugins/sections_generator.rb`)
+- ✅ Creates an example section (`_sections/tech-bites/`)
+- ✅ Sets up GitHub Actions workflow for deployment
 
-Add to your `Gemfile`:
+#### Step 3: Customize Your Configuration
 
-```ruby
-group :jekyll_plugins do
-  gem "jekyll-remote-theme", "0.4.3"
-  gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-sitemap"
-  gem "jekyll-seo-tag"
-end
-```
+Edit `_config.yml` and update:
 
-### 5. Install and Run
+- **Site Identity**: `site.title`, `site.description`, `site.author`, `site.email`
+- **Personal Information**: `personal.name`, `personal.tagline`, `personal.bio`, `personal.location`, `personal.photo`
+- **Social Media**: Enable and configure links in `social.platforms`
+- **Theme Color**: Change `site_theme.colors.primary` to your preferred color
+- **Content**: Customize `content.pages.about` with your welcome message
+
+#### Step 4: Install Dependencies
 
 ```bash
 bundle install
+```
+
+#### Step 5: Test Locally
+
+```bash
 bundle exec jekyll serve
 ```
 
-Visit `http://localhost:4000` in your browser!
+Visit `http://localhost:4000` to see your site!
 
-## Manual Setup
+#### Step 6: Deploy to GitHub Pages
 
-If you prefer manual setup, see [USAGE.md](USAGE.md) for detailed instructions.
+1. Commit and push your changes:
+   ```bash
+   git add .
+   git commit -m "Add Spectrum-Eager theme"
+   git push origin main
+   ```
+
+2. Enable GitHub Pages:
+   - Go to your repository on GitHub
+   - Navigate to **Settings > Pages**
+   - Under **Source**, select **GitHub Actions**
+   - Your site will build and deploy automatically!
+
+### Manual Setup
+
+If you prefer to set up manually or want more control, see [USAGE.md](USAGE.md) for detailed step-by-step instructions.
 
 ## Features
 

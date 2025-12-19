@@ -1,198 +1,386 @@
-# Remote Theme Usage Guide
+# Using Spectrum-Eager as a Remote Theme
 
-## Quick Start
+This guide explains how to use the Spectrum-Eager Jekyll theme as a remote theme in your own Jekyll site.
 
-### Automated Setup (Recommended)
+## Quick Setup (Recommended)
 
-1. **Run the setup script** in your Jekyll site root directory:
-   ```bash
-   curl -sSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash -s v2.0.7
-   ```
-   
-   Or download and run manually:
-   ```bash
-   wget https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh
-   chmod +x setup-remote-theme.sh
-   ./setup-remote-theme.sh v2.0.7
-   ```
+The easiest way to set up the theme is using our automated setup script:
 
-   This script will automatically:
-   - Download `_plugins/sections_generator.rb` (required for sections to work)
-   - Create example `_sections` folder structure
-   - Verify your `_config.yml` and `Gemfile` settings
+### Step 1: Clone Your Repository
 
-2. **Configure your site**:
-   - Update `_config.yml` with your site settings
-   - Add `remote_theme: dudududukim/spectrum-eager@v2.0.7` to `_config.yml`
-   - Add `jekyll-remote-theme` to your `Gemfile`
-
-3. **Install and run**:
-   ```bash
-   bundle install
-   bundle exec jekyll serve
-   ```
-
-### Manual Setup
-
-If you prefer to set up manually, follow the steps below.
-
-## Current Structure
-
-- **theme branch**: Theme code (layouts, styles, JavaScript, etc.)
-- **main branch**: User site (content, configuration files)
-
-## Usage
-
-### 1. Push Theme Branch (First Time Only)
-
-First, you need to push the theme branch to GitHub:
+If you're setting up a new site:
 
 ```bash
-# Switch to theme branch
-git checkout theme
-
-# Commit changes
-git add .
-git commit -m "feat: prepare theme branch for remote theme"
-
-# Push to GitHub
-git push origin theme
+git clone https://github.com/yourusername/yourusername.github.io.git
+cd yourusername.github.io
 ```
 
-### 2. Install Dependencies on Main Branch
+Or if you already have a repository:
 
 ```bash
-# Switch to main branch
-git checkout main
+cd yourusername.github.io
+```
 
-# Install dependencies
+### Step 2: Run the Setup Script
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
+```
+
+This script will:
+- Automatically detect your GitHub repository information
+- Create `_config.yml` with the correct URL settings
+- Create `index.md` for your homepage
+- Set up `Gemfile` with required dependencies
+- Download the required plugin (`_plugins/sections_generator.rb`)
+- Create an example section (`_sections/tech-bites/`)
+- Set up GitHub Actions workflow for deployment
+
+### Step 3: Customize Configuration
+
+Edit `_config.yml` and update the following sections:
+
+- **Site Identity**: Update `site.title`, `site.description`, `site.author`, `site.email`
+- **Personal Information**: Update `personal.name`, `personal.tagline`, `personal.bio`, `personal.location`, `personal.photo`
+- **Social Media**: Enable and configure your social media links in the `social.platforms` section
+- **Theme Color**: Change `site_theme.colors.primary` to your preferred color
+- **Content**: Customize `content.pages.about` with your welcome message and description
+
+### Step 4: Install Dependencies
+
+```bash
 bundle install
 ```
 
-### 3. Test Locally
+### Step 5: Test Locally
 
 ```bash
-# Run Jekyll server
 bundle exec jekyll serve
-
-# Check in browser
-# http://localhost:4000/spectrum-eager/
 ```
 
-### 4. Deploy to GitHub Pages
+Visit `http://localhost:4000` to see your site.
 
-#### Method 1: Use GitHub Actions (Recommended)
+### Step 6: Deploy to GitHub Pages
 
-1. Check if `.github/workflows/jekyll.yml` file exists
-2. In GitHub repository Settings > Pages, set Source to "GitHub Actions"
-3. Push to main branch and it will build automatically
+1. Commit and push your changes:
+   ```bash
+   git add .
+   git commit -m "Add Spectrum-Eager theme"
+   git push origin main
+   ```
+
+2. Enable GitHub Pages:
+   - Go to your repository on GitHub
+   - Navigate to **Settings > Pages**
+   - Under **Source**, select **GitHub Actions**
+   - The site will build and deploy automatically
+
+## Manual Setup
+
+If you prefer to set up the theme manually, follow these steps:
+
+### Step 1: Create `_config.yml`
+
+Create a `_config.yml` file in your repository root with the following minimum configuration:
+
+```yaml
+# Remote Theme Configuration
+remote_theme: dudududukim/spectrum-eager@v3.0.0
+
+# Site URL (adjust for your repository)
+url: "https://yourusername.github.io"
+baseurl: ""  # Empty for user.github.io, "/repo-name" for project pages
+
+# Site Identity
+site:
+  title: "Your Site Title"
+  description: "Your site description"
+  author: "Your Name"
+  email: "your.email@example.com"
+
+# Theme Configuration
+site_theme:
+  colors:
+    primary: "#3498db"  # Your primary theme color
+
+# Personal Information
+personal:
+  name: "Your Name"
+  tagline: "Your tagline"
+  bio: "Your bio"
+  location: "Your Location"
+  photo: "/assets/images/me/me.jpeg"
+
+# Social Media Links
+social:
+  enabled: true
+  platforms:
+    email:
+      enabled: true
+      url: "mailto:your.email@example.com"
+    github:
+      enabled: true
+      url: "https://github.com/yourusername"
+    # Add other platforms as needed
+
+# Plugins (required)
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /posts/:name/
+  sections:
+    output: false
+    files: true
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      show_sidebar: true
+```
+
+For a complete configuration template, see the [theme repository](https://github.com/dudududukim/spectrum-eager/blob/theme/_config.yml.template).
+
+### Step 2: Create `index.md`
+
+Create an `index.md` file in your repository root:
+
+```markdown
+---
+layout: about
+title: "About"
+description: "Personal website"
+---
+
+Welcome to my site!
+
+[Your content here]
+```
+
+### Step 3: Create `Gemfile`
+
+Create a `Gemfile` with the following content:
+
+```ruby
+source "https://rubygems.org"
+
+gem "jekyll", "~> 4.3.0"
+
+group :jekyll_plugins do
+  gem "jekyll-remote-theme", "0.4.3"
+  gem "jekyll-feed", "~> 0.12"
+  gem "jekyll-sitemap"
+  gem "jekyll-seo-tag"
+end
+```
+
+### Step 4: Download the Plugin
+
+Jekyll plugins must be local files. Download the required plugin:
 
 ```bash
-git add .
-git commit -m "feat: configure remote theme"
-git push origin main
+mkdir -p _plugins
+curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/_plugins/sections_generator.rb -o _plugins/sections_generator.rb
 ```
 
-#### Method 2: Build Locally and Push
+### Step 5: Create Example Section (Optional)
+
+To use sections, create a section directory:
 
 ```bash
-# Build
-bundle exec jekyll build
-
-# Push _site folder to gh-pages branch
+mkdir -p _sections/tech-bites
 ```
 
-## File Management
+Create `_sections/tech-bites/config.yml`:
 
-### Files Managed by User (main branch)
+```yaml
+title: "Tech Bites"
+key: "tech-bites"
+description: "Daily tech insights and discoveries"
+button_text: "View All Tech Bites"
+button_url: "/tech-bites/"
+order: 10
+type: "tech-bites-preview"
+enabled: true
+main_page_count: 3
+pagination: 10
+show_dates: true
+show_categories: true
+```
 
-**Required Files (must be in your repository):**
-- `_plugins/sections_generator.rb` - **REQUIRED**: Plugin to load section configs
-  - Download from: `https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/_plugins/sections_generator.rb`
-  - Or use the setup script to automatically download it
+Create `_sections/tech-bites/page.md`:
 
-**Content:**
-- `_posts/` - Blog posts
-- `_films/` - Photo gallery
-- `index.md`, `films.md` - Root page files
-- `_sections/<name>/page.md` - Section listing pages (auto-generated from `_sections/` folder)
+```markdown
+---
+layout: post-list
+title: "Tech Bites"
+description: "Daily tech insights and discoveries"
+section: "tech-bites"
+permalink: /tech-bites/
+---
 
-**Configuration:**
-- `_config.yml` - Site settings
-- `_sections/<name>/config.yml` - Section-specific settings (auto-loaded)
-  - Example: `_sections/tech-bites/config.yml`
-  - `_data/sections.yml` is no longer needed
+Your Tech Bites content here.
+```
 
-**Images:**
-- `assets/images/` - User images
+### Step 6: Install Dependencies and Test
 
-### Theme Files (theme branch, auto-loaded)
+```bash
+bundle install
+bundle exec jekyll serve
+```
 
-The following files are automatically loaded via remote-theme, so they don't need to be in the main branch:
-- `_layouts/`
-- `_includes/`
-- `_sass/`
-- `assets/css/`
-- `assets/js/`
+## Creating Content
 
-**Note**: `_plugins/` folder is NOT automatically loaded from remote theme. You must copy `_plugins/sections_generator.rb` to your local repository.
+### Creating Posts
 
-## Theme Updates
+Create markdown files in `_posts/` directory with the following format:
 
-To update the theme:
+```markdown
+---
+layout: post
+title: "Your Post Title"
+date: 2024-01-01
+section: "tech-bites"
+categories: [category1, category2]
+---
 
-1. Commit and push changes on theme branch
-2. Run `bundle update jekyll-remote-theme` on main branch (if needed)
-3. Site will automatically use the new theme
+Your post content here...
+```
+
+The `section` field determines which section the post belongs to. Posts with `section: "tech-bites"` will appear in the Tech Bites section.
+
+### Creating Sections
+
+To create a new section:
+
+1. Create a directory under `_sections/`:
+   ```bash
+   mkdir -p _sections/your-section-name
+   ```
+
+2. Create `_sections/your-section-name/config.yml`:
+   ```yaml
+   title: "Your Section Title"
+   key: "your-section-name"
+   description: "Section description"
+   button_text: "View All"
+   button_url: "/your-section-name/"
+   order: 20
+   type: "tech-bites-preview"
+   enabled: true
+   main_page_count: 3
+   pagination: 10
+   show_dates: true
+   show_categories: true
+   ```
+
+3. Create `_sections/your-section-name/page.md`:
+   ```markdown
+   ---
+   layout: post-list
+   title: "Your Section Title"
+   description: "Section description"
+   section: "your-section-name"
+   permalink: /your-section-name/
+   ---
+   
+   Your section content here.
+   ```
+
+4. Create posts with `section: "your-section-name"` in their front matter.
+
+## Customization
+
+### Changing Theme Color
+
+Edit `_config.yml` and change the `primary` color:
+
+```yaml
+site_theme:
+  colors:
+    primary: "#e74c3c"  # Change to your preferred color
+```
+
+All UI elements will automatically adapt to this color.
+
+### Customizing Homepage
+
+Edit `_config.yml` under `content.pages.about`:
+
+```yaml
+content:
+  pages:
+    about:
+      welcome_message: "Welcome!"
+      intro_text: "Your introduction"
+      main_description: "Your main description"
+      sections:
+        - title: "Section Title"
+          content: "Section content"
+      closing_text: "Closing message"
+```
+
+### Adding Social Media Links
+
+Edit `_config.yml` under `social.platforms`:
+
+```yaml
+social:
+  platforms:
+    github:
+      enabled: true
+      url: "https://github.com/yourusername"
+    linkedin:
+      enabled: true
+      url: "https://www.linkedin.com/in/yourusername/"
+    # Add more platforms as needed
+```
 
 ## Troubleshooting
 
-### "_sections" Not Found / Sections Not Loading
+### Plugin Not Loading
 
-If you see "No sections configured yet" or sections are not loading:
+Make sure `_plugins/sections_generator.rb` is in your repository. Jekyll plugins must be local files and cannot be loaded from remote themes.
 
-1. **Check if `_plugins/sections_generator.rb` exists**:
-   ```bash
-   ls _plugins/sections_generator.rb
-   ```
-   If it doesn't exist, download it:
-   ```bash
-   mkdir -p _plugins
-   curl -o _plugins/sections_generator.rb https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/_plugins/sections_generator.rb
-   ```
+### Build Errors
 
-2. **Restart Jekyll server** (plugins are loaded at startup):
-   ```bash
-   # Stop the server (Ctrl+C) and restart
-   bundle exec jekyll serve
-   ```
+1. Make sure all required gems are installed: `bundle install`
+2. Check that `remote_theme` is correctly set in `_config.yml`
+3. Verify that `jekyll-remote-theme` is in your `Gemfile`
 
-3. **Verify `_sections` folder structure**:
-   ```bash
-   ls -la _sections/tech-bites/config.yml
-   ```
+### Sections Not Appearing
 
-### Theme Not Loading
+1. Make sure `_sections/<name>/config.yml` exists
+2. Verify that `_plugins/sections_generator.rb` is present
+3. Check that posts have the correct `section` field in their front matter
 
-1. Check if theme branch is pushed to GitHub
-2. Check `remote_theme` setting in `_config.yml`:
-   ```yaml
-   remote_theme: dudududukim/spectrum-eager@v2.0.7
-   ```
-3. Check if `jekyll-remote-theme` is in `Gemfile`
-4. Run `bundle install`
+### GitHub Pages Not Building
 
-### Local Build Errors
+1. Make sure GitHub Actions is enabled in repository Settings > Pages
+2. Check the Actions tab for build errors
+3. Verify that `.github/workflows/jekyll.yml` exists
 
-```bash
-# Clear cache and retry
-rm -rf .jekyll-cache _site
-bundle exec jekyll serve
-```
+## Getting Help
 
-## Next Steps
+- Check the [main README](https://github.com/dudududukim/spectrum-eager) for more information
+- Open an issue on [GitHub](https://github.com/dudududukim/spectrum-eager/issues) if you encounter problems
+- Review the [Jekyll documentation](https://jekyllrb.com/docs/) for general Jekyll questions
 
-1. ✅ Push theme branch
-2. ✅ bundle install
-3. ✅ Test locally
-4. ✅ Deploy to GitHub Pages
+## License
+
+This theme is released under the MIT License. See the [LICENSE](https://github.com/dudududukim/spectrum-eager/blob/main/LICENSE) file for details.

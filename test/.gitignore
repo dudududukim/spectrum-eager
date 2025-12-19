@@ -1,0 +1,14 @@
+# Jekyll build output
+_site/
+.jekyll-cache/
+.sass-cache/
+.jekyll-metadata
+
+# Bundler
+Gemfile.lock
+vendor/
+.bundle/
+
+# Test artifacts
+test/
+
