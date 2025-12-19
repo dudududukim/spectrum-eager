@@ -1,11 +1,11 @@
 # Jekyll Image Resizer Plugin
-# Automatically resizes film images to max-width 800px during build
+# Automatically resizes film images to max-width 1200px during build
 # Requires: image_processing gem (which requires vips or ImageMagick)
 # 
 # Usage: Add to _config.yml:
 #   image_resize:
 #     enabled: true
-#     max_width: 800
+#     max_width: 1200
 #
 # Note: Uses Jekyll Hook to run after static files are copied to _site
 # This ensures resized images are not overwritten by original files
@@ -17,7 +17,7 @@ module Jekyll
       image_config = site.config['image_resize'] || {}
       return unless image_config['enabled'] != false
       
-      max_width = image_config['max_width'] || 800
+      max_width = image_config['max_width'] || 1200
       source_dir = File.join(site.source, 'assets/images/films')
       
       return unless Dir.exist?(source_dir)
