@@ -114,14 +114,9 @@ content:
       closing_text: "Closing text"
     
     tech_bites:
-      title: "Tech Bites"
-      description: "Daily tech insights and discoveries"
       card:
         read_more_text: "Read More"
         min_read_text: "min read"
-      navigation:
-        previous_text: "← Previous"
-        next_text: "Next →"
     
     films:
       title: "Films"

@@ -150,13 +150,10 @@ content:
       closing_text: "Closing text"  # CHANGE THIS: Closing message
     
     tech_bites:
-      # Post-specific settings (section title/description comes from _sections/tech-bites/config.yml)
+      # Post card settings only (section title/description comes from _sections/tech-bites/config.yml)
       card:
         read_more_text: "Read More"
         min_read_text: "min read"
-      navigation:
-        previous_text: "← Previous"
-        next_text: "Next →"
     
     films:
       title: "Films"
