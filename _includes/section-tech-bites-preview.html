@@ -69,12 +69,15 @@
         {% endif %}
     </div>
 
-    <div class="section-footer">
-        <a href="{{ cta_url | relative_url }}" class="section-button">
-            <span class="btn-label">{{ base_label }}</span>
-            <span class="btn-icon">→</span>
-        </a>
-    </div>
+    {% comment %} Only show button if sections are configured {% endcomment %}
+    {% if site.data.sections and site.data.sections.size > 0 %}
+        <div class="section-footer">
+            <a href="{{ cta_url | relative_url }}" class="section-button">
+                <span class="btn-label">{{ base_label }}</span>
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+    {% endif %}
 
     <div class="section-tab-placeholder" id="section-tab-placeholder" hidden>
         <p id="section-tab-placeholder-text" class="section-description"></p>
@@ -91,8 +94,7 @@
         } catch (e) {
           tabs = [];
         }
-        // Allow button to work even when tabs is empty (when _sections/ is missing)
-        if (!Array.isArray(tabs)) tabs = [];
+        if (!Array.isArray(tabs) || tabs.length === 0) return;
 
         const titleEl = document.getElementById('section-tab-title');
         const descEl = document.getElementById('section-tab-desc');
@@ -121,19 +123,6 @@
         }
 
         function render() {
-          // Handle case when tabs is empty (when _sections/ is missing)
-          if (tabs.length === 0) {
-            if (titleEl) titleEl.textContent = '{{ section.title | default: site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}';
-            if (descEl) descEl.textContent = '{{ section.description | default: site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}';
-            if (actionBtn) {
-              if (actionBtnLabel) actionBtnLabel.textContent = defaultLabel || '{{ base_label }}';
-              actionBtn.href = resolveUrl('{{ cta_url }}');
-              actionBtn.className = buildButtonClass('tech-bites');
-              actionBtn.hidden = false;
-            }
-            return;
-          }
-
           const tab = tabs[idx];
           if (!tab || !titleEl || !descEl) return;
           titleEl.textContent = tab.title || '';
@@ -151,9 +140,9 @@
           if (actionBtn) {
             const label = tab.button_text || defaultLabel || tab.title || '';
             if (actionBtnLabel) actionBtnLabel.textContent = label;
-            actionBtn.href = resolveUrl(tab.url || tab.button_url);
+            actionBtn.href = resolveUrl(tab.url);
             actionBtn.className = buildButtonClass(tab.key);
-            actionBtn.hidden = !tab.url && !tab.button_url;
+            actionBtn.hidden = !tab.url;
           }
         }
 
