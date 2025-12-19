@@ -7,3 +7,4 @@ permalink: /tech-bites/
 ---
 
 This is an example Tech Bites listing page. Users should customize this page with their own content.
+

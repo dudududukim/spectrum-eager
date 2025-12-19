@@ -2,29 +2,14 @@
 Helper include to get section configuration from _sections folder
 Usage: {% include get-section-config.html section_key="tech-bites" %}
 Returns: section_config variable with the section's config from _sections
+
+Loads from site.section_definitions (auto-loaded from _sections/<name>/config.yml by generator)
 {% endcomment %}
 {% assign section_key = include.section_key | default: "tech-bites" %}
 {% assign section_config = null %}
-{% comment %} Try site.section_definitions first (if loaded by plugin/generator) {% endcomment %}
-{% if site.section_definitions %}
-  {% assign section_config = site.section_definitions | where: 'key', section_key | first %}
+
+{% comment %} Load from site.section_definitions (auto-populated by SectionsGenerator) {% endcomment %}
+{% if site.section_definitions and site.section_definitions[section_key] %}
+  {% assign section_config = site.section_definitions[section_key] %}
 {% endif %}
-{% unless section_config %}
-  {% comment %} Fallback: try to load from site.data.sections {% endcomment %}
-  {% if site.data.sections %}
-    {% assign section_config = site.data.sections[section_key] %}
-  {% endif %}
-  {% unless section_config %}
-    {% comment %} Fallback: try to load from _sections collection {% endcomment %}
-    {% if site.sections %}
-      {% for section_item in site.sections %}
-        {% assign section_dir = section_key | prepend: "_sections/" | append: "/" %}
-        {% if section_item.path contains section_dir and section_item.name == "config.yml" %}
-          {% assign section_config = section_item %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endunless %}
-{% endunless %}
 

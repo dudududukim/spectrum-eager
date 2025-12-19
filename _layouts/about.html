@@ -57,10 +57,10 @@ layout: default
         {% include get-section-config.html section_key="tech-bites" %}
         {% if section_config == null or section_config.enabled != false %}
             <section class="tech-bites-preview">
-                {% comment %} Load featured sections from _sections config files (via site.data.sections) {% endcomment %}
+                {% comment %} Load featured sections from _sections config files (via site.section_definitions) {% endcomment %}
                 {% assign tabs = '' | split: '' %}
-                {% if site.data.sections %}
-                    {% for section_pair in site.data.sections %}
+                {% if site.section_definitions %}
+                    {% for section_pair in site.section_definitions %}
                         {% assign section_key = section_pair[0] %}
                         {% assign section_data = section_pair[1] %}
                         {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
@@ -80,7 +80,7 @@ layout: default
                 {% if sorted_tabs.size > 0 %}
                     {% assign tabs = sorted_tabs %}
                 {% endif %}
-                {% if site.data.sections and tabs.size > 0 %}
+                {% if site.section_definitions and tabs.size > 0 %}
                     <div 
                         class="section-header section-header-slider" 
                         data-tabs="{{ tabs | jsonify | escape }}"
@@ -172,7 +172,7 @@ layout: default
                 </div>
 
                 {% comment %} Only show button if sections are configured {% endcomment %}
-                {% if site.data.sections and tabs.size > 0 %}
+                {% if site.section_definitions and tabs.size > 0 %}
                     <div class="section-footer">
                         <a href="{{ '/tech-bites/' | relative_url }}" class="section-button">
                             <span class="btn-label">{{ site.content.ui.buttons.view_all_tech_bites | default: "View All Tech Bites" }}</span>

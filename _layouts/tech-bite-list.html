@@ -22,18 +22,18 @@ layout: default
         <!-- Tech Bites Grid -->
         <div class="tech-bites-grid">
             {% assign current_section = page.section | default: "tech-bites" %}
-            {% comment %} Check if _data/sections.yml exists - if not, redirect to 404 {% endcomment %}
-            {% unless site.data.sections %}
+            {% comment %} Check if sections are configured - if not, redirect to 404 {% endcomment %}
+            {% unless site.section_definitions %}
                 <script>
-                    // Redirect to 404 page with reason - _data/sections.yml is missing
-                    const reason = encodeURIComponent("Configuration file missing: Create _data/sections.yml file to configure sections. Example: Create _sections/tech-bites/config.yml and add section definition to _data/sections.yml.");
+                    // Redirect to 404 page with reason - _sections folder or config files missing
+                    const reason = encodeURIComponent("Configuration missing: Create _sections/<section-name>/config.yml files to configure sections. Example: Create _sections/tech-bites/config.yml with section settings.");
                     window.location.href = "{{ '/404.html' | relative_url }}?reason=" + reason;
                 </script>
                 <div class="empty-section-message">
                     <p>Redirecting to 404 page...</p>
                 </div>
             {% else %}
-                {% comment %} _data/sections.yml exists, check if content is available {% endcomment %}
+                {% comment %} Sections are configured, check if content is available {% endcomment %}
                 {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
                 {% if sorted_tech_bites.size == 0 %}
                     {% comment %} Show info message instead of redirecting to 404 {% endcomment %}
@@ -55,7 +55,7 @@ layout: default
 <!-- Pagination (outside main-content, before footer) -->
 {% assign current_section = page.section | default: "tech-bites" %}
 {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
-{% if site.data.sections %}
+{% if site.section_definitions %}
     {% include get-section-config.html section_key=current_section %}
     {% assign pagination_size = section_config.pagination | default: 10 %}
 {% else %}

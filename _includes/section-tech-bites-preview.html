@@ -1,8 +1,8 @@
 {% assign section = include.section %}
-{% comment %} Load sections from site.data.sections (mirrors _sections/*/config.yml) {% endcomment %}
+{% comment %} Load sections from site.section_definitions (auto-loaded from _sections/*/config.yml) {% endcomment %}
 {% assign tech_sections = '' | split: '' %}
-{% if site.data.sections %}
-    {% for section_pair in site.data.sections %}
+{% if site.section_definitions %}
+    {% for section_pair in site.section_definitions %}
         {% assign section_key = section_pair[0] %}
         {% assign section_data = section_pair[1] %}
         {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
@@ -50,7 +50,7 @@
     </div>
 
     <div class="tech-bites-grid">
-        {% if site.data.sections and site.data.sections.size > 0 %}
+        {% if site.section_definitions and site.section_definitions.size > 0 %}
             {% assign section_key = section.key | default: "tech-bites" %}
             {% assign all_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
             {% assign post_limit = section.main_page_count | default: 5 %}
@@ -70,7 +70,7 @@
     </div>
 
     {% comment %} Only show button if sections are configured {% endcomment %}
-    {% if site.data.sections and site.data.sections.size > 0 %}
+    {% if site.section_definitions and site.section_definitions.size > 0 %}
         <div class="section-footer">
             <a href="{{ cta_url | relative_url }}" class="section-button">
                 <span class="btn-label">{{ base_label }}</span>

@@ -195,7 +195,7 @@ collections:
     output: true
     permalink: /films/:name/
   sections:
-    output: false
+    output: true
     files: true
 
 # Default Front Matter
@@ -217,6 +217,11 @@ defaults:
     values:
       layout: "film-detail"
       show_sidebar: false
+  - scope:
+      path: "_sections"
+      type: "sections"
+    values:
+      layout: "post-list"
 
 # Plugins
 plugins:
@@ -238,6 +243,7 @@ exclude:
   - .sass-cache/
   - .jekyll-cache/
   - .jekyll-metadata
+  - _sections/**/config.yml
 
 # Sass Configuration
 sass:

@@ -1,55 +1,55 @@
-# Remote Theme 사용 가이드
+# Remote Theme Usage Guide
 
-## 현재 구조
+## Current Structure
 
-- **theme 브랜치**: 테마 코드 (레이아웃, 스타일, JavaScript 등)
-- **main 브랜치**: 사용자 사이트 (컨텐츠, 설정 파일)
+- **theme branch**: Theme code (layouts, styles, JavaScript, etc.)
+- **main branch**: User site (content, configuration files)
 
-## 사용 방법
+## Usage
 
-### 1. Theme 브랜치 푸시 (최초 1회)
+### 1. Push Theme Branch (First Time Only)
 
-먼저 theme 브랜치를 GitHub에 푸시해야 합니다:
+First, you need to push the theme branch to GitHub:
 
 ```bash
-# theme 브랜치로 전환
+# Switch to theme branch
 git checkout theme
 
-# 변경사항 커밋
+# Commit changes
 git add .
 git commit -m "feat: prepare theme branch for remote theme"
 
-# GitHub에 푸시
+# Push to GitHub
 git push origin theme
 ```
 
-### 2. Main 브랜치에서 의존성 설치
+### 2. Install Dependencies on Main Branch
 
 ```bash
-# main 브랜치로 전환
+# Switch to main branch
 git checkout main
 
-# 의존성 설치
+# Install dependencies
 bundle install
 ```
 
-### 3. 로컬에서 테스트
+### 3. Test Locally
 
 ```bash
-# Jekyll 서버 실행
+# Run Jekyll server
 bundle exec jekyll serve
 
-# 브라우저에서 확인
+# Check in browser
 # http://localhost:4000/spectrum-eager/
 ```
 
-### 4. GitHub Pages 배포
+### 4. Deploy to GitHub Pages
 
-#### 방법 1: GitHub Actions 사용 (권장)
+#### Method 1: Use GitHub Actions (Recommended)
 
-1. `.github/workflows/jekyll.yml` 파일이 있는지 확인
-2. GitHub 저장소 Settings > Pages에서 Source를 "GitHub Actions"로 설정
-3. main 브랜치에 푸시하면 자동으로 빌드됨
+1. Check if `.github/workflows/jekyll.yml` file exists
+2. In GitHub repository Settings > Pages, set Source to "GitHub Actions"
+3. Push to main branch and it will build automatically
 
 ```bash
 git add .
@@ -57,74 +57,74 @@ git commit -m "feat: configure remote theme"
 git push origin main
 ```
 
-#### 방법 2: 로컬 빌드 후 푸시
+#### Method 2: Build Locally and Push
 
 ```bash
-# 빌드
+# Build
 bundle exec jekyll build
 
-# _site 폴더를 gh-pages 브랜치에 푸시
+# Push _site folder to gh-pages branch
 ```
 
-## 파일 관리
+## File Management
 
-### 사용자가 관리하는 파일 (main 브랜치)
+### Files Managed by User (main branch)
 
-**컨텐츠:**
-- `_posts/` - 블로그 포스트
-- `_films/` - 사진 갤러리
-- `index.md`, `tech-bites.md`, `films.md` - 페이지 파일
+**Content:**
+- `_posts/` - Blog posts
+- `_films/` - Photo gallery
+- `index.md`, `films.md` - Root page files
+- `_sections/<name>/page.md` - Section listing pages (auto-generated from `_sections/` folder)
 
-**설정:**
-- `_config.yml` - 사이트 설정
-- `_data/navigation.yml` - 네비게이션 메뉴
-- `_data/sections.yml` - 섹션 정의
-- `_sections/*/config.yml` - 섹션별 설정
+**Configuration:**
+- `_config.yml` - Site settings
+- `_sections/<name>/config.yml` - Section-specific settings (auto-loaded)
+  - Example: `_sections/tech-bites/config.yml`
+  - `_data/sections.yml` is no longer needed
 
-**이미지:**
-- `assets/images/` - 사용자 이미지
+**Images:**
+- `assets/images/` - User images
 
-### 테마 파일 (theme 브랜치, 자동 로드)
+### Theme Files (theme branch, auto-loaded)
 
-다음 파일들은 remote-theme으로 자동 로드되므로 main 브랜치에 없어도 됩니다:
+The following files are automatically loaded via remote-theme, so they don't need to be in the main branch:
 - `_layouts/`
 - `_includes/`
 - `_sass/`
 - `assets/css/`
 - `assets/js/`
 
-## 테마 업데이트
+## Theme Updates
 
-테마를 업데이트하려면:
+To update the theme:
 
-1. theme 브랜치에서 변경사항 커밋 및 푸시
-2. main 브랜치에서 `bundle update jekyll-remote-theme` (필요시)
-3. 사이트가 자동으로 새 테마를 사용
+1. Commit and push changes on theme branch
+2. Run `bundle update jekyll-remote-theme` on main branch (if needed)
+3. Site will automatically use the new theme
 
-## 문제 해결
+## Troubleshooting
 
-### 테마가 로드되지 않는 경우
+### Theme Not Loading
 
-1. theme 브랜치가 GitHub에 푸시되었는지 확인
-2. `_config.yml`의 `remote_theme` 설정 확인:
+1. Check if theme branch is pushed to GitHub
+2. Check `remote_theme` setting in `_config.yml`:
    ```yaml
    remote_theme: dudududukim/spectrum-eager@theme
    ```
-3. `Gemfile`에 `jekyll-remote-theme`이 있는지 확인
-4. `bundle install` 실행
+3. Check if `jekyll-remote-theme` is in `Gemfile`
+4. Run `bundle install`
 
-### 로컬에서 빌드 오류
+### Local Build Errors
 
 ```bash
-# 캐시 삭제 후 재시도
+# Clear cache and retry
 rm -rf .jekyll-cache _site
 bundle exec jekyll serve
 ```
 
-## 다음 단계
+## Next Steps
 
-1. ✅ theme 브랜치 푸시
+1. ✅ Push theme branch
 2. ✅ bundle install
-3. ✅ 로컬 테스트
-4. ✅ GitHub Pages 배포
-
+3. ✅ Test locally
+4. ✅ Deploy to GitHub Pages

@@ -13,10 +13,12 @@ This repository contains only my personal content and configuration:
 - `_posts/` - Blog posts and articles
 - `_films/` - Photography entries
 - `_data/` - Site configuration (navigation, sections)
-- `_sections/` - Section-specific configurations
+- `_sections/` - Section-specific configurations and page files
+  - `_sections/<name>/config.yml` - Section configuration
+  - `_sections/<name>/page.md` - Section listing page (optional)
 - `assets/images/` - Personal images
 - `_config.yml` - Site settings
-- `index.md`, `*.md` - Page files
+- `index.md`, `films.md` - Root page files
 
 Theme files (`_layouts/`, `_includes/`, `_sass/`, etc.) are loaded from the remote theme and are not stored in this repository.
 
@@ -51,16 +53,15 @@ categories: ["Category"]
 Create Markdown files in `_films/` for photography entries.
 
 ### Sections
-- Edit `_data/sections.yml` to define sections
-- Create `_sections/<name>/config.yml` for section-specific settings
+- Create `_sections/<name>/config.yml` for each section (automatically loaded)
+- Example: `_sections/tech-bites/config.yml`
 - Posts are filtered by the `section` field in front matter
+- **Note**: `_data/sections.yml` is no longer needed - sections are auto-discovered from `_sections/` folder
 
 ## Configuration
 
 - `_config.yml` - Site-wide settings (url, colors, etc.)
-- `_data/navigation.yml` - Navigation menu
-- `_data/sections.yml` - Section definitions
-- `_sections/*/config.yml` - Section-specific settings
+- `_sections/<name>/config.yml` - Section-specific settings (auto-loaded from `_sections/` folder)
 
 ## Theme
 

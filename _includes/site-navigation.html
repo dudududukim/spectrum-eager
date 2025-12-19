@@ -12,25 +12,20 @@
         {% comment %} Individual post pages {% endcomment %}
         {% elsif page.layout == 'post' or page.layout == 'tech-bite' %}
           {% assign post_section = page.section | default: "tech-bites" %}
-          {% if post_section == "tech-bites" %}
-            {% assign section_title = "Tech Bites" %}
-            {% assign section_url = "/tech-bites/" %}
-          {% elsif post_section == "3d-printing" %}
-            {% assign section_title = "3D Printing" %}
-            {% assign section_url = "/3d-printing/" %}
-          {% elsif post_section == "research-hw" %}
-            {% assign section_title = "Research (HW)" %}
-            {% assign section_url = "/research-hw/" %}
-          {% elsif post_section == "research-sw" %}
-            {% assign section_title = "Research (SW)" %}
-            {% assign section_url = "/research-sw/" %}
-          {% elsif post_section == "projects" %}
-            {% assign section_title = "Projects" %}
-            {% assign section_url = "/projects/" %}
-          {% else %}
-            {% assign section_title = post_section | capitalize %}
-            {% assign section_url = "/" | append: post_section | append: "/" %}
+          {% assign section_title = post_section | capitalize %}
+          {% assign section_url = "/" | append: post_section | append: "/" %}
+          
+          {% comment %} Get section info from site.section_definitions {% endcomment %}
+          {% if site.section_definitions and site.section_definitions[post_section] %}
+            {% assign section_config = site.section_definitions[post_section] %}
+            {% if section_config.title %}
+              {% assign section_title = section_config.title %}
+            {% endif %}
+            {% if section_config.button_url %}
+              {% assign section_url = section_config.button_url %}
+            {% endif %}
           {% endif %}
+          
           <a href="{{ section_url | relative_url }}" class="nav-link">{{ section_title }}</a>
           <span class="nav-separator">/</span>
           <span class="nav-current">{{ page.title }}</span>
