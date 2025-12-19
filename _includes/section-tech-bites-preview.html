@@ -150,15 +150,18 @@
           
           if (grid && placeholder && emptyMessage) {
             if (isTech && hasPosts) {
+              // tech-bites 섹션이고 포스트가 있으면 grid 표시
               grid.hidden = false;
               placeholder.hidden = true;
               emptyMessage.hidden = true;
-            } else if (isTech && !hasPosts) {
+            } else if (!hasPosts) {
+              // 어떤 섹션이든 포스트가 없으면 empty message 표시
               grid.hidden = true;
               placeholder.hidden = true;
               emptyMessage.hidden = false;
               if (emptyKey) emptyKey.textContent = tab.key || '';
             } else {
+              // 다른 섹션이고 포스트가 있으면 placeholder 표시
               grid.hidden = true;
               placeholder.hidden = false;
               emptyMessage.hidden = true;
