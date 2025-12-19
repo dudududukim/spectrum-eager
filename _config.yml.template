@@ -241,7 +241,7 @@ collections:
     output: true
     permalink: /films/:name/
   sections:
-    output: false
+    output: true
     files: true
 
 # ===========================================
