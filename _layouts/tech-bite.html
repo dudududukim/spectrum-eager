@@ -43,7 +43,7 @@ layout: default
                 {% assign prev_index = current_index | minus: 1 %}
                 {% assign prev_post = tech_bites[prev_index] %}
                 <a href="{{ prev_post.url | relative_url }}" class="nav-link nav-prev">
-                    <span class="nav-direction">{{ site.data.content.tech_bites.navigation.previous_text | default: "← Previous" }}</span>
+                    <span class="nav-direction">{{ site.content.pages.tech_bites.navigation.previous_text | default: "← Previous" }}</span>
                     <span class="nav-title">{{ prev_post.title }}</span>
                 </a>
             {% endif %}
@@ -52,7 +52,7 @@ layout: default
             {% if next_index < tech_bites.size %}
                 {% assign next_post = tech_bites[next_index] %}
                 <a href="{{ next_post.url | relative_url }}" class="nav-link nav-next">
-                    <span class="nav-direction">{{ site.data.content.tech_bites.navigation.next_text | default: "Next →" }}</span>
+                    <span class="nav-direction">{{ site.content.pages.tech_bites.navigation.next_text | default: "Next →" }}</span>
                     <span class="nav-title">{{ next_post.title }}</span>
                 </a>
             {% endif %}
