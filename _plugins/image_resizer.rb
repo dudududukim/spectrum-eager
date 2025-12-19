@@ -35,15 +35,31 @@ module Jekyll
       
       # Try to load image processing library
       image_processor_available = false
+      processor_type = nil
+      
+      # Try vips first
       begin
         require 'image_processing/vips'
-        image_processor_available = true
-        Jekyll.logger.info "ImageResizer:", "Using image_processing/vips for image resizing"
-      rescue LoadError
+        require 'vips'
+        # Test if vips library is actually available
+        # Just check if Vips module is defined, don't try to open a file
+        if defined?(Vips) && Vips.respond_to?(:get_suffixes)
+          image_processor_available = true
+          processor_type = :vips
+          Jekyll.logger.info "ImageResizer:", "Using image_processing/vips for image resizing"
+        else
+          raise "Vips module not properly initialized"
+        end
+      rescue LoadError, StandardError => e
+        # vips not available, try mini_magick
         begin
           require 'image_processing/mini_magick'
           image_processor_available = true
+          processor_type = :mini_magick
           Jekyll.logger.info "ImageResizer:", "Using image_processing/mini_magick for image resizing"
+          if !e.is_a?(LoadError)
+            Jekyll.logger.debug "ImageResizer:", "vips failed: #{e.class} - #{e.message}, falling back to mini_magick"
+          end
         rescue LoadError
           Jekyll.logger.warn "ImageResizer:", "image_processing gem not available."
           Jekyll.logger.warn "ImageResizer:", "Install with: gem install image_processing"
@@ -66,11 +82,11 @@ module Jekyll
             # Get original image dimensions using image_processing
             original_width = nil
             begin
-              if defined?(ImageProcessing::Vips)
+              if processor_type == :vips
                 require 'vips'
                 original = Vips::Image.new_from_file(image_path)
                 original_width = original.width
-              elsif defined?(ImageProcessing::MiniMagick)
+              elsif processor_type == :mini_magick
                 require 'mini_magick'
                 image = MiniMagick::Image.open(image_path)
                 original_width = image.width
@@ -82,12 +98,12 @@ module Jekyll
             # Only resize if image is wider than max_width (or if we couldn't get dimensions)
             if original_width.nil? || original_width > max_width
               # Resize image
-              if defined?(ImageProcessing::Vips)
+              if processor_type == :vips
                 ImageProcessing::Vips
                   .source(image_path)
                   .resize_to_limit(max_width, nil)
                   .call(destination: dest_path)
-              elsif defined?(ImageProcessing::MiniMagick)
+              elsif processor_type == :mini_magick
                 ImageProcessing::MiniMagick
                   .source(image_path)
                   .resize_to_limit(max_width, nil)
