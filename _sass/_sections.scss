@@ -161,3 +161,25 @@
   border-bottom: 1px solid var(--border-color);
   padding: 2rem 0;
 }
+
+// Empty state messages - centered alignment
+.empty-section-message,
+.empty-gallery-message,
+.empty-message,
+.empty-photo-placeholder {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+  
+  p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+  }
+  
+  code {
+    background-color: var(--bg-secondary);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.9em;
+  }
+}
