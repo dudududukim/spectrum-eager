@@ -122,13 +122,52 @@ download_file() {
     print_success "Downloaded ${file_path}"
 }
 
+# Check if YAML key exists in file
+check_yaml_key() {
+    local file="$1"
+    local key="$2"
+    
+    if [ ! -f "$file" ]; then
+        return 1
+    fi
+    
+    # Simple check: look for the key pattern (key: or "key":)
+    if grep -qE "^[[:space:]]*${key}[[:space:]]*:" "$file" 2>/dev/null; then
+        return 0
+    fi
+    
+    # Also check for nested keys (key: with indentation)
+    if grep -qE "^[[:space:]]+${key}[[:space:]]*:" "$file" 2>/dev/null; then
+        return 0
+    fi
+    
+    return 1
+}
+
 # Create _config.yml from template
 create_config_yml() {
     local template_url="${THEME_BASE_URL}/_config.yml.template"
     local config_file="_config.yml"
     
     if [ -f "$config_file" ]; then
-        print_warning "${config_file} already exists. Creating backup..."
+        print_warning "${config_file} already exists. Checking for required settings..."
+        
+        # Check for important keys
+        local missing_keys=()
+        
+        if ! check_yaml_key "$config_file" "image_resize"; then
+            missing_keys+=("image_resize")
+        fi
+        
+        if [ ${#missing_keys[@]} -gt 0 ]; then
+            print_warning "Missing configuration keys in ${config_file}:"
+            for key in "${missing_keys[@]}"; do
+                echo "  - ${key}"
+            done
+            echo "  Consider adding these settings from the template."
+        fi
+        
+        print_warning "Creating backup before updating..."
         cp "$config_file" "${config_file}.backup.$(date +%Y%m%d_%H%M%S)"
     fi
     
@@ -183,30 +222,58 @@ create_gemfile() {
     local gemfile="Gemfile"
     
     if [ -f "$gemfile" ]; then
-        # Check if jekyll-remote-theme is already in Gemfile
-        if grep -q "jekyll-remote-theme" "$gemfile"; then
-            print_info "${gemfile} already contains jekyll-remote-theme. Skipping..."
-            return
-        else
-            print_warning "${gemfile} exists but doesn't have jekyll-remote-theme. Adding it..."
-            # Add jekyll-remote-theme to existing Gemfile
-            if ! grep -q "group :jekyll_plugins" "$gemfile"; then
-                echo "" >> "$gemfile"
-                echo "group :jekyll_plugins do" >> "$gemfile"
-                echo "  gem \"jekyll-remote-theme\", \"0.4.3\"" >> "$gemfile"
-                echo "end" >> "$gemfile"
-            else
-                # Add to existing group
-                sed -i.bak '/group :jekyll_plugins do/a\
+        local missing_gems=()
+        
+        # Check for required gems
+        if ! grep -q "jekyll-remote-theme" "$gemfile"; then
+            missing_gems+=("jekyll-remote-theme")
+        fi
+        
+        if ! grep -q "image_processing" "$gemfile"; then
+            missing_gems+=("image_processing")
+        fi
+        
+        if [ ${#missing_gems[@]} -gt 0 ]; then
+            print_warning "${gemfile} exists but missing required gems:"
+            for gem in "${missing_gems[@]}"; do
+                echo "  - ${gem}"
+            done
+            print_info "Adding missing gems to ${gemfile}..."
+            
+            # Add missing gems
+            for gem in "${missing_gems[@]}"; do
+                if [ "$gem" = "jekyll-remote-theme" ]; then
+                    if ! grep -q "group :jekyll_plugins" "$gemfile"; then
+                        echo "" >> "$gemfile"
+                        echo "group :jekyll_plugins do" >> "$gemfile"
+                        echo "  gem \"jekyll-remote-theme\", \"0.4.3\"" >> "$gemfile"
+                        echo "end" >> "$gemfile"
+                    else
+                        # Add to existing group if not already there
+                        if ! grep -q "jekyll-remote-theme" "$gemfile"; then
+                            sed -i.bak '/group :jekyll_plugins do/a\
   gem "jekyll-remote-theme", "0.4.3"
 ' "$gemfile" 2>/dev/null || \
-                sed -i '' '/group :jekyll_plugins do/a\
+                            sed -i '' '/group :jekyll_plugins do/a\
   gem "jekyll-remote-theme", "0.4.3"
 ' "$gemfile"
-            fi
-            print_success "Added jekyll-remote-theme to ${gemfile}"
-            return
+                        fi
+                    fi
+                elif [ "$gem" = "image_processing" ]; then
+                    # Add image_processing gem (not in plugins group)
+                    if ! grep -q "image_processing" "$gemfile"; then
+                        echo "" >> "$gemfile"
+                        echo "# Image processing for automatic image resizing" >> "$gemfile"
+                        echo "gem \"image_processing\", \"~> 1.12\"" >> "$gemfile"
+                    fi
+                fi
+            done
+            
+            print_success "Added missing gems to ${gemfile}"
+        else
+            print_info "${gemfile} already contains all required gems. Skipping..."
         fi
+        return
     fi
     
     print_info "Creating ${gemfile}..."
@@ -217,21 +284,32 @@ create_gemfile() {
 # Download plugin
 download_plugin() {
     local plugin_dir="_plugins"
-    local plugin_file="${plugin_dir}/sections_generator.rb"
-    local plugin_url="${THEME_BASE_URL}/_plugins/sections_generator.rb"
     
-    print_info "Setting up Jekyll plugin..."
+    print_info "Setting up Jekyll plugins..."
     
     mkdir -p "$plugin_dir"
     
+    # Download sections_generator.rb
+    local plugin_file="${plugin_dir}/sections_generator.rb"
     if [ -f "$plugin_file" ]; then
         print_warning "${plugin_file} already exists. Skipping..."
-        return
+    else
+        print_info "Downloading sections_generator.rb..."
+        download_file "_plugins/sections_generator.rb" "$plugin_file"
+        print_success "Downloaded sections_generator.rb"
     fi
     
-    print_info "Downloading sections_generator.rb..."
-    download_file "_plugins/sections_generator.rb" "$plugin_file"
-    print_success "Plugin installed"
+    # Download image_resizer.rb
+    local image_resizer_file="${plugin_dir}/image_resizer.rb"
+    if [ -f "$image_resizer_file" ]; then
+        print_warning "${image_resizer_file} already exists. Skipping..."
+    else
+        print_info "Downloading image_resizer.rb..."
+        download_file "_plugins/image_resizer.rb" "$image_resizer_file"
+        print_success "Downloaded image_resizer.rb"
+    fi
+    
+    print_success "Jekyll plugins setup completed"
 }
 
 # Create example section
