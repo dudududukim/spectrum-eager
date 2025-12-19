@@ -6,13 +6,13 @@
 #   image_resize:
 #     enabled: true
 #     max_width: 800
+#
+# Note: Uses Jekyll Hook to run after static files are copied to _site
+# This ensures resized images are not overwritten by original files
 
 module Jekyll
-  class ImageResizer < Generator
-    safe true
-    priority :low
-
-    def generate(site)
+  class ImageResizer
+    def self.process_images(site)
       # Check if image resizing is enabled
       image_config = site.config['image_resize'] || {}
       return unless image_config['enabled'] != false
@@ -22,9 +22,11 @@ module Jekyll
       
       return unless Dir.exist?(source_dir)
       
-      # Create destination directory in _site
+      # Destination directory in _site (static files already copied here)
       dest_dir = File.join(site.dest, 'assets/images/films')
       FileUtils.mkdir_p(dest_dir) unless Dir.exist?(dest_dir)
+      
+      # Process images from source, but write to destination (overwriting copied static files)
       
       # Supported image formats
       image_extensions = %w[.jpg .jpeg .png .JPG .JPEG .PNG .webp .WEBP]
@@ -144,6 +146,11 @@ module Jekyll
         Jekyll.logger.info "ImageResizer:", "Processed images: #{resized_count} resized, #{skipped_count} copied, #{error_count} errors"
       end
     end
+  end
+
+  # Register hook to run after site is written (after static files are copied)
+  Hooks.register(:site, :post_write) do |site|
+    ImageResizer.process_images(site)
   end
 end
 
