@@ -227,7 +227,7 @@ plugins:
 
 image_resize:
   enabled: true  # Set to false to disable automatic image resizing
-  max_width: 800  # Maximum width in pixels for resized images
+  max_width: 1200  # Maximum width in pixels for resized images
 
 # Build Settings
 exclude:
