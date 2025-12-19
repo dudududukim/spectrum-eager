@@ -229,6 +229,10 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
 
+image_resize:
+  enabled: true  # Set to false to disable automatic image resizing
+  max_width: 800  # Maximum width in pixels for resized images
+
 # Build Settings
 exclude:
   - Gemfile
