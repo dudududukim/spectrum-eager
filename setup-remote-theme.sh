@@ -298,9 +298,21 @@ create_workflow() {
 copy_examples() {
     local examples_dir="examples"
     
+    # Download example files from remote if examples/ folder doesn't exist
     if [ ! -d "$examples_dir" ]; then
-        print_action "examples/ folder not found, skipping"
-        return
+        print_action "Downloading example files from remote..."
+        mkdir -p "${examples_dir}/_posts" "${examples_dir}/_films" "${examples_dir}/assets/images/films"
+        
+        # Download example post
+        download_file "examples/_posts/2025-12-19-example-post.md" "${examples_dir}/_posts/2025-12-19-example-post.md" 2>/dev/null || true
+        
+        # Download example films
+        download_file "examples/_films/example-film-1.md" "${examples_dir}/_films/example-film-1.md" 2>/dev/null || true
+        download_file "examples/_films/example-film-2.md" "${examples_dir}/_films/example-film-2.md" 2>/dev/null || true
+        
+        # Download example images
+        download_file "examples/assets/images/films/example-1.png" "${examples_dir}/assets/images/films/example-1.png" 2>/dev/null || true
+        download_file "examples/assets/images/films/example-2.png" "${examples_dir}/assets/images/films/example-2.png" 2>/dev/null || true
     fi
     
     # Copy example posts
