@@ -91,7 +91,8 @@
         } catch (e) {
           tabs = [];
         }
-        if (!Array.isArray(tabs) || tabs.length === 0) return;
+        // Allow button to work even when tabs is empty (when _sections/ is missing)
+        if (!Array.isArray(tabs)) tabs = [];
 
         const titleEl = document.getElementById('section-tab-title');
         const descEl = document.getElementById('section-tab-desc');
@@ -120,6 +121,19 @@
         }
 
         function render() {
+          // Handle case when tabs is empty (when _sections/ is missing)
+          if (tabs.length === 0) {
+            if (titleEl) titleEl.textContent = '{{ section.title | default: site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}';
+            if (descEl) descEl.textContent = '{{ section.description | default: site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}';
+            if (actionBtn) {
+              if (actionBtnLabel) actionBtnLabel.textContent = defaultLabel || '{{ base_label }}';
+              actionBtn.href = resolveUrl('{{ cta_url }}');
+              actionBtn.className = buildButtonClass('tech-bites');
+              actionBtn.hidden = false;
+            }
+            return;
+          }
+
           const tab = tabs[idx];
           if (!tab || !titleEl || !descEl) return;
           titleEl.textContent = tab.title || '';
@@ -137,9 +151,9 @@
           if (actionBtn) {
             const label = tab.button_text || defaultLabel || tab.title || '';
             if (actionBtnLabel) actionBtnLabel.textContent = label;
-            actionBtn.href = resolveUrl(tab.url);
+            actionBtn.href = resolveUrl(tab.url || tab.button_url);
             actionBtn.className = buildButtonClass(tab.key);
-            actionBtn.hidden = !tab.url;
+            actionBtn.hidden = !tab.url && !tab.button_url;
           }
         }
 
