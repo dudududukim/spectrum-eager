@@ -9,7 +9,7 @@
 # ===========================================
 # This tells Jekyll to use the Spectrum-Eager theme from GitHub
 # The setup script will automatically set this to the correct version
-remote_theme: dudududukim/spectrum-eager@v3.0.0
+remote_theme: dudududukim/spectrum-eager@theme
 
 # ===========================================
 # JEKYLL CORE SETTINGS
