@@ -1353,10 +1353,17 @@
 
 // Film Image Section
 .film-image-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+
   .film-image-container {
     position: relative;
     border-radius: 0; // 둥근 모서리 제거
     overflow: hidden;
+    max-width: 800px; // 최대 너비 800px로 제한
+    width: 100%;
+    margin: 0 auto; // 중앙 정렬
 
     .film-image {
       width: 100%;
@@ -1364,6 +1371,7 @@
       display: block;
       margin: 0;
       border-radius: 0;
+      max-width: 100%; // 컨테이너를 넘지 않도록
     }
   }
 }
