@@ -43,6 +43,10 @@ print_error() {
     echo -e "${RED}✗${NC} $1"
 }
 
+print_action() {
+    echo -e "${BLUE}→${NC} $1"
+}
+
 # Function to check if command exists
 command_exists() {
     command -v "$1" >/dev/null 2>&1
@@ -102,8 +106,6 @@ download_file() {
     local output_path=$2
     local url="${THEME_BASE_URL}/${file_path}"
     
-    print_info "Downloading ${file_path}..."
-    
     if command_exists curl; then
         curl -fsSL "$url" -o "$output_path" || {
             print_error "Failed to download ${file_path}"
@@ -118,8 +120,6 @@ download_file() {
         print_error "Neither curl nor wget is available. Please install one of them."
         exit 1
     fi
-    
-    print_success "Downloaded ${file_path}"
 }
 
 # Check if YAML key exists in file
@@ -150,28 +150,17 @@ create_config_yml() {
     local config_file="_config.yml"
     
     if [ -f "$config_file" ]; then
-        print_warning "${config_file} already exists. Checking for required settings..."
-        
-        # Check for important keys
         local missing_keys=()
-        
-        if ! check_yaml_key "$config_file" "image_resize"; then
-            missing_keys+=("image_resize")
-        fi
+        ! check_yaml_key "$config_file" "image_resize" && missing_keys+=("image_resize")
+        ! check_yaml_key "$config_file" "remote_theme" && missing_keys+=("remote_theme")
         
         if [ ${#missing_keys[@]} -gt 0 ]; then
-            print_warning "Missing configuration keys in ${config_file}:"
-            for key in "${missing_keys[@]}"; do
-                echo "  - ${key}"
-            done
-            echo "  Consider adding these settings from the template."
+            print_warning "${config_file} exists, missing keys: ${missing_keys[*]}"
+        else
+            print_action "${config_file} exists, skipping"
         fi
-        
-        print_warning "Creating backup before updating..."
-        cp "$config_file" "${config_file}.backup.$(date +%Y%m%d_%H%M%S)"
+        return
     fi
-    
-    print_info "Creating ${config_file}..."
     
     if command_exists curl; then
         curl -fsSL "$template_url" | \
@@ -183,63 +172,46 @@ create_config_yml() {
             sed "s|baseurl: \"\"|baseurl: \"${BASEURL}\"|g" > "$config_file"
     fi
     
-    print_success "Created ${config_file} with auto-detected URL settings"
+    print_success "Created ${config_file}"
 }
 
 # Create index.md from template
 create_index_md() {
-    local template_url="${THEME_BASE_URL}/index.md.template"
     local index_file="index.md"
     
     if [ -f "$index_file" ]; then
-        print_warning "${index_file} already exists. Skipping..."
+        print_action "${index_file} exists, skipping"
         return
     fi
     
-    print_info "Creating ${index_file}..."
     download_file "index.md.template" "$index_file"
     print_success "Created ${index_file}"
 }
 
 # Create films.md from template
 create_films_md() {
-    local template_url="${THEME_BASE_URL}/films.md.template"
     local films_file="films.md"
     
     if [ -f "$films_file" ]; then
-        print_warning "${films_file} already exists. Skipping..."
+        print_action "${films_file} exists, skipping"
         return
     fi
     
-    print_info "Creating ${films_file}..."
     download_file "films.md.template" "$films_file"
     print_success "Created ${films_file}"
 }
 
 # Create/update Gemfile
 create_gemfile() {
-    local template_url="${THEME_BASE_URL}/Gemfile.template"
     local gemfile="Gemfile"
     
     if [ -f "$gemfile" ]; then
         local missing_gems=()
-        
-        # Check for required gems
-        if ! grep -q "jekyll-remote-theme" "$gemfile"; then
-            missing_gems+=("jekyll-remote-theme")
-        fi
-        
-        if ! grep -q "image_processing" "$gemfile"; then
-            missing_gems+=("image_processing")
-        fi
+        ! grep -q "jekyll-remote-theme" "$gemfile" && missing_gems+=("jekyll-remote-theme")
+        ! grep -q "image_processing" "$gemfile" && missing_gems+=("image_processing")
         
         if [ ${#missing_gems[@]} -gt 0 ]; then
-            print_warning "${gemfile} exists but missing required gems:"
-            for gem in "${missing_gems[@]}"; do
-                echo "  - ${gem}"
-            done
-            print_info "Adding missing gems to ${gemfile}..."
-            
+            print_warning "${gemfile} exists, missing gems: ${missing_gems[*]}"
             # Add missing gems
             for gem in "${missing_gems[@]}"; do
                 if [ "$gem" = "jekyll-remote-theme" ]; then
@@ -249,7 +221,6 @@ create_gemfile() {
                         echo "  gem \"jekyll-remote-theme\", \"0.4.3\"" >> "$gemfile"
                         echo "end" >> "$gemfile"
                     else
-                        # Add to existing group if not already there
                         if ! grep -q "jekyll-remote-theme" "$gemfile"; then
                             sed -i.bak '/group :jekyll_plugins do/a\
   gem "jekyll-remote-theme", "0.4.3"
@@ -260,7 +231,6 @@ create_gemfile() {
                         fi
                     fi
                 elif [ "$gem" = "image_processing" ]; then
-                    # Add image_processing gem (not in plugins group)
                     if ! grep -q "image_processing" "$gemfile"; then
                         echo "" >> "$gemfile"
                         echo "# Image processing for automatic image resizing" >> "$gemfile"
@@ -268,93 +238,94 @@ create_gemfile() {
                     fi
                 fi
             done
-            
             print_success "Added missing gems to ${gemfile}"
         else
-            print_info "${gemfile} already contains all required gems. Skipping..."
+            print_action "${gemfile} exists, skipping"
         fi
         return
     fi
     
-    print_info "Creating ${gemfile}..."
     download_file "Gemfile.template" "$gemfile"
     print_success "Created ${gemfile}"
 }
 
 # Download plugin
 download_plugin() {
-    local plugin_dir="_plugins"
+    mkdir -p "_plugins"
     
-    print_info "Setting up Jekyll plugins..."
+    download_file "_plugins/sections_generator.rb" "_plugins/sections_generator.rb"
+    print_success "Updated sections_generator.rb"
     
-    mkdir -p "$plugin_dir"
-    
-    # Download sections_generator.rb (always overwrite)
-    local plugin_file="${plugin_dir}/sections_generator.rb"
-    if [ -f "$plugin_file" ]; then
-        print_info "Updating ${plugin_file}..."
-    else
-        print_info "Downloading sections_generator.rb..."
-    fi
-    download_file "_plugins/sections_generator.rb" "$plugin_file"
-    print_success "Downloaded/Updated sections_generator.rb"
-    
-    # Download image_resizer.rb (always overwrite)
-    local image_resizer_file="${plugin_dir}/image_resizer.rb"
-    if [ -f "$image_resizer_file" ]; then
-        print_info "Updating ${image_resizer_file}..."
-    else
-        print_info "Downloading image_resizer.rb..."
-    fi
-    download_file "_plugins/image_resizer.rb" "$image_resizer_file"
-    print_success "Downloaded/Updated image_resizer.rb"
-    
-    print_success "Jekyll plugins setup completed"
+    download_file "_plugins/image_resizer.rb" "_plugins/image_resizer.rb"
+    print_success "Updated image_resizer.rb"
 }
 
 # Create example section
 create_example_section() {
     local section_dir="_sections/tech-bites"
-    local config_file="${section_dir}/config.yml"
-    local page_file="${section_dir}/page.md"
-    
-    print_info "Creating example section: tech-bites..."
-    
     mkdir -p "$section_dir"
     
-    if [ ! -f "$config_file" ]; then
-        download_file "_sections/tech-bites/config.yml.template" "$config_file"
-        print_success "Created ${config_file}"
+    if [ ! -f "${section_dir}/config.yml" ]; then
+        download_file "_sections/tech-bites/config.yml.template" "${section_dir}/config.yml"
+        print_success "Created ${section_dir}/config.yml"
     else
-        print_warning "${config_file} already exists. Skipping..."
+        print_action "${section_dir}/config.yml exists, skipping"
     fi
     
-    if [ ! -f "$page_file" ]; then
-        download_file "_sections/tech-bites/page.md.template" "$page_file"
-        print_success "Created ${page_file}"
+    if [ ! -f "${section_dir}/page.md" ]; then
+        download_file "_sections/tech-bites/page.md.template" "${section_dir}/page.md"
+        print_success "Created ${section_dir}/page.md"
     else
-        print_warning "${page_file} already exists. Skipping..."
+        print_action "${section_dir}/page.md exists, skipping"
     fi
 }
 
 # Create GitHub Actions workflow
 create_workflow() {
-    local workflow_dir=".github/workflows"
-    local workflow_file="${workflow_dir}/jekyll.yml"
-    local template_url="${THEME_BASE_URL}/.github/workflows/jekyll.yml.template"
-    
-    print_info "Setting up GitHub Actions workflow..."
-    
-    mkdir -p "$workflow_dir"
+    local workflow_file=".github/workflows/jekyll.yml"
     
     if [ -f "$workflow_file" ]; then
-        print_warning "${workflow_file} already exists. Skipping..."
+        print_action "${workflow_file} exists, skipping"
         return
     fi
     
-    print_info "Creating GitHub Actions workflow..."
+    mkdir -p ".github/workflows"
     download_file ".github/workflows/jekyll.yml.template" "$workflow_file"
-    print_success "Created GitHub Actions workflow"
+    print_success "Created ${workflow_file}"
+}
+
+# Check Ruby/Bundler and run bundle install
+run_bundle_install() {
+    if ! command_exists ruby; then
+        print_warning "Ruby not found. Skipping bundle install."
+        return 1
+    fi
+    
+    if ! command_exists bundle; then
+        print_action "Installing bundler..."
+        gem install bundler >/dev/null 2>&1 || {
+            print_warning "Failed to install bundler. Run 'gem install bundler' manually."
+            return 1
+        }
+    fi
+    
+    print_action "Running bundle install..."
+    if bundle install >/dev/null 2>&1; then
+        print_success "Dependencies installed"
+        return 0
+    else
+        print_warning "bundle install failed. Run 'bundle install' manually."
+        return 1
+    fi
+}
+
+# Run Jekyll serve
+run_jekyll_serve() {
+    print_action "Starting Jekyll server..."
+    print_info "Visit http://localhost:4000"
+    print_info "Press Ctrl+C to stop"
+    echo ""
+    bundle exec jekyll serve
 }
 
 # Main setup function
@@ -365,14 +336,8 @@ main() {
     echo "=========================================="
     echo ""
     
-    # Check prerequisites
     check_git_repo
-    
-    # Extract GitHub information
     extract_github_info
-    
-    echo ""
-    print_info "Starting setup process..."
     echo ""
     
     # Create/update files
@@ -386,22 +351,21 @@ main() {
     
     echo ""
     echo "=========================================="
-    print_success "Setup completed successfully!"
+    print_success "Files setup completed!"
     echo "=========================================="
     echo ""
-    print_info "Next steps:"
-    echo "  1. Review and customize _config.yml with your information"
-    echo "  2. Install dependencies: bundle install"
-    echo "  3. Test locally: bundle exec jekyll serve"
-    echo "  4. Visit http://localhost:4000 in your browser"
-    echo ""
-    print_info "To deploy to GitHub Pages:"
-    echo "  1. Push your changes to GitHub"
-    echo "  2. Go to Settings > Pages in your repository"
-    echo "  3. Set Source to 'GitHub Actions'"
-    echo ""
-    print_warning "Don't forget to customize _config.yml with your personal information!"
-    echo ""
+    
+    # Bundle install & Serve
+    if run_bundle_install; then
+        echo ""
+        run_jekyll_serve
+    else
+        echo ""
+        print_info "Next steps:"
+        echo "  1. bundle install"
+        echo "  2. bundle exec jekyll serve"
+        echo ""
+    fi
 }
 
 # Run main function
