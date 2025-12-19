@@ -78,7 +78,7 @@ build/
 # Local configuration overrides
 _config.local.yml
 
-test
-_posts
-assets/images
-_films
+/test/
+/_posts/
+/assets/images/films/
+/_films/
