@@ -126,8 +126,9 @@ content:
     buttons:
       view_all_tech_bites: "View All Tech Bites"
       read_more: "Read More"
-    
-    
+    navigation:
+      previous_text: "← Previous"
+      next_text: "Next →"
     error:
       404:
         title: "Page Not Found"

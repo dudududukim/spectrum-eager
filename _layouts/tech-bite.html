@@ -28,34 +28,7 @@ layout: default
             {{ content }}
         </article>
 
-        <!-- Navigation to other tech bites -->
-        <nav class="post-navigation">
-            {% assign current_section = page.section | default: "tech-bites" %}
-            {% assign tech_bites = site.posts | where: "section", current_section | sort: 'date' %}
-            {% for tech_bite in tech_bites %}
-                {% if tech_bite.url == page.url %}
-                    {% assign current_index = forloop.index0 %}
-                    {% break %}
-                {% endif %}
-            {% endfor %}
-
-            {% if current_index > 0 %}
-                {% assign prev_index = current_index | minus: 1 %}
-                {% assign prev_post = tech_bites[prev_index] %}
-                <a href="{{ prev_post.url | relative_url }}" class="nav-link nav-prev">
-                    <span class="nav-direction">{{ site.content.pages.tech_bites.navigation.previous_text | default: "← Previous" }}</span>
-                    <span class="nav-title">{{ prev_post.title }}</span>
-                </a>
-            {% endif %}
-
-            {% assign next_index = current_index | plus: 1 %}
-            {% if next_index < tech_bites.size %}
-                {% assign next_post = tech_bites[next_index] %}
-                <a href="{{ next_post.url | relative_url }}" class="nav-link nav-next">
-                    <span class="nav-direction">{{ site.content.pages.tech_bites.navigation.next_text | default: "Next →" }}</span>
-                    <span class="nav-title">{{ next_post.title }}</span>
-                </a>
-            {% endif %}
-        </nav>
+        <!-- Navigation to other posts -->
+        {% include post-navigation.html %}
     </div>
 </div>
