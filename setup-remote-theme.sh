@@ -260,26 +260,6 @@ download_plugin() {
     print_success "Updated image_resizer.rb"
 }
 
-# Create example section
-create_example_section() {
-    local section_dir="_sections/tech-bites"
-    mkdir -p "$section_dir"
-    
-    if [ ! -f "${section_dir}/config.yml" ]; then
-        download_file "_sections/tech-bites/config.yml.template" "${section_dir}/config.yml"
-        print_success "Created ${section_dir}/config.yml"
-    else
-        print_action "${section_dir}/config.yml exists, skipping"
-    fi
-    
-    if [ ! -f "${section_dir}/page.md" ]; then
-        download_file "_sections/tech-bites/page.md.template" "${section_dir}/page.md"
-        print_success "Created ${section_dir}/page.md"
-    else
-        print_action "${section_dir}/page.md exists, skipping"
-    fi
-}
-
 # Create GitHub Actions workflow
 create_workflow() {
     local workflow_file=".github/workflows/jekyll.yml"
@@ -294,6 +274,30 @@ create_workflow() {
     print_success "Created ${workflow_file}"
 }
 
+# Copy files from source to destination if they don't exist
+copy_if_not_exists() {
+    local src_dir="$1"
+    local dst_dir="$2"
+    local pattern="$3"
+    local label="$4"
+    
+    if [ ! -d "$src_dir" ] || [ -z "$(ls -A "$src_dir" 2>/dev/null)" ]; then
+        return
+    fi
+    
+    mkdir -p "$dst_dir"
+    for file in "$src_dir"/$pattern; do
+        [ -f "$file" ] || continue
+        local filename=$(basename "$file")
+        if [ ! -f "$dst_dir/$filename" ]; then
+            cp "$file" "$dst_dir/$filename"
+            print_success "Copied ${filename} to ${label}/"
+        else
+            print_action "${label}/${filename} exists, skipping"
+        fi
+    done
+}
+
 # Copy example files from examples/ folder
 copy_examples() {
     local examples_dir="examples"
@@ -301,65 +305,45 @@ copy_examples() {
     # Download example files from remote if examples/ folder doesn't exist
     if [ ! -d "$examples_dir" ]; then
         print_action "Downloading example files from remote..."
-        mkdir -p "${examples_dir}/_posts" "${examples_dir}/_films" "${examples_dir}/assets/images/films"
+        local files=(
+            "_posts/2025-12-19-example-post.md"
+            "_films/example-film-1.md"
+            "_films/example-film-2.md"
+            "assets/images/films/example-1.png"
+            "assets/images/films/example-2.png"
+            "_sections/tech-bites/config.yml"
+            "_sections/tech-bites/page.md"
+            "_sections/hobbies/config.yml"
+            "_sections/hobbies/page.md"
+        )
         
-        # Download example post
-        download_file "examples/_posts/2025-12-19-example-post.md" "${examples_dir}/_posts/2025-12-19-example-post.md" 2>/dev/null || true
-        
-        # Download example films
-        download_file "examples/_films/example-film-1.md" "${examples_dir}/_films/example-film-1.md" 2>/dev/null || true
-        download_file "examples/_films/example-film-2.md" "${examples_dir}/_films/example-film-2.md" 2>/dev/null || true
-        
-        # Download example images
-        download_file "examples/assets/images/films/example-1.png" "${examples_dir}/assets/images/films/example-1.png" 2>/dev/null || true
-        download_file "examples/assets/images/films/example-2.png" "${examples_dir}/assets/images/films/example-2.png" 2>/dev/null || true
-    fi
-    
-    # Copy example posts
-    if [ -d "${examples_dir}/_posts" ] && [ "$(ls -A ${examples_dir}/_posts 2>/dev/null)" ]; then
-        mkdir -p "_posts"
-        for file in "${examples_dir}/_posts"/*.md; do
-            if [ -f "$file" ]; then
-                local filename=$(basename "$file")
-                if [ ! -f "_posts/${filename}" ]; then
-                    cp "$file" "_posts/${filename}"
-                    print_success "Copied ${filename} to _posts/"
-                else
-                    print_action "_posts/${filename} exists, skipping"
-                fi
-            fi
+        for file in "${files[@]}"; do
+            mkdir -p "${examples_dir}/$(dirname "$file")"
+            download_file "examples/${file}" "${examples_dir}/${file}" 2>/dev/null || true
         done
     fi
     
-    # Copy example films
-    if [ -d "${examples_dir}/_films" ] && [ "$(ls -A ${examples_dir}/_films 2>/dev/null)" ]; then
-        mkdir -p "_films"
-        for file in "${examples_dir}/_films"/*.md; do
-            if [ -f "$file" ]; then
-                local filename=$(basename "$file")
-                if [ ! -f "_films/${filename}" ]; then
-                    cp "$file" "_films/${filename}"
-                    print_success "Copied ${filename} to _films/"
-                else
-                    print_action "_films/${filename} exists, skipping"
-                fi
-            fi
-        done
-    fi
+    # Copy example files
+    copy_if_not_exists "${examples_dir}/_posts" "_posts" "*.md" "_posts"
+    copy_if_not_exists "${examples_dir}/_films" "_films" "*.md" "_films"
+    copy_if_not_exists "${examples_dir}/assets/images/films" "assets/images/films" "*" "assets/images/films"
     
-    # Copy example images
-    if [ -d "${examples_dir}/assets/images/films" ] && [ "$(ls -A ${examples_dir}/assets/images/films 2>/dev/null)" ]; then
-        mkdir -p "assets/images/films"
-        for file in "${examples_dir}/assets/images/films"/*; do
-            if [ -f "$file" ]; then
-                local filename=$(basename "$file")
-                if [ ! -f "assets/images/films/${filename}" ]; then
-                    cp "$file" "assets/images/films/${filename}"
-                    print_success "Copied ${filename} to assets/images/films/"
-                else
-                    print_action "assets/images/films/${filename} exists, skipping"
+    # Copy example sections
+    if [ -d "${examples_dir}/_sections" ] && [ "$(ls -A ${examples_dir}/_sections 2>/dev/null)" ]; then
+        for section_dir in "${examples_dir}/_sections"/*; do
+            [ -d "$section_dir" ] || continue
+            local section_name=$(basename "$section_dir")
+            local target_dir="_sections/${section_name}"
+            mkdir -p "$target_dir"
+            
+            for file in "config.yml" "page.md"; do
+                if [ -f "${section_dir}/${file}" ] && [ ! -f "${target_dir}/${file}" ]; then
+                    cp "${section_dir}/${file}" "${target_dir}/${file}"
+                    print_success "Copied ${section_name}/${file} to _sections/"
+                elif [ -f "${target_dir}/${file}" ]; then
+                    print_action "_sections/${section_name}/${file} exists, skipping"
                 fi
-            fi
+            done
         done
     fi
 }
@@ -416,7 +400,6 @@ main() {
     create_films_md
     create_gemfile
     download_plugin
-    create_example_section
     create_workflow
     copy_examples
     

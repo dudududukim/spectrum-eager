@@ -1,0 +1,13 @@
+title: "Tech Bites"
+key: "tech-bites"
+description: "Daily tech insights and discoveries"
+button_text: "View All Tech Bites"
+button_url: "/tech-bites/"
+order: 10
+type: "tech-bites-preview"
+enabled: true
+main_page_count: 3
+pagination: 10
+show_dates: true
+show_categories: true
+
