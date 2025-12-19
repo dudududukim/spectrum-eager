@@ -234,6 +234,10 @@ exclude:
   - .sass-cache/
   - .jekyll-cache/
   - .jekyll-metadata
+  - _posts
+  - _films
+  - _data
+  - _sections
 
 # Sass Configuration
 sass:
