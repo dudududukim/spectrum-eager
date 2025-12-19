@@ -278,6 +278,15 @@ plugins:
   - jekyll-seo-tag
 
 # ===========================================
+# IMAGE RESIZING CONFIGURATION
+# ===========================================
+# Automatically resize film images during build to reduce file size
+# Requires: image_processing gem (install system library: libvips or ImageMagick)
+image_resize:
+  enabled: true  # Set to false to disable automatic image resizing
+  max_width: 800  # Maximum width in pixels for resized images
+
+# ===========================================
 # BUILD SETTINGS
 # ===========================================
 # Files and directories to exclude from build

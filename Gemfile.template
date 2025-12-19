@@ -18,6 +18,12 @@ group :jekyll_plugins do
   gem "jekyll-seo-tag"
 end
 
+# Image processing for automatic image resizing
+# Note: Requires system library - install one of:
+#   - libvips: brew install vips (macOS) or apt-get install libvips-dev (Linux)
+#   - ImageMagick: brew install imagemagick (macOS) or apt-get install imagemagick (Linux)
+gem "image_processing", "~> 1.12"
+
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 platforms :mingw, :x64_mingw, :mswin, :jruby do
   gem "tzinfo", ">= 1", "< 3"
