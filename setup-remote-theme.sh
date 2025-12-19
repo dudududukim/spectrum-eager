@@ -289,25 +289,25 @@ download_plugin() {
     
     mkdir -p "$plugin_dir"
     
-    # Download sections_generator.rb
+    # Download sections_generator.rb (always overwrite)
     local plugin_file="${plugin_dir}/sections_generator.rb"
     if [ -f "$plugin_file" ]; then
-        print_warning "${plugin_file} already exists. Skipping..."
+        print_info "Updating ${plugin_file}..."
     else
         print_info "Downloading sections_generator.rb..."
-        download_file "_plugins/sections_generator.rb" "$plugin_file"
-        print_success "Downloaded sections_generator.rb"
     fi
+    download_file "_plugins/sections_generator.rb" "$plugin_file"
+    print_success "Downloaded/Updated sections_generator.rb"
     
-    # Download image_resizer.rb
+    # Download image_resizer.rb (always overwrite)
     local image_resizer_file="${plugin_dir}/image_resizer.rb"
     if [ -f "$image_resizer_file" ]; then
-        print_warning "${image_resizer_file} already exists. Skipping..."
+        print_info "Updating ${image_resizer_file}..."
     else
         print_info "Downloading image_resizer.rb..."
-        download_file "_plugins/image_resizer.rb" "$image_resizer_file"
-        print_success "Downloaded image_resizer.rb"
     fi
+    download_file "_plugins/image_resizer.rb" "$image_resizer_file"
+    print_success "Downloaded/Updated image_resizer.rb"
     
     print_success "Jekyll plugins setup completed"
 }
