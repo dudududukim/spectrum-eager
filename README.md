@@ -121,27 +121,97 @@ This **Jekyll theme** is ready for immediate deployment with GitHub Actions.
 ```
 <repo-root>/
 ├── .github/
-│   └── workflows/
-│       └── jekyll.yml    # GitHub Actions workflow (included)
+│   ├── workflows/
+│   │   └── jekyll.yml         # GitHub Actions workflow for auto-deployment
+│   └── FUNDING.yml            # GitHub Sponsors funding configuration
 ├── _data/
-│   └── navigation.yml    # Navigation configuration
-├── _includes/            # Reusable components
-├── _layouts/             # Page templates
-├── _sass/                # Stylesheets
-├── _posts/               # All posts (Tech Bites / 3D Printing / Research / Projects via `section`)
-├── _films/               # Photography markdown files
-├── _sections/            # Section configs (YAML) used to define/label homepage tabs/blocks
-├── assets/               # Images and CSS
-├── _config.yml           # Site configuration including colors
-├── 404.html              # Custom 404 page
-├── index.md              # Homepage
-├── tech-bites.md         # Blog listing
-├── 3d-printing.md         # 3D Printing listing (posts filtered by `section: 3d-printing`)
-├── research-hw.md         # Research (HW) listing (posts filtered by `section: research-hw`)
-├── films.md              # Photography page
-├── LINCESE.txt           # License file
-└── README.md
+│   ├── navigation.yml         # Site navigation menu configuration
+│   └── sections.yml           # Section definitions (mirrors _sections/*/config.yml)
+├── _includes/                 # Reusable Liquid components
+│   ├── get-section-config.html
+│   ├── section-tech-bites-preview.html
+│   ├── tech-bite-card.html
+│   ├── content-card.html
+│   ├── photo-card.html
+│   └── ...                    # Other includes
+├── _layouts/                  # Page templates
+│   ├── default.html           # Base layout
+│   ├── about.html             # Homepage layout
+│   ├── post.html              # Blog post layout
+│   ├── post-list.html         # Blog listing layout
+│   ├── tech-bite.html         # Tech bite detail layout
+│   ├── tech-bite-list.html    # Tech bite listing layout
+│   ├── films-list.html        # Films gallery layout
+│   └── film-detail.html       # Film detail layout
+├── _sass/                     # SCSS stylesheets
+│   ├── _base.scss             # Base styles
+│   ├── _color-variables.scss  # Color system
+│   ├── _components.scss       # Component styles
+│   ├── _layouts.scss          # Layout styles
+│   ├── _sections.scss         # Section-specific styles
+│   └── _utilities.scss        # Utility classes
+├── _sections/                 # Section configurations (YAML-first architecture)
+│   ├── tech-bites/
+│   │   └── config.yml         # Tech Bites section config (title, pagination, etc.)
+│   ├── 3d-printing/
+│   │   └── config.yml         # 3D Printing section config
+│   └── research-hw/
+│       └── config.yml         # Research (HW) section config
+├── _posts/                    # All blog posts (filtered by `section` front matter)
+│   └── YYYY-MM-DD-title.md    # Posts with section: "tech-bites" | "3d-printing" | etc.
+├── _films/                    # Photography markdown files
+│   └── IMG_*.md               # Film entries with photo metadata
+├── assets/
+│   ├── css/
+│   │   └── main.scss          # Main stylesheet entry point
+│   ├── images/                # Site images
+│   │   ├── films/             # Film photos
+│   │   └── me/                # Profile images
+│   └── js/                    # JavaScript files
+│       ├── theme-toggle.js
+│       └── reading-progress.js
+├── images/                    # Static images (screenshots, etc.)
+├── _config.yml                # Main site configuration
+│   ├── Site settings (url, title, description)
+│   ├── Theme colors (primary color system)
+│   ├── Collections (posts, films, sections)
+│   ├── Plugins (jekyll-sitemap, jekyll-seo-tag)
+│   └── Homepage sections configuration
+├── 404.html                   # Custom 404 error page
+├── index.md                   # Homepage content
+├── tech-bites.md              # Tech Bites listing page
+├── 3d-printing.md             # 3D Printing listing (posts with section: "3d-printing")
+├── research-hw.md             # Research (HW) listing (posts with section: "research-hw")
+├── films.md                   # Photography gallery page
+├── Gemfile                    # Ruby dependencies
+├── Gemfile.lock               # Locked dependency versions
+├── LINCESE.txt                # MIT License
+└── README.md                  # This file
 ```
+
+### Key YAML Configuration Files
+
+- **`_config.yml`**: Main site configuration
+  - Site identity (title, description, author)
+  - Theme colors (primary color system)
+  - Collections definition (posts, films, sections)
+  - Jekyll plugins configuration
+  - Homepage sections settings
+
+- **`_data/navigation.yml`**: Navigation menu structure
+  - Menu items and links
+  - Navigation order
+
+- **`_data/sections.yml`**: Section definitions mirror
+  - Mirrors `_sections/*/config.yml` files
+  - Used by Liquid templates to access section configs
+  - Contains: title, description, button_text, pagination, etc.
+
+- **`_sections/*/config.yml`**: Section-specific configurations
+  - **`tech-bites/config.yml`**: Tech Bites section settings
+  - **`3d-printing/config.yml`**: 3D Printing section settings
+  - **`research-hw/config.yml`**: Research (HW) section settings
+  - Each contains: `title`, `key`, `description`, `button_text`, `button_url`, `order`, `type`, `enabled`, `main_page_count`, `pagination`, `show_dates`, `show_categories`
 
 ## Development
 
