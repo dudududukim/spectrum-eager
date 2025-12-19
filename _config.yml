@@ -1,9 +1,9 @@
 # ===========================================
-# SPECTRUM JEKYLL THEME - MAIN CONFIGURATION
+# SPECTRUM JEKYLL THEME - THEME CONFIGURATION
 # ===========================================
-
-# Remote Theme Configuration
-remote_theme: dudududukim/spectrum-eager@theme
+# This is the theme's default configuration file.
+# Users should copy this to their site and customize it.
+# Do NOT include user-specific settings here.
 
 # Jekyll Core Settings
 markdown: kramdown
@@ -11,15 +11,16 @@ highlighter: rouge
 permalink: pretty
 timezone: UTC
 
-url: "https://dudududukim.github.io"
-baseurl: "/spectrum-eager"  
+# Theme URL (users should override this)
+url: "https://example.com"
+baseurl: ""  
 
-# Site Identity
+# Site Identity (users should override these)
 site:
-  title: "Duhyeon Kim"
-  description: "Personal website showcasing tech insights and development journey"
-  author: "Duhyeon Kim"
-  email: "kdhluck@naver.com"
+  title: "Your Site Title"
+  description: "Your site description"
+  author: "Your Name"
+  email: "your.email@example.com"
 
 # Theme Configuration
 site_theme:
@@ -48,31 +49,31 @@ site_theme:
       normal: 1.5
       relaxed: 1.75
 
-# Personal Information
+# Personal Information (users should override)
 personal:
-  name: "Duhyeon Kim"
-  tagline: "spectrum-eager jekyll owner"
-  bio: "Developer passionate about technology, hardware, and continuous learning"
-  location: "Seoul, Korea"
+  name: "Your Name"
+  tagline: "Your tagline"
+  bio: "Your bio"
+  location: "Your Location"
   photo: "/assets/images/me/me.jpeg"
 
-# Social Media Links
+# Social Media Links (users should override)
 social:
   enabled: true
   platforms:
     email:
       enabled: true
-      url: "mailto:kdhluck@naver.com"
+      url: "mailto:your.email@example.com"
       label: "Email"
       icon: "fa-solid fa-envelope"
     github:
-      enabled: true
-      url: "https://github.com/dudududukim"
+      enabled: false
+      url: "https://github.com/username"
       label: "GitHub"
       icon: "fa-brands fa-github"
     linkedin:
-      enabled: true
-      url: "https://www.linkedin.com/in/duhyeon-kim-6623082b1/"
+      enabled: false
+      url: "https://www.linkedin.com/in/username/"
       label: "LinkedIn"
       icon: "fa-brands fa-linkedin"
     twitter:
@@ -99,18 +100,18 @@ footer:
   theme_name: "Spectrum-Eager"
   theme_url: "https://github.com/dudududukim/spectrum-eager"
 
-# Content Configuration
+# Content Configuration (users should override)
 content:
   pages:
     about:
       title: "About"
       welcome_message: "Welcome 🤗"
-      intro_text: "I'm Duhyeon Kim, an Electrical and Electronic Engineering major from Korea University. I have a broad curiosity about all things AI, and I enjoy diving deep into areas where I can focus and grow."
-      main_description: "My hope is that, even if just a little, the path I take will leave something valuable for humanity. My dreams are big, but I'm still figuring out how to make them a reality."
+      intro_text: "Your introduction text"
+      main_description: "Your main description"
       sections:
-        - title: "Areas of Study & Work"
-          content: "Here are a few topics I've studied or worked on:\n\n- Computer vision / NLP\n- FPGA & VLSI\n- Computer architecture"
-      closing_text: "🌈 Wishing everyone a wonderful day!"
+        - title: "Section Title"
+          content: "Section content"
+      closing_text: "Closing text"
     
     tech_bites:
       title: "Tech Bites"
@@ -219,7 +220,6 @@ defaults:
 
 # Plugins
 plugins:
-  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
