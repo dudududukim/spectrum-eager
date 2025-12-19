@@ -89,11 +89,12 @@ layout: default
                     >
                         <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
                         <div class="section-header-text">
+                            {% include get-section-config.html section_key="tech-bites" %}
                             <h2 class="section-title" id="section-tab-title">
-                                {{ site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}
+                                {{ section_config.title | default: "Recent Tech Bites" }}
                             </h2>
                             <p class="section-description" id="section-tab-desc">
-                                {{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}
+                                {{ section_config.description | default: "Daily tech insights and discoveries" }}
                             </p>
                         </div>
                         <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>

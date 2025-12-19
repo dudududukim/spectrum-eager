@@ -38,10 +38,10 @@
         {% endif %}
         <div class="section-header-text">
             <h2 class="section-title" id="section-tab-title">
-                {{ section.title | default: site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}
+                {{ section.title | default: "Recent Tech Bites" }}
             </h2>
             <p class="section-description" id="section-tab-desc">
-                {{ section.description | default: site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}
+                {{ section.description | default: "Daily tech insights and discoveries" }}
             </p>
         </div>
         {% if show_nav %}

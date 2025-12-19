@@ -150,8 +150,7 @@ content:
       closing_text: "Closing text"  # CHANGE THIS: Closing message
     
     tech_bites:
-      title: "Tech Bites"
-      description: "Daily tech insights and discoveries"
+      # Post-specific settings (section title/description comes from _sections/tech-bites/config.yml)
       card:
         read_more_text: "Read More"
         min_read_text: "min read"
