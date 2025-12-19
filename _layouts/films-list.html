@@ -11,19 +11,17 @@ layout: default
 
         <!-- Films Grid -->
         <div class="films-grid">
+            {% comment %} Films don't require _data/sections.yml, so just check if content exists {% endcomment %}
             {% assign films = site.films | sort: 'date' | reverse %}
             {% if films.size > 0 %}
                 {% for film in films %}
                     {% include photo-card.html film=film %}
                 {% endfor %}
             {% else %}
-                <script>
-                    // Redirect to 404 page with reason
-                    const reason = encodeURIComponent("No films found. Add film entries to _films/ folder and images to assets/images/films/ folder.");
-                    window.location.href = "{{ '/404.html' | relative_url }}?reason=" + reason;
-                </script>
+                {% comment %} Show info message instead of redirecting to 404 {% endcomment %}
                 <div class="empty-section-message">
-                    <p>Redirecting to 404 page...</p>
+                    <p>No films yet.</p>
+                    <p>Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
                 </div>
             {% endif %}
         </div>

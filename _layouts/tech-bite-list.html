@@ -22,22 +22,31 @@ layout: default
         <!-- Tech Bites Grid -->
         <div class="tech-bites-grid">
             {% assign current_section = page.section | default: "tech-bites" %}
-            {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
-            {% if sorted_tech_bites.size == 0 %}
+            {% comment %} Check if _data/sections.yml exists - if not, redirect to 404 {% endcomment %}
+            {% unless site.data.sections %}
                 <script>
-                    // Redirect to 404 page with reason
-                    const sectionName = "{{ current_section }}";
-                    const reason = encodeURIComponent(`No posts found for section "${sectionName}". Add posts to _posts/ folder with section: "${sectionName}" in front matter.`);
+                    // Redirect to 404 page with reason - _data/sections.yml is missing
+                    const reason = encodeURIComponent("Configuration file missing: Create _data/sections.yml file to configure sections. Example: Create _sections/tech-bites/config.yml and add section definition to _data/sections.yml.");
                     window.location.href = "{{ '/404.html' | relative_url }}?reason=" + reason;
                 </script>
                 <div class="empty-section-message">
                     <p>Redirecting to 404 page...</p>
                 </div>
             {% else %}
-                {% for tech_bite in sorted_tech_bites %}
-                    {% include tech-bite-card.html tech_bite=tech_bite %}
-                {% endfor %}
-            {% endif %}
+                {% comment %} _data/sections.yml exists, check if content is available {% endcomment %}
+                {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
+                {% if sorted_tech_bites.size == 0 %}
+                    {% comment %} Show info message instead of redirecting to 404 {% endcomment %}
+                    <div class="empty-section-message">
+                        <p>No posts yet for section "{{ current_section }}".</p>
+                        <p>Add posts to <code>_posts/</code> folder with <code>section: "{{ current_section }}"</code> in front matter.</p>
+                    </div>
+                {% else %}
+                    {% for tech_bite in sorted_tech_bites %}
+                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                    {% endfor %}
+                {% endif %}
+            {% endunless %}
         </div>
 
     </div>
