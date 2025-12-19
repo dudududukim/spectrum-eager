@@ -15,9 +15,100 @@ echo "📦 Theme: ${THEME_REPO}@${THEME_VERSION}"
 echo ""
 
 # Check if we're in a Jekyll site directory
+# If _config.yml doesn't exist, create a minimal one
 if [ ! -f "_config.yml" ]; then
-    echo "❌ Error: _config.yml not found. Please run this script in your Jekyll site root directory."
-    exit 1
+    echo "⚠️  _config.yml not found. Creating a minimal configuration file..."
+    echo ""
+    
+    # Try to detect GitHub Pages repository
+    GITHUB_REPO=""
+    if [ -d ".git" ]; then
+        # Try to get remote URL
+        REMOTE_URL=$(git remote get-url origin 2>/dev/null || echo "")
+        if [[ "$REMOTE_URL" == *"github.com"* ]]; then
+            # Extract repo name from URL
+            if [[ "$REMOTE_URL" == *".git" ]]; then
+                GITHUB_REPO=$(basename "$REMOTE_URL" .git)
+            else
+                GITHUB_REPO=$(basename "$REMOTE_URL")
+            fi
+        fi
+    fi
+    
+    # Create minimal _config.yml
+    cat > _config.yml << EOF
+# ===========================================
+# SPECTRUM JEKYLL THEME - MAIN CONFIGURATION
+# ===========================================
+
+# Remote Theme Configuration
+remote_theme: ${THEME_REPO}@${THEME_VERSION}
+
+# Jekyll Core Settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+timezone: UTC
+
+# Site URL (update with your GitHub Pages URL)
+url: "https://${GITHUB_REPO:-your-username.github.io}"
+baseurl: ""
+
+# Site Identity
+site:
+  title: "Your Site Title"
+  description: "Your site description"
+  author: "Your Name"
+  email: "your-email@example.com"
+
+# Collections (required for sections to work)
+collections:
+  posts:
+    output: true
+    permalink: /posts/:name/
+  sections:
+    output: true
+    files: true
+
+# Default Front Matter (required for sections)
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: "_sections"
+      type: "sections"
+    values:
+      layout: "post-list"
+
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Build Settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - README.md
+  - .gitignore
+  - _sections/**/config.yml
+EOF
+    
+    echo "✅ Created minimal _config.yml"
+    echo "   Please update it with your site settings (url, title, author, etc.)"
+    echo ""
 fi
 
 # Create necessary directories
@@ -130,10 +221,31 @@ echo ""
 echo "✨ Setup complete!"
 echo ""
 echo "📋 Next steps:"
-echo "   1. Update _config.yml with your site settings"
-echo "   2. Run: bundle install"
-echo "   3. Run: bundle exec jekyll serve"
-echo "   4. Visit: http://localhost:4000"
+echo "   1. Update _config.yml with your site settings:"
+echo "      - Update url and baseurl (if needed)"
+echo "      - Update site title, description, and author"
+echo "      - Add personal information and social links"
 echo ""
-echo "📚 For more information, see USAGE.md"
+echo "   2. Create or update Gemfile:"
+echo "      Add the following to your Gemfile:"
+echo "      source \"https://rubygems.org\""
+echo "      gem \"jekyll\", \"~> 4.3.0\""
+echo "      gem \"openssl\", \"~> 3.3.1\""
+echo "      group :jekyll_plugins do"
+echo "        gem \"jekyll-remote-theme\", \"0.4.3\""
+echo "        gem \"jekyll-feed\", \"~> 0.12\""
+echo "        gem \"jekyll-sitemap\""
+echo "        gem \"jekyll-seo-tag\""
+echo "      end"
+echo ""
+echo "   3. Install dependencies:"
+echo "      bundle install"
+echo ""
+echo "   4. Run Jekyll server:"
+echo "      bundle exec jekyll serve"
+echo ""
+echo "   5. Visit: http://localhost:4000"
+echo ""
+echo "📚 For more information, see:"
+echo "   https://github.com/${THEME_REPO}/blob/${THEME_VERSION}/USAGE.md"
 
