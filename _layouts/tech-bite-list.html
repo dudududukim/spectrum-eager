@@ -23,9 +23,21 @@ layout: default
         <div class="tech-bites-grid">
             {% assign current_section = page.section | default: "tech-bites" %}
             {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
-            {% for tech_bite in sorted_tech_bites %}
-                {% include tech-bite-card.html tech_bite=tech_bite %}
-            {% endfor %}
+            {% if sorted_tech_bites.size == 0 %}
+                <script>
+                    // Redirect to 404 page with reason
+                    const sectionName = "{{ current_section }}";
+                    const reason = encodeURIComponent(`No posts found for section "${sectionName}". Add posts to _posts/ folder with section: "${sectionName}" in front matter.`);
+                    window.location.href = "{{ '/404.html' | relative_url }}?reason=" + reason;
+                </script>
+                <div class="empty-section-message">
+                    <p>Redirecting to 404 page...</p>
+                </div>
+            {% else %}
+                {% for tech_bite in sorted_tech_bites %}
+                    {% include tech-bite-card.html tech_bite=tech_bite %}
+                {% endfor %}
+            {% endif %}
         </div>
 
     </div>
@@ -33,9 +45,10 @@ layout: default
 
 <!-- Pagination (outside main-content, before footer) -->
 {% assign current_section = page.section | default: "tech-bites" %}
+{% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
 {% include get-section-config.html section_key=current_section %}
 {% assign pagination_size = section_config.pagination | default: 10 %}
-{% if pagination_size %}
+{% if pagination_size and sorted_tech_bites.size > 0 %}
     {% assign total_pages = sorted_tech_bites.size | divided_by: pagination_size | plus: 1 %}
 
     {% if total_pages > 1 %}

@@ -8,9 +8,28 @@ permalink: /404.html
     <div class="error-content">
         <h1 class="error-code">404</h1>
         <h2 class="error-title">{{ site.content.ui.error['404'].title | default: "Page Not Found" }}</h2>
-        <p class="error-description">
+        <p class="error-description" id="error-description">
             {{ site.content.ui.error['404'].message | default: "Sorry, the page you're looking for doesn't exist or has been moved." }}
         </p>
+        <div class="error-reason" id="error-reason" style="display: none;">
+            <p><strong>Reason:</strong></p>
+            <p id="error-reason-text"></p>
+        </div>
+        <script>
+            // Check for reason parameter in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const reason = urlParams.get('reason');
+            if (reason) {
+                const reasonElement = document.getElementById('error-reason');
+                const reasonTextElement = document.getElementById('error-reason-text');
+                const descriptionElement = document.getElementById('error-description');
+                if (reasonElement && reasonTextElement && descriptionElement) {
+                    reasonTextElement.textContent = decodeURIComponent(reason);
+                    reasonElement.style.display = 'block';
+                    descriptionElement.textContent = "The requested content is not available.";
+                }
+            }
+        </script>
         
         <div class="error-actions">
             <a href="{{ '/' | relative_url }}" class="btn btn-primary">
@@ -62,6 +81,27 @@ permalink: /404.html
     font-size: 1.1rem;
     color: var(--text-secondary);
     margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.error-reason {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+    text-align: left;
+    border-left: 4px solid var(--primary-color);
+}
+
+.error-reason strong {
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.error-reason p {
+    margin: 0;
+    color: var(--text-secondary);
     line-height: 1.6;
 }
 

@@ -17,8 +17,13 @@ layout: default
                     {% include photo-card.html film=film %}
                 {% endfor %}
             {% else %}
+                <script>
+                    // Redirect to 404 page with reason
+                    const reason = encodeURIComponent("No films found. Add film entries to _films/ folder and images to assets/images/films/ folder.");
+                    window.location.href = "{{ '/404.html' | relative_url }}?reason=" + reason;
+                </script>
                 <div class="empty-section-message">
-                    <p>No films yet. Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
+                    <p>Redirecting to 404 page...</p>
                 </div>
             {% endif %}
         </div>

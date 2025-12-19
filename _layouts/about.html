@@ -59,13 +59,15 @@ layout: default
             <section class="tech-bites-preview">
                 {% comment %} Load featured sections from _sections config files (via site.data.sections) {% endcomment %}
                 {% assign tabs = '' | split: '' %}
-                {% for section_pair in site.data.sections %}
-                    {% assign section_key = section_pair[0] %}
-                    {% assign section_data = section_pair[1] %}
-                    {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
-                        {% assign tabs = tabs | push: section_data %}
-                    {% endif %}
-                {% endfor %}
+                {% if site.data.sections %}
+                    {% for section_pair in site.data.sections %}
+                        {% assign section_key = section_pair[0] %}
+                        {% assign section_data = section_pair[1] %}
+                        {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
+                            {% assign tabs = tabs | push: section_data %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                 {% comment %} Sort by order field {% endcomment %}
                 {% assign sorted_tabs = '' | split: '' %}
                 {% for i in (1..100) %}
@@ -78,33 +80,44 @@ layout: default
                 {% if sorted_tabs.size > 0 %}
                     {% assign tabs = sorted_tabs %}
                 {% endif %}
-                <div 
-                    class="section-header section-header-slider" 
-                    data-tabs="{{ tabs | jsonify | escape }}"
-                    data-baseurl="{{ '' | relative_url }}"
-                    data-default-label="{{ site.content.ui.buttons.view_all_tech_bites | default: 'View All Tech Bites' }}"
-                >
-                    <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
-                    <div class="section-header-text">
-                        <h2 class="section-title" id="section-tab-title">
-                            {{ site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}
-                        </h2>
-                        <p class="section-description" id="section-tab-desc">
-                            {{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}
-                        </p>
+                {% if site.data.sections and tabs.size > 0 %}
+                    <div 
+                        class="section-header section-header-slider" 
+                        data-tabs="{{ tabs | jsonify | escape }}"
+                        data-baseurl="{{ '' | relative_url }}"
+                        data-default-label="{{ site.content.ui.buttons.view_all_tech_bites | default: 'View All Tech Bites' }}"
+                    >
+                        <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
+                        <div class="section-header-text">
+                            <h2 class="section-title" id="section-tab-title">
+                                {{ site.content.pages.tech_bites.title | default: "Recent Tech Bites" }}
+                            </h2>
+                            <p class="section-description" id="section-tab-desc">
+                                {{ site.content.pages.tech_bites.description | default: "Daily tech insights and discoveries" }}
+                            </p>
+                        </div>
+                        <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>
                     </div>
-                    <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>
-                </div>
 
-                <!-- Tech Bites Grid -->
-                <div class="tech-bites-grid" data-section="tech-bites">
-                    {% include get-section-config.html section_key="tech-bites" %}
-                    {% assign tech_bites_posts = site.posts | where: "section", "tech-bites" | sort: 'date' | reverse %}
-                    {% assign tech_bites_limit = section_config.main_page_count | default: 5 %}
-                    {% for tech_bite in tech_bites_posts limit: tech_bites_limit %}
-                        {% include tech-bite-card.html tech_bite=tech_bite %}
-                    {% endfor %}
-                </div>
+                    <!-- Tech Bites Grid -->
+                    <div class="tech-bites-grid" data-section="tech-bites">
+                        {% include get-section-config.html section_key="tech-bites" %}
+                        {% assign tech_bites_posts = site.posts | where: "section", "tech-bites" | sort: 'date' | reverse %}
+                        {% assign tech_bites_limit = section_config.main_page_count | default: 5 %}
+                        {% if tech_bites_posts.size > 0 %}
+                            {% for tech_bite in tech_bites_posts limit: tech_bites_limit %}
+                                {% include tech-bite-card.html tech_bite=tech_bite %}
+                            {% endfor %}
+                        {% else %}
+                            <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with <code>section: "tech-bites"</code> in front matter.</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="empty-section-message">
+                        <p>No sections configured yet. Create <code>_sections/</code> folder and add section config files.</p>
+                        <p>Example: Create <code>_sections/tech-bites/config.yml</code> with section settings.</p>
+                    </div>
+                {% endif %}
 
                 <!-- 3D Printing Grid -->
                 <div class="tech-bites-grid" data-section="3d-printing" hidden>

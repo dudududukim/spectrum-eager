@@ -1,13 +1,15 @@
 {% assign section = include.section %}
 {% comment %} Load sections from site.data.sections (mirrors _sections/*/config.yml) {% endcomment %}
 {% assign tech_sections = '' | split: '' %}
-{% for section_pair in site.data.sections %}
-    {% assign section_key = section_pair[0] %}
-    {% assign section_data = section_pair[1] %}
-    {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
-        {% assign tech_sections = tech_sections | push: section_data %}
-    {% endif %}
-{% endfor %}
+{% if site.data.sections %}
+    {% for section_pair in site.data.sections %}
+        {% assign section_key = section_pair[0] %}
+        {% assign section_data = section_pair[1] %}
+        {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
+            {% assign tech_sections = tech_sections | push: section_data %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
 {% assign nav_tabs = tech_sections %}
 {% if nav_tabs %}
     {% assign tabs_json = nav_tabs | jsonify %}
@@ -48,12 +50,23 @@
     </div>
 
     <div class="tech-bites-grid">
-        {% assign section_key = section.key | default: "tech-bites" %}
-        {% assign all_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
-        {% assign post_limit = section.main_page_count | default: 5 %}
-        {% for tech_bite in all_posts limit: post_limit %}
-            {% include tech-bite-card.html tech_bite=tech_bite %}
-        {% endfor %}
+        {% if site.data.sections and site.data.sections.size > 0 %}
+            {% assign section_key = section.key | default: "tech-bites" %}
+            {% assign all_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
+            {% assign post_limit = section.main_page_count | default: 5 %}
+            {% if all_posts.size > 0 %}
+                {% for tech_bite in all_posts limit: post_limit %}
+                    {% include tech-bite-card.html tech_bite=tech_bite %}
+                {% endfor %}
+            {% else %}
+                <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with <code>section: "{{ section_key }}"</code> in front matter.</p>
+            {% endif %}
+        {% else %}
+            <div class="empty-section-message">
+                <p>No sections configured yet. Create <code>_sections/</code> folder and add section config files.</p>
+                <p>Example: Create <code>_sections/tech-bites/config.yml</code> with section settings.</p>
+            </div>
+        {% endif %}
     </div>
 
     <div class="section-footer">
