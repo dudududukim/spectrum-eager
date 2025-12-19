@@ -96,12 +96,12 @@ social:
       label: "Email"
       icon: "fa-solid fa-envelope"
     github:
-      enabled: false  # CHANGE THIS: Set to true and update URL
+      enabled: true  # CHANGE THIS: Set to true and update URL
       url: "https://github.com/username"  # CHANGE THIS
       label: "GitHub"
       icon: "fa-brands fa-github"
     linkedin:
-      enabled: false  # CHANGE THIS: Set to true and update URL
+      enabled: true  # CHANGE THIS: Set to true and update URL
       url: "https://www.linkedin.com/in/username/"  # CHANGE THIS
       label: "LinkedIn"
       icon: "fa-brands fa-linkedin"
