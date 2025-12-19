@@ -21,30 +21,35 @@
                 {% assign films = site.films | sort: 'date' | reverse %}
                 {% assign recent_films = films | limit: image_count %}
 
-                <!-- Generate gallery items with seamless loop duplication -->
-                
-                {% for i in (1..2) %}
-                    {% for film in recent_films %}
-                        {% assign image_path = film.image_path | relative_url %}
+                {% if recent_films.size > 0 %}
+                    <!-- Generate gallery items with seamless loop duplication -->
+                    {% for i in (1..2) %}
+                        {% for film in recent_films %}
+                            {% assign image_path = film.image_path | relative_url %}
 
-                        <div class="gallery-item">
-                            <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
-                                <img
-                                    src="{{ image_path }}"
-                                    alt="{{ film.title }}"
-                                    class="gallery-image"
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                                <div class="gallery-overlay">
-                                    <div class="gallery-info">
-                                        <span class="gallery-title">{{ film.title }}</span>
+                            <div class="gallery-item">
+                                <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
+                                    <img
+                                        src="{{ image_path }}"
+                                        alt="{{ film.title }}"
+                                        class="gallery-image"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                    <div class="gallery-overlay">
+                                        <div class="gallery-info">
+                                            <span class="gallery-title">{{ film.title }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                {% else %}
+                    <div class="empty-gallery-message">
+                        <p>No films yet. Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 

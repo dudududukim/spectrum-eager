@@ -24,11 +24,22 @@ layout: default
                 </div>
 
                 <div class="about-photo">
-                    <img 
-                        src="{{ site.personal.photo | default: '/assets/images/me/me.jpeg' | relative_url }}" 
-                        alt="{{ site.personal.name | default: site.site.author }} portrait"
-                        loading="lazy"
-                    >
+                    {% if site.personal.photo %}
+                        {% assign photo_path = site.personal.photo | relative_url %}
+                        <img 
+                            src="{{ photo_path }}" 
+                            alt="{{ site.personal.name | default: site.site.author }} portrait"
+                            loading="lazy"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                        >
+                        <div class="empty-photo-placeholder" style="display: none;">
+                            <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set <code>personal.photo</code> in <code>_config.yml</code></p>
+                        </div>
+                    {% else %}
+                        <div class="empty-photo-placeholder">
+                            <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set <code>personal.photo</code> in <code>_config.yml</code></p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 

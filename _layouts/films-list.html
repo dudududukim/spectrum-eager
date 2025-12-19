@@ -12,9 +12,15 @@ layout: default
         <!-- Films Grid -->
         <div class="films-grid">
             {% assign films = site.films | sort: 'date' | reverse %}
-            {% for film in films %}
-                {% include photo-card.html film=film %}
-            {% endfor %}
+            {% if films.size > 0 %}
+                {% for film in films %}
+                    {% include photo-card.html film=film %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-section-message">
+                    <p>No films yet. Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
