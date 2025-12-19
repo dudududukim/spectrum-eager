@@ -1,72 +1,189 @@
-# Spectrum-Eager Personal Site
+# Spectrum-Eager Jekyll Theme
 
-This is my personal website built with the [Spectrum Jekyll Theme](https://github.com/dudududukim/spectrum-eager).
+A minimal, section-based Jekyll theme for personal websites and blogs.
 
-## About This Site
+## Quick Start with Remote Theme
 
-This site uses the Spectrum theme via Jekyll's remote theme feature. The theme files are automatically loaded from the `theme` branch of the spectrum-eager repository.
+### 1. Create a New Jekyll Site
 
-## Site Structure
-
-This repository contains only my personal content and configuration:
-
-- `_posts/` - Blog posts and articles
-- `_films/` - Photography entries
-- `_data/` - Site configuration (navigation, sections)
-- `_sections/` - Section-specific configurations and page files
-  - `_sections/<name>/config.yml` - Section configuration
-  - `_sections/<name>/page.md` - Section listing page (optional)
-- `assets/images/` - Personal images
-- `_config.yml` - Site settings
-- `index.md`, `films.md` - Root page files
-
-Theme files (`_layouts/`, `_includes/`, `_sass/`, etc.) are loaded from the remote theme and are not stored in this repository.
-
-## Local Development
-
-1. Install dependencies:
 ```bash
-bundle install
+jekyll new my-awesome-site
+cd my-awesome-site
 ```
 
-2. Run Jekyll locally:
+### 2. Run Setup Script
+
 ```bash
+curl -sSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash -s v2.0.7
+```
+
+This will automatically:
+- Download required plugin (`_plugins/sections_generator.rb`)
+- Create example section configurations
+- Set up the necessary folder structure
+
+### 3. Configure Your Site
+
+Edit `_config.yml`:
+
+```yaml
+# Remote Theme Configuration
+remote_theme: dudududukim/spectrum-eager@v2.0.7
+
+# Your site settings
+url: "https://your-username.github.io"
+baseurl: "" # or "/your-repo-name" for project pages
+
+site:
+  title: "Your Site Title"
+  description: "Your site description"
+  author: "Your Name"
+```
+
+### 4. Update Gemfile
+
+Add to your `Gemfile`:
+
+```ruby
+group :jekyll_plugins do
+  gem "jekyll-remote-theme", "0.4.3"
+  gem "jekyll-feed", "~> 0.12"
+  gem "jekyll-sitemap"
+  gem "jekyll-seo-tag"
+end
+```
+
+### 5. Install and Run
+
+```bash
+bundle install
 bundle exec jekyll serve
 ```
 
-3. Visit `http://localhost:4000` in your browser
+Visit `http://localhost:4000` in your browser!
+
+## Manual Setup
+
+If you prefer manual setup, see [USAGE.md](USAGE.md) for detailed instructions.
+
+## Features
+
+- **Section-based architecture**: Organize content by sections (tech-bites, 3d-printing, etc.)
+- **YAML-first configuration**: Customize everything through YAML files
+- **Automatic section discovery**: Sections are automatically discovered from `_sections/` folder
+- **Remote theme support**: Use the theme without forking the repository
+- **Responsive design**: Mobile-friendly layouts
+- **SEO optimized**: Built-in SEO tags and sitemap
+
+## Project Structure
+
+### User Site (Your Repository)
+
+```
+your-site/
+├── _config.yml              # Site configuration
+├── _plugins/                 # REQUIRED: Plugin folder
+│   └── sections_generator.rb # REQUIRED: Auto-loads section configs
+├── _posts/                   # Blog posts
+├── _films/                   # Photography entries
+├── _sections/               # Section configurations
+│   ├── tech-bites/
+│   │   ├── config.yml       # Section settings
+│   │   └── page.md          # Section listing page
+│   └── 3d-printing/
+│       ├── config.yml
+│       └── page.md
+├── index.md                  # Homepage
+├── films.md                   # Films page
+└── assets/images/            # Your images
+```
+
+### Theme Files (Auto-loaded from Remote)
+
+- `_layouts/` - Page layouts
+- `_includes/` - Reusable components
+- `_sass/` - Stylesheets
+- `assets/css/` - Compiled CSS
+- `assets/js/` - JavaScript files
 
 ## Adding Content
 
 ### Blog Posts
-Create Markdown files in `_posts/` with front matter:
+
+Create files in `_posts/` with front matter:
+
 ```yaml
 ---
-title: "Post Title"
+layout: post
+title: "My First Post"
 date: 2025-01-01
-section: "tech-bites"
-categories: ["Category"]
+section: "tech-bites"  # Section name
+categories: ["Development"]
+tags: ["jekyll", "github-pages"]
 ---
 ```
 
-### Photography
-Create Markdown files in `_films/` for photography entries.
-
 ### Sections
-- Create `_sections/<name>/config.yml` for each section (automatically loaded)
-- Example: `_sections/tech-bites/config.yml`
-- Posts are filtered by the `section` field in front matter
-- **Note**: `_data/sections.yml` is no longer needed - sections are auto-discovered from `_sections/` folder
+
+1. Create `_sections/<name>/config.yml`:
+```yaml
+title: "My Section"
+key: "my-section"
+description: "Section description"
+button_text: "View All"
+button_url: "/my-section/"
+type: "tech-bites-preview"
+enabled: true
+main_page_count: 3
+```
+
+2. Create `_sections/<name>/page.md`:
+```markdown
+---
+layout: post-list
+title: "My Section"
+section: "my-section"
+permalink: /my-section/
+---
+```
+
+3. Add posts with `section: "my-section"` in front matter
 
 ## Configuration
 
-- `_config.yml` - Site-wide settings (url, colors, etc.)
-- `_sections/<name>/config.yml` - Section-specific settings (auto-loaded from `_sections/` folder)
+### Site Settings (`_config.yml`)
 
-## Theme
+See `test/_config.yml` for a complete example configuration.
 
-This site uses the Spectrum Jekyll Theme via remote theme:
-- Theme repository: [dudududukim/spectrum-eager](https://github.com/dudududukim/spectrum-eager)
-- Theme branch: `theme`
+### Section Settings (`_sections/<name>/config.yml`)
 
-For theme documentation, see the [theme repository](https://github.com/dudududukim/spectrum-eager).
+- `title`: Section display name
+- `key`: Section identifier (must match `section` in posts)
+- `description`: Section description
+- `button_text`: "View All" button text
+- `button_url`: Section listing page URL
+- `type`: Section type (`tech-bites-preview`, etc.)
+- `enabled`: Enable/disable section
+- `main_page_count`: Number of posts to show on homepage
+- `pagination`: Posts per page in listing
+- `show_dates`: Show post dates
+- `show_categories`: Show post categories
+
+## Troubleshooting
+
+### Sections Not Loading
+
+1. Ensure `_plugins/sections_generator.rb` exists
+2. Restart Jekyll server (plugins load at startup)
+3. Check `_sections/<name>/config.yml` files exist
+
+See [USAGE.md](USAGE.md) for more troubleshooting tips.
+
+## Documentation
+
+- [USAGE.md](USAGE.md) - Detailed usage guide
+- [Theme Repository](https://github.com/dudududukim/spectrum-eager) - Theme source code
+
+## License
+
+This theme is open source and available under the [MIT License](LICENSE).

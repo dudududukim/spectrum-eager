@@ -12,46 +12,61 @@ module Jekyll
       # Initialize section definitions hash
       section_definitions = {}
       
-      # Get sections collection
-      sections_collection = site.collections['sections']
+      # Directly scan _sections directory for config.yml files
+      # This is more reliable than relying on collection files
+      sections_dir = File.join(site.source, '_sections')
       
-      if sections_collection
-        # Iterate through section files
-        sections_collection.files.each do |file|
-          # Process config.yml files
-          if file.name == 'config.yml'
+      if Dir.exist?(sections_dir)
+        # Find all config.yml files in _sections subdirectories
+        config_files = Dir.glob(File.join(sections_dir, '*/config.yml'))
+        
+        config_files.each do |config_path|
+          begin
             # Extract section key from path (e.g., "_sections/tech-bites/config.yml" -> "tech-bites")
-            path_parts = file.path.split('/')
+            path_parts = config_path.split(File::SEPARATOR)
             section_index = path_parts.index('_sections')
-            next unless section_index && path_parts.length > section_index + 1
+            
+            next unless section_index && path_parts.length > section_index + 2
             
             section_key = path_parts[section_index + 1]
             next if section_key.nil? || section_key.empty?
             
             # Read and parse YAML file
-            begin
-              yaml_content = File.read(file.path)
-              # Use Jekyll's YAML parser (Psych in Jekyll 4.x)
-              require 'yaml'
-              section_config = YAML.safe_load(yaml_content, permitted_classes: [Date, Time]) || {}
-              
-              # Convert keys to strings for consistency
-              section_config = section_config.transform_keys(&:to_s) if section_config.is_a?(Hash)
-              
-              # Add key to config
-              section_config['key'] = section_key unless section_config.key?('key')
-              
-              # Store in section_definitions hash
-              section_definitions[section_key] = section_config
-            rescue => e
-              Jekyll.logger.warn "SectionsGenerator:", "Failed to load #{file.path}: #{e.message}"
+            unless File.exist?(config_path)
+              Jekyll.logger.warn "SectionsGenerator:", "File not found: #{config_path}"
+              next
             end
+            
+            yaml_content = File.read(config_path)
+            require 'yaml'
+            section_config = YAML.safe_load(yaml_content, permitted_classes: [Date, Time]) || {}
+            
+            # Convert keys to strings for consistency
+            section_config = section_config.transform_keys(&:to_s) if section_config.is_a?(Hash)
+            
+            # Add key to config
+            section_config['key'] = section_key unless section_config.key?('key')
+            
+            # Store in section_definitions hash
+            section_definitions[section_key] = section_config
+            
+            Jekyll.logger.info "SectionsGenerator:", "Loaded section: #{section_key}"
+          rescue => e
+            Jekyll.logger.warn "SectionsGenerator:", "Failed to load #{config_path}: #{e.message}"
           end
         end
+      else
+        Jekyll.logger.debug "SectionsGenerator:", "_sections directory not found at #{sections_dir}"
       end
       
       # Make section_definitions available via site.section_definitions
       site.config['section_definitions'] = section_definitions
+      
+      if section_definitions.size > 0
+        Jekyll.logger.info "SectionsGenerator:", "Loaded #{section_definitions.size} section(s): #{section_definitions.keys.join(', ')}"
+      else
+        Jekyll.logger.warn "SectionsGenerator:", "No sections loaded. Check _sections directory structure."
+      end
     end
   end
 end

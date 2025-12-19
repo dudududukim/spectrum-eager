@@ -1,5 +1,41 @@
 # Remote Theme Usage Guide
 
+## Quick Start
+
+### Automated Setup (Recommended)
+
+1. **Run the setup script** in your Jekyll site root directory:
+   ```bash
+   curl -sSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash -s v2.0.7
+   ```
+   
+   Or download and run manually:
+   ```bash
+   wget https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh
+   chmod +x setup-remote-theme.sh
+   ./setup-remote-theme.sh v2.0.7
+   ```
+
+   This script will automatically:
+   - Download `_plugins/sections_generator.rb` (required for sections to work)
+   - Create example `_sections` folder structure
+   - Verify your `_config.yml` and `Gemfile` settings
+
+2. **Configure your site**:
+   - Update `_config.yml` with your site settings
+   - Add `remote_theme: dudududukim/spectrum-eager@v2.0.7` to `_config.yml`
+   - Add `jekyll-remote-theme` to your `Gemfile`
+
+3. **Install and run**:
+   ```bash
+   bundle install
+   bundle exec jekyll serve
+   ```
+
+### Manual Setup
+
+If you prefer to set up manually, follow the steps below.
+
 ## Current Structure
 
 - **theme branch**: Theme code (layouts, styles, JavaScript, etc.)
@@ -70,6 +106,11 @@ bundle exec jekyll build
 
 ### Files Managed by User (main branch)
 
+**Required Files (must be in your repository):**
+- `_plugins/sections_generator.rb` - **REQUIRED**: Plugin to load section configs
+  - Download from: `https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/_plugins/sections_generator.rb`
+  - Or use the setup script to automatically download it
+
 **Content:**
 - `_posts/` - Blog posts
 - `_films/` - Photo gallery
@@ -94,6 +135,8 @@ The following files are automatically loaded via remote-theme, so they don't nee
 - `assets/css/`
 - `assets/js/`
 
+**Note**: `_plugins/` folder is NOT automatically loaded from remote theme. You must copy `_plugins/sections_generator.rb` to your local repository.
+
 ## Theme Updates
 
 To update the theme:
@@ -104,12 +147,37 @@ To update the theme:
 
 ## Troubleshooting
 
+### "_sections" Not Found / Sections Not Loading
+
+If you see "No sections configured yet" or sections are not loading:
+
+1. **Check if `_plugins/sections_generator.rb` exists**:
+   ```bash
+   ls _plugins/sections_generator.rb
+   ```
+   If it doesn't exist, download it:
+   ```bash
+   mkdir -p _plugins
+   curl -o _plugins/sections_generator.rb https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/_plugins/sections_generator.rb
+   ```
+
+2. **Restart Jekyll server** (plugins are loaded at startup):
+   ```bash
+   # Stop the server (Ctrl+C) and restart
+   bundle exec jekyll serve
+   ```
+
+3. **Verify `_sections` folder structure**:
+   ```bash
+   ls -la _sections/tech-bites/config.yml
+   ```
+
 ### Theme Not Loading
 
 1. Check if theme branch is pushed to GitHub
 2. Check `remote_theme` setting in `_config.yml`:
    ```yaml
-   remote_theme: dudududukim/spectrum-eager@theme
+   remote_theme: dudududukim/spectrum-eager@v2.0.7
    ```
 3. Check if `jekyll-remote-theme` is in `Gemfile`
 4. Run `bundle install`
