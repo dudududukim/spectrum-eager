@@ -676,8 +676,18 @@
       display: none;
     }
 
-    &:hover {
-      animation-play-state: paused;
+    // Animated track (3+ items)
+    &.gallery-track-animated {
+      &:hover {
+        animation-play-state: paused;
+      }
+    }
+
+    // Static track (1-2 items) - centered, no animation
+    &.gallery-track-static {
+      width: 100%;
+      justify-content: center;
+      animation: none !important;
     }
   }
 
