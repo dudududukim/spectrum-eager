@@ -2,6 +2,9 @@
 # SPECTRUM JEKYLL THEME - MAIN CONFIGURATION
 # ===========================================
 
+# Remote Theme Configuration
+remote_theme: dudududukim/spectrum-eager@theme
+
 # Jekyll Core Settings
 markdown: kramdown
 highlighter: rouge
@@ -216,6 +219,7 @@ defaults:
 
 # Plugins
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
