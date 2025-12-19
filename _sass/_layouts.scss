@@ -497,6 +497,9 @@
   margin: 4rem 0;
   padding: 3rem 0;
   border-top: 1px solid var(--border-color);
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
 
   .section-header-slider {
     display: grid;
@@ -617,6 +620,9 @@
   padding: 3rem 0;
   border-top: 1px solid var(--border-color);
   overflow: hidden; // 가로 스크롤 방지
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
 
   .section-header {
     text-align: center;
