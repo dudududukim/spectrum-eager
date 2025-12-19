@@ -82,6 +82,10 @@
     <div class="section-tab-placeholder" id="section-tab-placeholder" hidden>
         <p id="section-tab-placeholder-text" class="section-description"></p>
     </div>
+    
+    <div class="section-empty-message" id="section-empty-message" hidden>
+        <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with <code>section: "<span id="section-empty-key"></span>"</code> in front matter.</p>
+    </div>
 
     <script>
       (function() {
@@ -101,12 +105,24 @@
         const grid = document.querySelector('.tech-bites-grid');
         const placeholder = document.getElementById('section-tab-placeholder');
         const placeholderText = document.getElementById('section-tab-placeholder-text');
+        const emptyMessage = document.getElementById('section-empty-message');
+        const emptyKey = document.getElementById('section-empty-key');
         const prevBtn = header.querySelector('.section-nav-prev');
         const nextBtn = header.querySelector('.section-nav-next');
         const actionBtn = document.querySelector('.section-footer .section-button');
         const actionBtnLabel = actionBtn?.querySelector('.btn-label');
         const baseUrl = (header.dataset.baseurl || '').replace(/\/$/, '');
         const defaultLabel = header.dataset.defaultLabel || '';
+        
+        {% comment %} Get post counts for each section {% endcomment %}
+        const postCounts = {};
+        {% if site.section_definitions %}
+            {% for section_pair in site.section_definitions %}
+                {% assign section_key = section_pair[0] %}
+                {% assign section_posts = site.posts | where: "section", section_key %}
+                postCounts['{{ section_key }}'] = {{ section_posts.size }};
+            {% endfor %}
+        {% endif %}
 
         let idx = 0;
 
@@ -129,9 +145,24 @@
           descEl.textContent = tab.description || '';
 
           const isTech = tab.key === 'tech-bites';
-          if (grid && placeholder) {
-            grid.hidden = !isTech;
-            placeholder.hidden = isTech;
+          const postCount = postCounts[tab.key] || 0;
+          const hasPosts = postCount > 0;
+          
+          if (grid && placeholder && emptyMessage) {
+            if (isTech && hasPosts) {
+              grid.hidden = false;
+              placeholder.hidden = true;
+              emptyMessage.hidden = true;
+            } else if (isTech && !hasPosts) {
+              grid.hidden = true;
+              placeholder.hidden = true;
+              emptyMessage.hidden = false;
+              if (emptyKey) emptyKey.textContent = tab.key || '';
+            } else {
+              grid.hidden = true;
+              placeholder.hidden = false;
+              emptyMessage.hidden = true;
+            }
           }
           if (placeholderText) {
             placeholderText.textContent = tab.description || '';
@@ -140,9 +171,10 @@
           if (actionBtn) {
             const label = tab.button_text || defaultLabel || tab.title || '';
             if (actionBtnLabel) actionBtnLabel.textContent = label;
-            actionBtn.href = resolveUrl(tab.url);
+            const btnUrl = tab.button_url || tab.url || '';
+            actionBtn.href = resolveUrl(btnUrl);
             actionBtn.className = buildButtonClass(tab.key);
-            actionBtn.hidden = !tab.url;
+            actionBtn.hidden = !btnUrl;
           }
         }
 
