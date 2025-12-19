@@ -2,12 +2,12 @@
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 
-@use "color-variables";
-@use "base";
-@use "components";
-@use "layouts";
-@use "sections";
-@use "utilities";
+@import "color-variables";
+@import "base";
+@import "components";
+@import "layouts";
+@import "sections";
+@import "utilities";
 
 // Main stylesheet - imports all modular styles
 // ============================================
