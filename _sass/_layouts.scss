@@ -123,16 +123,16 @@
   justify-content: center !important;
   align-items: center !important;
   box-shadow: none; // shadow 제거
-}
+  }
 
 .pagination-numbers {
   display: flex !important;
   gap: 0.5rem;
-  align-items: center;
+    align-items: center;
   flex-wrap: wrap;
   justify-content: center !important;
   max-width: 100%;
-}
+  }
 
 .pagination-number {
   min-width: 2.25rem;
@@ -140,11 +140,11 @@
   padding: 0;
   background: none;
   border: none;
-  color: var(--text-color);
+    color: var(--text-color);
   font-size: 0.95rem;
   font-weight: 400;
-  cursor: pointer;
-  transition: all var(--transition-fast);
+    cursor: pointer;
+    transition: all var(--transition-fast);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -177,8 +177,8 @@
       opacity: 0.15;
       border-radius: 4px;
     }
+    }
   }
-}
 
 .pagination-ellipsis {
   padding: 0 0.25rem;
