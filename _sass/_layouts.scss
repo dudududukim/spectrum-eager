@@ -783,7 +783,7 @@
     overflow: hidden;
     margin-bottom: 2rem;
     border-radius: var(--radius-lg);
-
+    width: 100%;
   }
 
   .gallery-track {
@@ -791,27 +791,29 @@
     gap: 1rem;
     width: fit-content;
     will-change: transform;
-    transform: translateX(0);
-    overflow-x: auto;
 
     // Animated track (3+ items)
     &.gallery-track-animated {
-      animation: scroll-left var(--track-duration, 45s) linear infinite;
+      animation: scroll-horizontal linear infinite;
+      animation-duration: var(--track-duration, 45s);
+      animation-direction: var(--track-direction, normal);
       
-      &:hover {
-        animation-play-state: paused;
-      }
+      // &:hover {
+      //   animation-play-state: paused;
+      // }
     }
 
     // Static track (1-2 items) - centered, no animation
     &.gallery-track-static {
       width: 100%;
       justify-content: center;
+      flex-wrap: wrap;
       animation: none !important;
     }
   }
 
   .gallery-item {
+    flex-shrink: 0;
     flex: 0 0 auto;
     width: 280px; // 기본 크기
     height: 200px;
@@ -927,6 +929,16 @@
 }
 
 // Gallery track animation keyframes
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+// Keep scroll-left for backward compatibility
 @keyframes scroll-left {
   0% {
     transform: translateX(0%);
@@ -1024,6 +1036,7 @@
     position: relative;
     overflow: hidden;
     height: 200px;
+    width: 100%;
   }
 
   .music-gallery-track {
@@ -1033,21 +1046,25 @@
     will-change: transform;
 
     &.music-gallery-track-animated {
-      animation: scroll-left var(--track-duration, 30s) linear infinite;
+      animation: scroll-horizontal linear infinite;
+      animation-duration: var(--track-duration, 30s);
+      animation-direction: var(--track-direction, normal);
       
-      &:hover {
-        animation-play-state: paused;
-      }
+      // &:hover {
+      //   animation-play-state: paused;
+      // }
     }
 
     &.music-gallery-track-static {
       width: 100%;
       justify-content: center;
+      flex-wrap: wrap;
       animation: none !important;
     }
   }
 
   .music-gallery-item {
+    flex-shrink: 0;
     flex: 0 0 auto;
     width: 200px;
     overflow: hidden;

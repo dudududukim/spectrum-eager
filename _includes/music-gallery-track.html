@@ -2,8 +2,14 @@
 {% assign all_musics = site.musics | sort: 'date' | reverse %}
 {% assign featured_musics = all_musics %}
 
-{% comment %} Load card_duration from config.yml {% endcomment %}
-{% assign card_duration = site.sections.music_gallery.card_duration | default: 5 | plus: 0 %}
+{% comment %} Load card_duration and direction from config.yml {% endcomment %}
+{% assign card_duration = site.section_settings.music_gallery.card_duration | default: 5 | plus: 0 %}
+{% assign direction = site.section_settings.music_gallery.direction | default: 'left' | downcase %}
+{% assign track_direction = 'normal' %}
+{% if direction == 'right' %}
+  {% assign track_direction = 'reverse' %}
+{% endif %}
+<!-- DEBUG card_duration={{ card_duration }}, direction={{ direction }} -->
 
 {% comment %} Calculate animation duration for constant speed
   Formula: total_duration = item_count × card_duration
@@ -13,12 +19,12 @@
 <section class="music-gallery-preview">
     <div class="section-content">
         <div class="music-gallery-link-text">
-            <a href="{{ '/musics/' | relative_url }}">{{ site.sections.music_gallery.link_text | default: "🎶 Duhyeon's pick" }}</a>
+            <a href="{{ '/musics/' | relative_url }}">{{ site.section_settings.music_gallery.link_text | default: "🎶 Duhyeon's pick" }}</a>
         </div>
-        <div class="music-gallery-track-container" style="--track-duration: {{ animation_duration }}s;">
+        <div class="music-gallery-track-container">
             {% if featured_musics.size > 0 %}
                 {% if featured_musics.size >= 3 %}
-                    <div class="music-gallery-track music-gallery-track-animated">
+                    <div class="music-gallery-track music-gallery-track-animated" style="--track-duration: {{ animation_duration }}s; --track-direction: {{ track_direction }};">
                         {% for i in (1..4) %}
                             {% for music in featured_musics %}
                                 {% assign cover_path = music.cover_image | relative_url %}

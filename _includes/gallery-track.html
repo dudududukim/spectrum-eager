@@ -3,8 +3,14 @@
 {% assign films = site.films | where: "featured", true | sort: 'date' | reverse %}
 {% assign recent_films = films %}
 
-{% comment %} Load card_duration from config.yml - same pattern as image_count {% endcomment %}
-{% assign card_duration = site.sections.gallery_track.card_duration | default: 8 | plus: 0 %}
+{% comment %} Load card_duration and direction from config.yml {% endcomment %}
+{% assign card_duration = site.section_settings.gallery_track.card_duration | default: 8 | plus: 0 %}
+{% assign direction = site.section_settings.gallery_track.direction | default: 'left' | downcase %}
+{% assign track_direction = 'normal' %}
+{% if direction == 'right' %}
+  {% assign track_direction = 'reverse' %}
+{% endif %}
+<!-- DEBUG card_duration={{ card_duration }}, direction={{ direction }} -->
 
 {% comment %} Calculate animation duration for constant speed
   Formula: total_duration = item_count × card_duration
@@ -18,13 +24,13 @@
     </div>
 
     <div class="section-content">
-        <div class="gallery-track-container" style="--track-duration: {{ animation_duration }}s;">
+        <div class="gallery-track-container">
 
             {% if recent_films.size > 0 %}
                     <!-- Generate gallery items with seamless loop duplication (only if enough images) -->
                     {% if recent_films.size >= 3 %}
                         <!-- For seamless infinite scroll, duplicate items when we have enough images -->
-                        <div class="gallery-track gallery-track-animated">
+                        <div class="gallery-track gallery-track-animated" style="--track-duration: {{ animation_duration }}s; --track-direction: {{ track_direction }};">
                             {% for i in (1..2) %}
                                 {% for film in recent_films %}
                                     {% assign image_path = film.image_path | relative_url %}

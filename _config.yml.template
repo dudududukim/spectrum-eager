@@ -222,16 +222,16 @@ design_options:
 # ===========================================
 # Note: Section-specific settings are managed in _sections/<name>/config.yml
 # Only global section settings should be here
-sections:
+# Renamed from 'sections' to 'section_settings' to avoid conflict with collections.sections
+section_settings:
   gallery_track:
-    enabled: true
-    image_count: 6
-    animation_duration: 60
+    card_duration: 10      # Seconds per card (controls animation speed)
+    direction: left         # Animation direction: 'left' or 'right'
   
   music_gallery:
-    enabled: true
-    animation_duration: 45
-    link_text: "🎶 duhyeon's pick"
+    card_duration: 10      # Seconds per card (controls animation speed)
+    direction: left         # Animation direction: 'left' or 'right'
+    link_text: "🎶 Duhyeon's pick"
 
 # ===========================================
 # COLLECTIONS

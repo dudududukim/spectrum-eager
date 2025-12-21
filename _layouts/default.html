@@ -54,7 +54,8 @@
         }
 
         /* Prevent transitions during initial load */
-        * {
+        /* Exclude gallery animations from global block to allow them to work immediately */
+        *:not(.gallery-track-animated):not(.music-gallery-track-animated) {
             transition: none !important;
             animation: none !important;
         }
@@ -89,9 +90,9 @@
         }
 
         /* Re-enable transitions after load */
+        /* Note: animations are handled by main.css, only restore transitions here */
         .transitions-enabled * {
             transition: unset !important;
-            animation: unset !important;
         }
 
         /* Scrollbar hiding is handled in main.scss */

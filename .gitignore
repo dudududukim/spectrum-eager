@@ -78,6 +78,9 @@ build/
 # Local configuration overrides
 _config.local.yml
 
+# Documentation reports (development/debugging notes)
+docs/reports/
+
 /test/
 /_posts/
 /assets/images/films/

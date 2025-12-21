@@ -140,12 +140,15 @@ homepage_sections:
 # Section Configuration
 # Note: Section-specific settings are now managed in _sections/<name>/config.yml
 # Only global section settings should be here
-sections:
+# Renamed from 'sections' to 'section_settings' to avoid conflict with collections.sections
+section_settings:
   gallery_track:
-    card_duration: 1      # Seconds per card (controls animation speed)
+    card_duration: 10      # Seconds per card (controls animation speed)
+    direction: left         # Animation direction: 'left' or 'right'
   
   music_gallery:
-    card_duration: 10      # Seconds per card (controls animation speed)
+    card_duration: 20      # Seconds per card (controls animation speed)
+    direction: right         # Animation direction: 'left' or 'right'
     link_text: "🎶 Duhyeon's pick"
 
 # Collections
