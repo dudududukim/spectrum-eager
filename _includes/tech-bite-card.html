@@ -1,7 +1,6 @@
 {% assign tech_bite = include.tech_bite %}
 <article class="tech-bite-card"
          data-date="{{ tech_bite.date | date: '%Y-%m-%d' }}"
-         data-category="{{ tech_bite.category | default: 'tech-bite' }}"
          {% if tech_bite.categories %}data-categories="{{ tech_bite.categories | join: ',' | downcase }}"{% endif %}>
     <div class="card-content">
         <header class="card-header">
@@ -11,9 +10,11 @@
                         {{ tech_bite.title }}
                     </a>
                 </h3>
-                <span class="category-badge category-{{ tech_bite.category | default: 'tech-bite' }}">
-                    {{ tech_bite.category | default: 'tech-bite' | capitalize }}
+                {% if tech_bite.categories and tech_bite.categories.size > 0 %}
+                <span class="category-badge">
+                    {{ tech_bite.categories.first | capitalize }}
                 </span>
+                {% endif %}
             </div>
 
             <div class="card-meta">

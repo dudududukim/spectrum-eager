@@ -16,4 +16,15 @@ main_page_count: 3  # Number of posts to show on homepage preview
 pagination: 10  # Number of posts per page on listing page
 show_dates: true
 show_categories: true
+# Category filters for this section
+# These will appear as filter buttons on the section listing page
+# Each category should have a 'name' (display name) and 'key' (used for filtering)
+# Post front matter should use 'categories: [key]' to match these filters
+filter_categories:
+  - name: "AI"
+    key: "ai"
+  - name: "HW"
+    key: "hw"
+  - name: "SW"
+    key: "sw"
 

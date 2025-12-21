@@ -217,8 +217,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const categoryList = categories.split(',').map(c => c.trim().toLowerCase());
                 return categoryList.includes(currentCategory.toLowerCase());
             }
-            // Fallback: check data-category attribute for backward compatibility
-            return card.getAttribute('data-category') === currentCategory;
+            // If no categories, don't show in filtered view
+            return false;
         });
     }
 
