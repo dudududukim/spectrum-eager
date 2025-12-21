@@ -201,6 +201,19 @@ create_films_md() {
     print_success "Created ${films_file}"
 }
 
+# Create musics.md from template
+create_musics_md() {
+    local musics_file="musics.md"
+    
+    if [ -f "$musics_file" ]; then
+        print_action "${musics_file} exists, skipping"
+        return
+    fi
+    
+    download_file "musics.md.template" "$musics_file"
+    print_success "Created ${musics_file}"
+}
+
 # Create/update Gemfile
 create_gemfile() {
     local gemfile="Gemfile"
@@ -402,6 +415,7 @@ main() {
     create_config_yml
     create_index_md
     create_films_md
+    create_musics_md
     create_gemfile
     download_plugin
     create_workflow
