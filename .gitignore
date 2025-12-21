@@ -81,6 +81,8 @@ _config.local.yml
 # Documentation reports (development/debugging notes)
 docs/reports/
 
+# for remote-theme collision
+/assets/posts/pdfs
 /test/
 /_posts/
 /assets/images/films/

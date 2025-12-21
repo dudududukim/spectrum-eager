@@ -315,35 +315,78 @@ copy_if_not_exists() {
 copy_examples() {
     local examples_dir="examples"
     
-    # Download example files from remote if examples/ folder doesn't exist
-    if [ ! -d "$examples_dir" ]; then
-        print_action "Downloading example files from remote..."
-        local files=(
-            "_posts/2025-12-19-example-post.md"
-            "_films/example-film-1.md"
-            "_films/example-film-2.md"
-            "_musics/example-music-1.md"
-            "_musics/example-music-2.md"
-            "_musics/example-music-3.md"
-            "assets/images/films/example-1.png"
-            "assets/images/films/example-2.png"
-            "_sections/tech-bites/config.yml"
-            "_sections/tech-bites/page.md"
-            "_sections/hobbies/config.yml"
-            "_sections/hobbies/page.md"
-        )
-        
-        for file in "${files[@]}"; do
-            mkdir -p "${examples_dir}/$(dirname "$file")"
-            download_file "examples/${file}" "${examples_dir}/${file}" 2>/dev/null || true
+    # If examples folder doesn't exist, skip (users can add examples manually)
+    if [ ! -d "$examples_dir" ] || [ -z "$(ls -A ${examples_dir} 2>/dev/null)" ]; then
+        print_action "Examples folder not found, skipping example files"
+        return
+    fi
+    
+    # Copy all files from examples directory recursively
+    print_action "Copying example files from ${examples_dir}/..."
+    
+    # Copy _posts
+    if [ -d "${examples_dir}/_posts" ] && [ "$(ls -A ${examples_dir}/_posts 2>/dev/null)" ]; then
+        mkdir -p "_posts"
+        for file in "${examples_dir}/_posts"/*.md; do
+            [ -f "$file" ] || continue
+            local filename=$(basename "$file")
+            if [ ! -f "_posts/${filename}" ]; then
+                cp "$file" "_posts/${filename}"
+                print_success "Copied ${filename} to _posts/"
+            else
+                print_action "_posts/${filename} exists, skipping"
+            fi
         done
     fi
     
-    # Copy example files
-    copy_if_not_exists "${examples_dir}/_posts" "_posts" "*.md" "_posts"
-    copy_if_not_exists "${examples_dir}/_films" "_films" "*.md" "_films"
-    copy_if_not_exists "${examples_dir}/_musics" "_musics" "*.md" "_musics"
-    copy_if_not_exists "${examples_dir}/assets/images/films" "assets/images/films" "*" "assets/images/films"
+    # Copy _films
+    if [ -d "${examples_dir}/_films" ] && [ "$(ls -A ${examples_dir}/_films 2>/dev/null)" ]; then
+        mkdir -p "_films"
+        for file in "${examples_dir}/_films"/*.md; do
+            [ -f "$file" ] || continue
+            local filename=$(basename "$file")
+            if [ ! -f "_films/${filename}" ]; then
+                cp "$file" "_films/${filename}"
+                print_success "Copied ${filename} to _films/"
+            else
+                print_action "_films/${filename} exists, skipping"
+            fi
+        done
+    fi
+    
+    # Copy _musics
+    if [ -d "${examples_dir}/_musics" ] && [ "$(ls -A ${examples_dir}/_musics 2>/dev/null)" ]; then
+        mkdir -p "_musics"
+        for file in "${examples_dir}/_musics"/*.md; do
+            [ -f "$file" ] || continue
+            local filename=$(basename "$file")
+            if [ ! -f "_musics/${filename}" ]; then
+                cp "$file" "_musics/${filename}"
+                print_success "Copied ${filename} to _musics/"
+            else
+                print_action "_musics/${filename} exists, skipping"
+            fi
+        done
+    fi
+    
+    # Copy assets/images recursively
+    if [ -d "${examples_dir}/assets/images" ]; then
+        mkdir -p "assets/images"
+        # Use find to copy all files recursively
+        find "${examples_dir}/assets/images" -type f | while read -r file; do
+            local rel_path="${file#${examples_dir}/assets/images/}"
+            local target_file="assets/images/${rel_path}"
+            local target_dir=$(dirname "$target_file")
+            
+            mkdir -p "$target_dir"
+            if [ ! -f "$target_file" ]; then
+                cp "$file" "$target_file"
+                print_success "Copied ${rel_path} to assets/images/"
+            else
+                print_action "assets/images/${rel_path} exists, skipping"
+            fi
+        done
+    fi
     
     # Copy example sections
     if [ -d "${examples_dir}/_sections" ] && [ "$(ls -A ${examples_dir}/_sections 2>/dev/null)" ]; then
