@@ -205,7 +205,9 @@ plugins:
 
 image_resize:
   enabled: true  # Set to false to disable automatic image resizing
-  max_width: 1200  # Maximum width in pixels for resized images
+  max_width: 1200  # Maximum width in pixels for resized images (default for all directories)
+  per_dir:  # Per-directory max-width overrides (optional)
+    musics: 800  # musics folder images will be resized to max 800px width
 
 # Build Settings
 exclude:

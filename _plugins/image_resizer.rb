@@ -5,7 +5,9 @@
 # Usage: Add to _config.yml:
 #   image_resize:
 #     enabled: true
-#     max_width: 1200
+#     max_width: 1200  # Default max width for all directories
+#     per_dir:  # Optional: per-directory overrides
+#       musics: 800  # musics folder images will be resized to max 800px
 #
 # Note: Uses Jekyll Hook to run after static files are copied to _site
 # This ensures resized images are not overwritten by original files
@@ -30,7 +32,7 @@ module Jekyll
       subdirs = Dir.glob(File.join(base_images_dir, '*')).select { |path| File.directory?(path) }
       
       subdirs.each do |source_dir|
-        process_directory(site, source_dir, max_width, image_processor_available, processor_type)
+        process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type)
       end
     end
     
@@ -75,10 +77,13 @@ module Jekyll
       [processor_available, processor_type]
     end
     
-    def self.process_directory(site, source_dir, max_width, image_processor_available, processor_type)
+    def self.process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type)
       # Get relative path from assets/images/ to preserve subdirectory structure
       base_images_dir = File.join(site.source, 'assets/images')
       rel_path = source_dir.sub(/^#{Regexp.escape(base_images_dir)}\//, '')
+      
+      # Get directory-specific max_width if configured, otherwise use default
+      dir_max_width = image_config.dig('per_dir', rel_path) || max_width
       
       # Destination directory in _site (static files already copied here)
       dest_dir = File.join(site.dest, 'assets/images', rel_path)
@@ -126,19 +131,19 @@ module Jekyll
               Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{rel_path}/#{filename}, will resize anyway: #{dim_error.message}"
             end
             
-            # Only resize if image is wider than max_width (or if we couldn't get dimensions)
-            if original_width.nil? || original_width > max_width
+            # Only resize if image is wider than dir_max_width (or if we couldn't get dimensions)
+            if original_width.nil? || original_width > dir_max_width
               # Resize image
               if processor_type == :vips
                 ImageProcessing::Vips
                   .source(image_path)
-                  .resize_to_limit(max_width, nil)
+                  .resize_to_limit(dir_max_width, nil)
                   .call(destination: dest_path)
               elsif processor_type == :mini_magick
                 begin
                   ImageProcessing::MiniMagick
                     .source(image_path)
-                    .resize_to_limit(max_width, nil)
+                    .resize_to_limit(dir_max_width, nil)
                     .call(destination: dest_path)
                 rescue => magick_error
                   # ImageMagick CLI error (e.g., executable not found: "identify", "convert")
@@ -149,16 +154,16 @@ module Jekyll
               
               if original_width
                 resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (#{original_width}px -> #{max_width}px)"
+                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (#{original_width}px -> #{dir_max_width}px)"
               else
                 resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (max-width: #{max_width}px)"
+                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (max-width: #{dir_max_width}px)"
               end
             else
               # Copy original if it's already small enough
               FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path) && File.mtime(dest_path) >= File.mtime(image_path)
               skipped_count += 1
-              Jekyll.logger.debug "ImageResizer:", "Skipped #{rel_path}/#{filename} (already #{original_width}px <= #{max_width}px)"
+              Jekyll.logger.debug "ImageResizer:", "Skipped #{rel_path}/#{filename} (already #{original_width}px <= #{dir_max_width}px)"
             end
           else
             # Fallback: just copy the original image
