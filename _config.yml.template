@@ -308,6 +308,14 @@ image_resize:
     musics: 800  # musics folder images will be resized to max 800px width
 
 # ===========================================
+# ANALYTICS CONFIGURATION
+# ===========================================
+# Google Analytics tracking ID
+# Get your tracking ID from: https://analytics.google.com/
+# Leave empty or remove this line to disable analytics
+google_analytics: ""  # CHANGE THIS: Your Google Analytics tracking ID (e.g., "G-XXXXXXXXXX" or "UA-XXXXXXXXX-X")
+
+# ===========================================
 # BUILD SETTINGS
 # ===========================================
 # Files and directories to exclude from build
