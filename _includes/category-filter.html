@@ -1,0 +1,20 @@
+{% comment %}
+Category filter buttons include
+Usage: {% include category-filter.html section_config=section_config %}
+Output: Category filter buttons HTML if filter_categories exist
+{% endcomment %}
+{% assign section_config = include.section_config %}
+{% if section_config and section_config.filter_categories and section_config.filter_categories.size > 0 %}
+<div class="category-filter">
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-category="all">All</button>
+        {% for cat in section_config.filter_categories %}
+        {% assign color_index = forloop.index %}
+        {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
+        {% assign cat_key = cat | downcase %}
+        <button class="filter-btn category-color-{{ color_index }}" data-category="{{ cat_key }}">{{ cat }}</button>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+

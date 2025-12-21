@@ -11,10 +11,7 @@ pagination: 10
 show_dates: true
 show_categories: true
 filter_categories:
-  - name: "AI"
-    key: "ai"
-  - name: "HW"
-    key: "hw"
-  - name: "SW"
-    key: "sw"
+  - "AI"
+  - "HW"
+  - "SW"
 

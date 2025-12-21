@@ -12,13 +12,8 @@ show_dates: true
 show_categories: true
 
 filter_categories:
-  - name: "Music"
-    key: "music"
-  - name: "Photography"
-    key: "photography"
-  - name: "Travel"
-    key: "travel"
-  - name: "Cooking"
-    key: "cooking"
-  - name: "Sports"
-    key: "sports"
+  - "Music"
+  - "Photography"
+  - "Travel"
+  - "Cooking"
+  - "Sports"

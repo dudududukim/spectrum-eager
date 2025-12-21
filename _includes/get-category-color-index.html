@@ -1,0 +1,24 @@
+{% comment %}
+Helper include to get category color index based on filter_categories order
+Usage: {% include get-category-color-index.html category="AI" section_config=section_config %}
+Returns: color_index variable (1-5) based on position in filter_categories array
+{% endcomment %}
+{% assign category = include.category %}
+{% assign section_config = include.section_config %}
+{% assign color_index = 1 %}
+
+{% if section_config and section_config.filter_categories %}
+  {% assign category_name = category | capitalize %}
+  {% for filter_cat in section_config.filter_categories %}
+    {% assign filter_cat_name = filter_cat | capitalize %}
+    {% if filter_cat_name == category_name %}
+      {% assign color_index = forloop.index %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if color_index > 5 %}
+  {% assign color_index = 5 %}
+{% endif %}
+

@@ -10,21 +10,15 @@
                         {{ tech_bite.title }}
                     </a>
                 </h3>
-                {% assign tech_bite_section = tech_bite.section | default: "tech-bites" %}
-                {% include get-section-config.html section_key=tech_bite_section %}
+                {% if include.section_config %}
+                    {% assign section_config = include.section_config %}
+                {% else %}
+                    {% assign tech_bite_section = tech_bite.section | default: "tech-bites" %}
+                    {% include get-section-config.html section_key=tech_bite_section %}
+                {% endif %}
                 {% if tech_bite.categories and tech_bite.categories.size > 0 %}
                   {% for category in tech_bite.categories %}
-                    {% assign category_key = category | downcase %}
-                    {% assign color_index = 1 %}
-                    {% if section_config.filter_categories %}
-                      {% for filter_cat in section_config.filter_categories %}
-                        {% if filter_cat.key == category_key %}
-                          {% assign color_index = forloop.index %}
-                          {% break %}
-                        {% endif %}
-                      {% endfor %}
-                    {% endif %}
-                    {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
+                    {% include get-category-color-index.html category=category section_config=section_config %}
                     <span class="category-badge category-color-{{ color_index }}">
                         {{ category | capitalize }}
                     </span>
@@ -37,17 +31,6 @@
                     <time class="card-date" datetime="{{ tech_bite.date | date_to_xmlschema }}">
                         {{ tech_bite.date | date: "%b %d, %Y" }}
                     </time>
-                {% endif %}
-
-                {% if section_config.show_categories and tech_bite.categories %}
-                    <div class="card-categories">
-                        {% for category in tech_bite.categories limit: 2 %}
-                            <span class="category-tag">{{ category }}</span>
-                        {% endfor %}
-                        {% if tech_bite.categories.size > 2 %}
-                            <span class="category-more">+{{ tech_bite.categories.size | minus: 2 }}</span>
-                        {% endif %}
-                    </div>
                 {% endif %}
             </div>
         </header>

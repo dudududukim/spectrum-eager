@@ -2,6 +2,16 @@
 layout: default
 ---
 
+{% comment %} Load section config and calculate variables once at the top {% endcomment %}
+{% assign current_section = page.section | default: "tech-bites" %}
+{% include get-section-config.html section_key=current_section %}
+{% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
+{% if site.section_definitions %}
+    {% assign pagination_size = section_config.pagination | default: 10 %}
+{% else %}
+    {% assign pagination_size = 10 %}
+{% endif %}
+
 <div class="tech-bite-list-page">
     <div class="container">
         <header class="page-header">
@@ -10,24 +20,10 @@ layout: default
         </header>
 
         <!-- Category Filter -->
-        {% assign current_section = page.section | default: "tech-bites" %}
-        {% include get-section-config.html section_key=current_section %}
-        {% if section_config.filter_categories and section_config.filter_categories.size > 0 %}
-        <div class="category-filter">
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-category="all">All</button>
-                {% for cat in section_config.filter_categories %}
-                {% assign color_index = forloop.index %}
-                {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
-                <button class="filter-btn category-color-{{ color_index }}" data-category="{{ cat.key }}">{{ cat.name }}</button>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
+        {% include category-filter.html section_config=section_config %}
 
         <!-- Tech Bites Grid -->
         <div class="tech-bites-grid">
-            {% assign current_section = page.section | default: "tech-bites" %}
             {% comment %} Check if sections are configured - if not, redirect to 404 {% endcomment %}
             {% unless site.section_definitions %}
                 <script>
@@ -40,7 +36,6 @@ layout: default
                 </div>
             {% else %}
                 {% comment %} Sections are configured, check if content is available {% endcomment %}
-                {% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
                 {% if sorted_tech_bites.size == 0 %}
                     {% comment %} Show info message instead of redirecting to 404 {% endcomment %}
                     <div class="empty-section-message">
@@ -49,7 +44,7 @@ layout: default
                     </div>
                 {% else %}
                     {% for tech_bite in sorted_tech_bites %}
-                        {% include tech-bite-card.html tech_bite=tech_bite %}
+                        {% include tech-bite-card.html tech_bite=tech_bite section_config=section_config %}
                     {% endfor %}
                 {% endif %}
             {% endunless %}
@@ -59,196 +54,13 @@ layout: default
 </div>
 
 <!-- Pagination (outside main-content, before footer) -->
-{% assign current_section = page.section | default: "tech-bites" %}
-{% assign sorted_tech_bites = site.posts | where: "section", current_section | sort: 'date' | reverse %}
-{% if site.section_definitions %}
-    {% include get-section-config.html section_key=current_section %}
-    {% assign pagination_size = section_config.pagination | default: 10 %}
-{% else %}
-    {% assign pagination_size = 10 %}
-{% endif %}
 {% if pagination_size and sorted_tech_bites.size > 0 %}
     {% assign total_pages = sorted_tech_bites.size | divided_by: pagination_size | plus: 1 %}
-
     {% if total_pages > 1 %}
-        <nav class="pagination pagination-sticky">
+        <nav class="pagination pagination-sticky" data-items-per-page="{{ pagination_size }}">
             <div class="pagination-numbers" id="pagination-numbers"></div>
         </nav>
     {% endif %}
 {% endif %}
 
-<script>
-// Category filtering and pagination functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Move pagination outside main-content, before footer
-    function movePagination() {
-        const paginationEl = document.querySelector('.pagination-sticky');
-        const footer = document.querySelector('.site-footer');
-        const mainContent = document.querySelector('.main-content');
-        
-        if (paginationEl && footer && mainContent) {
-            // Check if pagination is still inside main-content
-            if (mainContent.contains(paginationEl)) {
-                footer.parentNode.insertBefore(paginationEl, footer);
-            }
-        }
-    }
-    
-    // Move immediately and after a short delay to ensure DOM is ready
-    movePagination();
-    setTimeout(movePagination, 100);
-
-        const techBites = document.querySelectorAll('.tech-bite-card');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const itemsPerPage = {{ pagination_size }};
-        let currentPage = 1;
-        let currentCategory = 'all';
-        
-        // 페이지별 스크롤 위치 저장
-        const scrollPositions = {};
-
-    // Category filtering functionality
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Update current category
-            currentCategory = this.getAttribute('data-category');
-            currentPage = 1; // Reset to first page when filtering
-            
-            updateDisplay();
-        });
-    });
-
-    // Pagination functionality
-    const paginationNumbers = document.getElementById('pagination-numbers');
-
-    function renderPagination() {
-        const filteredTechBites = getFilteredTechBites();
-        const totalPages = Math.ceil(filteredTechBites.length / itemsPerPage);
-        
-        if (!paginationNumbers || totalPages <= 1) {
-            if (paginationNumbers) paginationNumbers.innerHTML = '';
-            return;
-        }
-
-        let html = '';
-        const maxVisible = 7; // 최대 표시할 페이지 번호 수
-        
-        if (totalPages <= maxVisible) {
-            // 모든 페이지 표시
-            for (let i = 1; i <= totalPages; i++) {
-                const isActive = i === currentPage;
-                html += `<button class="pagination-number ${isActive ? 'active' : ''}" data-page="${i}">${i}</button>`;
-            }
-        } else {
-            // 첫 페이지
-            if (currentPage <= 3) {
-                for (let i = 1; i <= 4; i++) {
-                    const isActive = i === currentPage;
-                    html += `<button class="pagination-number ${isActive ? 'active' : ''}" data-page="${i}">${i}</button>`;
-                }
-                html += `<span class="pagination-ellipsis">...</span>`;
-                html += `<button class="pagination-number" data-page="${totalPages}">${totalPages}</button>`;
-            }
-            // 마지막 페이지
-            else if (currentPage >= totalPages - 2) {
-                html += `<button class="pagination-number" data-page="1">1</button>`;
-                html += `<span class="pagination-ellipsis">...</span>`;
-                for (let i = totalPages - 3; i <= totalPages; i++) {
-                    const isActive = i === currentPage;
-                    html += `<button class="pagination-number ${isActive ? 'active' : ''}" data-page="${i}">${i}</button>`;
-                }
-            }
-            // 중간 페이지
-            else {
-                html += `<button class="pagination-number" data-page="1">1</button>`;
-                html += `<span class="pagination-ellipsis">...</span>`;
-                for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-                    const isActive = i === currentPage;
-                    html += `<button class="pagination-number ${isActive ? 'active' : ''}" data-page="${i}">${i}</button>`;
-                }
-                html += `<span class="pagination-ellipsis">...</span>`;
-                html += `<button class="pagination-number" data-page="${totalPages}">${totalPages}</button>`;
-            }
-        }
-        
-        paginationNumbers.innerHTML = html;
-        
-        // 페이지 번호 클릭 이벤트
-        paginationNumbers.querySelectorAll('.pagination-number').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // 현재 페이지의 스크롤 위치 저장
-                scrollPositions[currentPage] = window.pageYOffset || document.documentElement.scrollTop;
-                
-                const newPage = parseInt(this.getAttribute('data-page'));
-                currentPage = newPage;
-                
-                // 페이지 변경
-                updateDisplay();
-                
-                // 저장된 스크롤 위치로 복원 (약간의 지연으로 DOM 업데이트 대기)
-                setTimeout(() => {
-                    if (scrollPositions[currentPage] !== undefined) {
-                        window.scrollTo({
-                            top: scrollPositions[currentPage],
-                            behavior: 'auto' // 즉시 이동
-                        });
-                    } else {
-                        // 저장된 위치가 없으면 페이지 상단으로
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'auto'
-                        });
-                    }
-                }, 50);
-            });
-        });
-    }
-
-    function getFilteredTechBites() {
-        if (currentCategory === 'all') {
-            return Array.from(techBites);
-        }
-        return Array.from(techBites).filter(card => {
-            // Check data-categories attribute (comma-separated list)
-            const categories = card.getAttribute('data-categories');
-            if (categories) {
-                const categoryList = categories.split(',').map(c => c.trim().toLowerCase());
-                return categoryList.includes(currentCategory.toLowerCase());
-            }
-            // If no categories, don't show in filtered view
-            return false;
-        });
-    }
-
-    function updateDisplay() {
-        const filteredTechBites = getFilteredTechBites();
-        const totalPages = Math.ceil(filteredTechBites.length / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-
-        // Hide all items first
-        techBites.forEach(card => {
-            card.style.display = 'none';
-        });
-
-        // Show filtered items for current page
-        filteredTechBites.slice(startIndex, endIndex).forEach(card => {
-            card.style.display = 'block';
-        });
-
-        // Update pagination
-        renderPagination();
-        // Ensure pagination is in correct position after update
-        movePagination();
-    }
-
-    // Initial display
-    updateDisplay();
-    renderPagination();
-    movePagination();
-});
-</script>
+<script src="{{ '/assets/js/category-filter-pagination.js' | relative_url }}"></script>

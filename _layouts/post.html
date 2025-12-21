@@ -22,17 +22,7 @@ layout: default
                     {% include get-section-config.html section_key=post_section %}
                     <div class="post-categories">
                         {% for category in page.categories %}
-                            {% assign category_key = category | downcase %}
-                            {% assign color_index = 1 %}
-                            {% if section_config.filter_categories %}
-                              {% for filter_cat in section_config.filter_categories %}
-                                {% if filter_cat.key == category_key %}
-                                  {% assign color_index = forloop.index %}
-                                  {% break %}
-                                {% endif %}
-                              {% endfor %}
-                            {% endif %}
-                            {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
+                            {% include get-category-color-index.html category=category section_config=section_config %}
                             <span class="category-tag category-color-{{ color_index }}">{{ category }}</span>
                         {% endfor %}
                     </div>
