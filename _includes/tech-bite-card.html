@@ -10,16 +10,29 @@
                         {{ tech_bite.title }}
                     </a>
                 </h3>
+                {% assign tech_bite_section = tech_bite.section | default: "tech-bites" %}
+                {% include get-section-config.html section_key=tech_bite_section %}
                 {% if tech_bite.categories and tech_bite.categories.size > 0 %}
-                <span class="category-badge">
-                    {{ tech_bite.categories.first | capitalize }}
-                </span>
+                  {% for category in tech_bite.categories %}
+                    {% assign category_key = category | downcase %}
+                    {% assign color_index = 1 %}
+                    {% if section_config.filter_categories %}
+                      {% for filter_cat in section_config.filter_categories %}
+                        {% if filter_cat.key == category_key %}
+                          {% assign color_index = forloop.index %}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                    {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
+                    <span class="category-badge category-color-{{ color_index }}">
+                        {{ category | capitalize }}
+                    </span>
+                  {% endfor %}
                 {% endif %}
             </div>
 
             <div class="card-meta">
-                {% assign tech_bite_section = tech_bite.section | default: "tech-bites" %}
-                {% include get-section-config.html section_key=tech_bite_section %}
                 {% if section_config.show_dates and tech_bite.date %}
                     <time class="card-date" datetime="{{ tech_bite.date | date_to_xmlschema }}">
                         {{ tech_bite.date | date: "%b %d, %Y" }}

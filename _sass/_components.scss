@@ -114,8 +114,8 @@
         }
       }
 
-      // Paper category button
-      &[data-category="paper"] {
+      // Universal category color buttons (category-color-1 to category-color-5)
+      &.category-color-1 {
         &:hover {
           background-color: #e3f2fd;
           color: #1565c0;
@@ -134,8 +134,7 @@
         }
       }
 
-      // Tech-bite category button
-      &[data-category="tech-bite"] {
+      &.category-color-2 {
         &:hover {
           background-color: #f3e5f5;
           color: #7b1fa2;
@@ -154,8 +153,7 @@
         }
       }
 
-      // Life category button
-      &[data-category="life"] {
+      &.category-color-3 {
         &:hover {
           background-color: #e8f5e8;
           color: #2e7d32;
@@ -174,6 +172,44 @@
         }
       }
 
+      &.category-color-4 {
+        &:hover {
+          background-color: #fff3e0;
+          color: #e65100;
+          border-color: #e65100;
+        }
+
+        &.active {
+          background-color: #fff3e0;
+          color: #e65100;
+          border-color: #e65100;
+
+          &:hover {
+            background-color: #ffe0b2;
+            border-color: #bf360c;
+          }
+        }
+      }
+
+      &.category-color-5 {
+        &:hover {
+          background-color: #e0f7fa;
+          color: #00695c;
+          border-color: #00695c;
+        }
+
+        &.active {
+          background-color: #e0f7fa;
+          color: #00695c;
+          border-color: #00695c;
+
+          &:hover {
+            background-color: #b2ebf2;
+            border-color: #004d40;
+          }
+        }
+      }
+
       &:focus {
         outline: 2px solid var(--primary-color);
         outline-offset: 2px;
@@ -183,8 +219,7 @@
     // Dark mode styles for filter buttons
     html[data-theme="dark"] & {
       .filter-btn {
-        // Paper category button (dark mode)
-        &[data-category="paper"] {
+        &.category-color-1 {
           &:hover {
             background-color: #1a237e;
             color: #90caf9;
@@ -203,8 +238,7 @@
           }
         }
 
-        // Tech-bite category button (dark mode)
-        &[data-category="tech-bite"] {
+        &.category-color-2 {
           &:hover {
             background-color: #4a148c;
             color: #ce93d8;
@@ -223,8 +257,7 @@
           }
         }
 
-        // Life category button (dark mode)
-        &[data-category="life"] {
+        &.category-color-3 {
           &:hover {
             background-color: #1b5e20;
             color: #a5d6a7;
@@ -239,6 +272,44 @@
             &:hover {
               background-color: #2e7d32;
               border-color: #c8e6c9;
+            }
+          }
+        }
+
+        &.category-color-4 {
+          &:hover {
+            background-color: #5d4037;
+            color: #ffb74d;
+            border-color: #ffb74d;
+          }
+
+          &.active {
+            background-color: #5d4037;
+            color: #ffb74d;
+            border-color: #ffb74d;
+
+            &:hover {
+              background-color: #6d4c41;
+              border-color: #ffcc80;
+            }
+          }
+        }
+
+        &.category-color-5 {
+          &:hover {
+            background-color: #004d40;
+            color: #80deea;
+            border-color: #80deea;
+          }
+
+          &.active {
+            background-color: #004d40;
+            color: #80deea;
+            border-color: #80deea;
+
+            &:hover {
+              background-color: #00695c;
+              border-color: #b2ebf2;
             }
           }
         }
@@ -384,36 +455,58 @@
     height: 1.5rem; // Match the line height of card-link
     line-height: 1;
 
-    &.category-paper {
+    // Universal category colors (max 5 categories per section)
+    // These colors are assigned based on the order in filter_categories
+    &.category-color-1 {
       background-color: #e3f2fd;
       color: #1565c0;
     }
 
-    &.category-tech-bite {
+    &.category-color-2 {
       background-color: #f3e5f5;
       color: #7b1fa2;
     }
 
-    &.category-life {
+    &.category-color-3 {
       background-color: #e8f5e8;
       color: #2e7d32;
     }
 
+    &.category-color-4 {
+      background-color: #fff3e0;
+      color: #e65100;
+    }
+
+    &.category-color-5 {
+      background-color: #e0f7fa;
+      color: #00695c;
+    }
+
     // Dark mode styles
     html[data-theme="dark"] & {
-      &.category-paper {
+      &.category-color-1 {
         background-color: #1a237e;
         color: #90caf9;
       }
 
-      &.category-tech-bite {
+      &.category-color-2 {
         background-color: #4a148c;
         color: #ce93d8;
       }
 
-      &.category-life {
+      &.category-color-3 {
         background-color: #1b5e20;
         color: #a5d6a7;
+      }
+
+      &.category-color-4 {
+        background-color: #5d4037;
+        color: #ffb74d;
+      }
+
+      &.category-color-5 {
+        background-color: #004d40;
+        color: #80deea;
       }
     }
   }

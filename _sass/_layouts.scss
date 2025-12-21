@@ -226,6 +226,130 @@
       background-color: var(--primary-color);
       color: var(--bg-color);
     }
+
+    // Universal category colors (category-color-1 to category-color-5)
+    &.category-color-1 {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border-color: #1565c0;
+
+      &:hover {
+        background-color: #bbdefb;
+        color: #0d47a1;
+        border-color: #0d47a1;
+      }
+    }
+
+    &.category-color-2 {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+      border-color: #7b1fa2;
+
+      &:hover {
+        background-color: #e1bee7;
+        color: #4a148c;
+        border-color: #4a148c;
+      }
+    }
+
+    &.category-color-3 {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+      border-color: #2e7d32;
+
+      &:hover {
+        background-color: #c8e6c9;
+        color: #1b5e20;
+        border-color: #1b5e20;
+      }
+    }
+
+    &.category-color-4 {
+      background-color: #fff3e0;
+      color: #e65100;
+      border-color: #e65100;
+
+      &:hover {
+        background-color: #ffe0b2;
+        color: #bf360c;
+        border-color: #bf360c;
+      }
+    }
+
+    &.category-color-5 {
+      background-color: #e0f7fa;
+      color: #00695c;
+      border-color: #00695c;
+
+      &:hover {
+        background-color: #b2ebf2;
+        color: #004d40;
+        border-color: #004d40;
+      }
+    }
+
+    // Dark mode styles
+    html[data-theme="dark"] & {
+      &.category-color-1 {
+        background-color: #1a237e;
+        color: #90caf9;
+        border-color: #90caf9;
+
+        &:hover {
+          background-color: #283593;
+          color: #bbdefb;
+          border-color: #bbdefb;
+        }
+      }
+
+      &.category-color-2 {
+        background-color: #4a148c;
+        color: #ce93d8;
+        border-color: #ce93d8;
+
+        &:hover {
+          background-color: #6a1b9a;
+          color: #e1bee7;
+          border-color: #e1bee7;
+        }
+      }
+
+      &.category-color-3 {
+        background-color: #1b5e20;
+        color: #a5d6a7;
+        border-color: #a5d6a7;
+
+        &:hover {
+          background-color: #2e7d32;
+          color: #c8e6c9;
+          border-color: #c8e6c9;
+        }
+      }
+
+      &.category-color-4 {
+        background-color: #5d4037;
+        color: #ffb74d;
+        border-color: #ffb74d;
+
+        &:hover {
+          background-color: #6d4c41;
+          color: #ffcc80;
+          border-color: #ffcc80;
+        }
+      }
+
+      &.category-color-5 {
+        background-color: #004d40;
+        color: #80deea;
+        border-color: #80deea;
+
+        &:hover {
+          background-color: #00695c;
+          color: #b2ebf2;
+          border-color: #b2ebf2;
+        }
+      }
+    }
   }
 
   .tech-bite-content {

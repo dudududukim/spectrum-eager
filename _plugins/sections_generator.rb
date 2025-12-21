@@ -47,6 +47,17 @@ module Jekyll
             # Add key to config
             section_config['key'] = section_key unless section_config.key?('key')
             
+            # Validate and limit filter_categories (max 5)
+            if section_config.key?('filter_categories')
+              filter_categories = section_config['filter_categories']
+              if filter_categories.is_a?(Array)
+                if filter_categories.size > 5
+                  Jekyll.logger.warn "SectionsGenerator:", "Section '#{section_key}' has #{filter_categories.size} filter_categories (max 5 allowed). Only the first 5 will be used."
+                  section_config['filter_categories'] = filter_categories[0..4]
+                end
+              end
+            end
+            
             # Store in section_definitions hash
             section_definitions[section_key] = section_config
             

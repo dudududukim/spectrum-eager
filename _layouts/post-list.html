@@ -17,7 +17,9 @@ layout: default
             <div class="filter-buttons">
                 <button class="filter-btn active" data-category="all">All</button>
                 {% for cat in section_config.filter_categories %}
-                <button class="filter-btn" data-category="{{ cat.key }}">{{ cat.name }}</button>
+                {% assign color_index = forloop.index %}
+                {% if color_index > 5 %}{% assign color_index = 5 %}{% endif %}
+                <button class="filter-btn category-color-{{ color_index }}" data-category="{{ cat.key }}">{{ cat.name }}</button>
                 {% endfor %}
             </div>
         </div>
