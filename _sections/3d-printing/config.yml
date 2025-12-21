@@ -10,4 +10,11 @@ main_page_count: 3
 pagination: 10
 show_dates: true
 show_categories: true
+filter_categories:
+  - name: "Printers"
+    key: "printers"
+  - name: "Materials"
+    key: "materials"
+  - name: "Slicers"
+    key: "slicers"
 

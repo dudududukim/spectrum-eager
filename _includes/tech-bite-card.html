@@ -1,7 +1,8 @@
 {% assign tech_bite = include.tech_bite %}
 <article class="tech-bite-card"
          data-date="{{ tech_bite.date | date: '%Y-%m-%d' }}"
-         data-category="{{ tech_bite.category | default: 'tech-bite' }}">
+         data-category="{{ tech_bite.category | default: 'tech-bite' }}"
+         {% if tech_bite.categories %}data-categories="{{ tech_bite.categories | join: ',' | downcase }}"{% endif %}>
     <div class="card-content">
         <header class="card-header">
             <div class="card-title-row">

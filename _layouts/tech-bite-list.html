@@ -11,14 +11,17 @@ layout: default
         </header>
 
         <!-- Category Filter -->
+        {% include get-section-config.html section_key=page.section %}
+        {% if section_config.filter_categories and section_config.filter_categories.size > 0 %}
         <div class="category-filter">
             <div class="filter-buttons">
                 <button class="filter-btn active" data-category="all">All</button>
-                <button class="filter-btn" data-category="paper">Paper</button>
-                <button class="filter-btn" data-category="tech-bite">Tech Bite</button>
-                <button class="filter-btn" data-category="life">Life</button>
+                {% for cat in section_config.filter_categories %}
+                <button class="filter-btn" data-category="{{ cat.key }}">{{ cat.name }}</button>
+                {% endfor %}
             </div>
         </div>
+        {% endif %}
 
         <!-- Tech Bites Grid -->
         <div class="tech-bites-grid">
@@ -208,6 +211,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return Array.from(techBites);
         }
         return Array.from(techBites).filter(card => {
+            // Check data-categories attribute (comma-separated list)
+            const categories = card.getAttribute('data-categories');
+            if (categories) {
+                const categoryList = categories.split(',').map(c => c.trim().toLowerCase());
+                return categoryList.includes(currentCategory.toLowerCase());
+            }
+            // Fallback: check data-category attribute for backward compatibility
             return card.getAttribute('data-category') === currentCategory;
         });
     }
