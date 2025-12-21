@@ -319,59 +319,53 @@ copy_if_not_exists() {
 copy_examples() {
     local examples_dir="examples"
     
-    # If examples folder doesn't exist, skip (users can add examples manually)
-    if [ ! -d "$examples_dir" ] || [ -z "$(ls -A ${examples_dir} 2>/dev/null)" ]; then
-        print_action "Examples folder not found, skipping example files"
-        return
+    # Create examples directory if it doesn't exist
+    if [ ! -d "$examples_dir" ]; then
+        mkdir -p "$examples_dir"
     fi
+    
+    # Download example files from remote
+    print_action "Downloading example files from remote..."
+    local files=(
+        "_posts/2025-12-19-example-post.md"
+        "_films/example-film-1.md"
+        "_films/example-film-2.md"
+        "_films/example-film-3.md"
+        "_musics/example-music-1.md"
+        "_musics/example-music-2.md"
+        "_musics/example-music-3.md"
+        "assets/images/films/example-1.png"
+        "assets/images/films/example-2.png"
+        "assets/images/films/example-3.png"
+        "_sections/tech-bites/config.yml"
+        "_sections/tech-bites/page.md"
+        "_sections/hobbies/config.yml"
+        "_sections/hobbies/page.md"
+    )
+    
+    for file in "${files[@]}"; do
+        local target_file="${examples_dir}/${file}"
+        
+        # Download if file doesn't exist or --refresh-examples is set
+        if [ ! -f "$target_file" ] || [ "$REFRESH_EXAMPLES" = true ]; then
+            mkdir -p "${examples_dir}/$(dirname "$file")"
+            download_file "examples/${file}" "$target_file" 2>/dev/null || {
+                print_warning "Failed to download examples/${file}, skipping"
+            }
+        fi
+    done
     
     # Copy all files from examples directory recursively
     print_action "Copying example files from ${examples_dir}/..."
     
     # Copy _posts
-    if [ -d "${examples_dir}/_posts" ] && [ "$(ls -A ${examples_dir}/_posts 2>/dev/null)" ]; then
-        mkdir -p "_posts"
-        for file in "${examples_dir}/_posts"/*.md; do
-            [ -f "$file" ] || continue
-            local filename=$(basename "$file")
-            if [ ! -f "_posts/${filename}" ]; then
-                cp "$file" "_posts/${filename}"
-                print_success "Copied ${filename} to _posts/"
-            else
-                print_action "_posts/${filename} exists, skipping"
-            fi
-        done
-    fi
+    copy_if_not_exists "${examples_dir}/_posts" "_posts" "*.md" "_posts"
     
     # Copy _films
-    if [ -d "${examples_dir}/_films" ] && [ "$(ls -A ${examples_dir}/_films 2>/dev/null)" ]; then
-        mkdir -p "_films"
-        for file in "${examples_dir}/_films"/*.md; do
-            [ -f "$file" ] || continue
-            local filename=$(basename "$file")
-            if [ ! -f "_films/${filename}" ]; then
-                cp "$file" "_films/${filename}"
-                print_success "Copied ${filename} to _films/"
-            else
-                print_action "_films/${filename} exists, skipping"
-            fi
-        done
-    fi
+    copy_if_not_exists "${examples_dir}/_films" "_films" "*.md" "_films"
     
     # Copy _musics
-    if [ -d "${examples_dir}/_musics" ] && [ "$(ls -A ${examples_dir}/_musics 2>/dev/null)" ]; then
-        mkdir -p "_musics"
-        for file in "${examples_dir}/_musics"/*.md; do
-            [ -f "$file" ] || continue
-            local filename=$(basename "$file")
-            if [ ! -f "_musics/${filename}" ]; then
-                cp "$file" "_musics/${filename}"
-                print_success "Copied ${filename} to _musics/"
-            else
-                print_action "_musics/${filename} exists, skipping"
-            fi
-        done
-    fi
+    copy_if_not_exists "${examples_dir}/_musics" "_musics" "*.md" "_musics"
     
     # Copy assets/images recursively
     if [ -d "${examples_dir}/assets/images" ]; then
@@ -448,6 +442,7 @@ run_jekyll_serve() {
 
 # Parse command line arguments
 NO_SERVE=false
+REFRESH_EXAMPLES=false
 
 show_help() {
     echo "Spectrum-Eager Jekyll Theme Setup Script"
@@ -456,10 +451,12 @@ show_help() {
     echo "  ./setup-remote-theme.sh"
     echo "  curl -fsSL <URL> | bash"
     echo "  curl -fsSL <URL> | bash -s -- --no-serve"
+    echo "  curl -fsSL <URL> | bash -s -- --no-serve --refresh-examples"
     echo ""
     echo "Options:"
-    echo "  --no-serve, --ci    Skip running Jekyll server (useful for CI/CD)"
-    echo "  --help, -h          Show this help message"
+    echo "  --no-serve, --ci        Skip running Jekyll server (useful for CI/CD)"
+    echo "  --refresh-examples      Force re-download all example files (overwrite existing)"
+    echo "  --help, -h              Show this help message"
     echo ""
 }
 
@@ -468,6 +465,9 @@ for arg in "$@"; do
     case "$arg" in
         --no-serve|--ci)
             NO_SERVE=true
+            ;;
+        --refresh-examples)
+            REFRESH_EXAMPLES=true
             ;;
         --help|-h)
             show_help

@@ -26,13 +26,15 @@ jobs:
           # bundler-cache: true
 
 
-      - name: Create demo directory
-        run: mkdir -p demo
+      - name: Clean and create demo directory
+        run: |
+          rm -rf demo
+          mkdir -p demo
 
       - name: Setup theme in demo directory
         working-directory: ./demo
         run: |
-          curl -fsSL "https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh" | bash -s -- --no-serve
+          curl -fsSL "https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh" | bash -s -- --no-serve --refresh-examples
 
       - name: Build Jekyll site
         working-directory: ./demo
