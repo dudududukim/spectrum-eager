@@ -309,6 +309,9 @@ copy_examples() {
             "_posts/2025-12-19-example-post.md"
             "_films/example-film-1.md"
             "_films/example-film-2.md"
+            "_musics/example-music-1.md"
+            "_musics/example-music-2.md"
+            "_musics/example-music-3.md"
             "assets/images/films/example-1.png"
             "assets/images/films/example-2.png"
             "_sections/tech-bites/config.yml"
@@ -326,6 +329,7 @@ copy_examples() {
     # Copy example files
     copy_if_not_exists "${examples_dir}/_posts" "_posts" "*.md" "_posts"
     copy_if_not_exists "${examples_dir}/_films" "_films" "*.md" "_films"
+    copy_if_not_exists "${examples_dir}/_musics" "_musics" "*.md" "_musics"
     copy_if_not_exists "${examples_dir}/assets/images/films" "assets/images/films" "*" "assets/images/films"
     
     # Copy example sections

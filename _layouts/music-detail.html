@@ -1,0 +1,81 @@
+---
+layout: default
+---
+
+<!-- Reading Progress Bar -->
+<div id="reading-progress" class="reading-progress-bar" style="position: fixed !important; top: 6rem !important; left: 0 !important; right: 0 !important; width: 0% !important; height: 3px !important; background: var(--primary-color, #3498db) !important; z-index: 999 !important; pointer-events: none !important; display: block !important;"></div>
+
+<div class="music-detail-page">
+    <div class="container">
+        <!-- Main Content -->
+        <div class="music-content">
+            <!-- Cover Section -->
+            <div class="music-cover-section">
+                <div class="music-cover-container">
+                    <img
+                        src="{{ page.cover_image | relative_url }}"
+                        alt="{{ page.title }} - {{ page.artist }}"
+                        class="music-cover-image"
+                        loading="eager"
+                        decoding="async"
+                    />
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="music-metadata">
+                <div class="music-header">
+                    <h1 class="music-title">{{ page.title }}</h1>
+                    <p class="music-artist">{{ page.artist }}</p>
+                    {% if page.one_liner %}
+                        <p class="music-oneliner-header">{{ page.one_liner }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Main Content (markdown content) -->
+                <div class="music-main-content">
+                    {{ content }}
+                </div>
+
+                {% if page.date %}
+                    <div class="music-date">
+                        <span class="music-date-label">Date:</span>
+                        <time datetime="{{ page.date | date: '%Y-%m-%d' }}">
+                            {{ page.date | date: "%B %d, %Y" }}
+                        </time>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Navigation to other albums -->
+        <nav class="post-navigation">
+            {% assign musics = site.musics | sort: 'date' %}
+            {% for music in musics %}
+                {% if music.url == page.url %}
+                    {% assign current_index = forloop.index0 %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+
+            {% if current_index > 0 %}
+                {% assign prev_index = current_index | minus: 1 %}
+                {% assign prev_music = musics[prev_index] %}
+                <a href="{{ prev_music.url | relative_url }}" class="nav-link nav-prev">
+                    <span class="nav-direction">← Previous</span>
+                    <span class="nav-title">{{ prev_music.title }}</span>
+                </a>
+            {% endif %}
+
+            {% assign next_index = current_index | plus: 1 %}
+            {% if next_index < musics.size %}
+                {% assign next_music = musics[next_index] %}
+                <a href="{{ next_music.url | relative_url }}" class="nav-link nav-next">
+                    <span class="nav-direction">Next →</span>
+                    <span class="nav-title">{{ next_music.title }}</span>
+                </a>
+            {% endif %}
+        </nav>
+    </div>
+</div>
+

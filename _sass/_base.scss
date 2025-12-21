@@ -170,18 +170,6 @@ button {
   }
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 // Dark mode styles (moved to _color-variables.scss with data attributes)
 // This section is now handled by [data-theme="dark"] in _color-variables.scss
 

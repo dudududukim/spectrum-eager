@@ -1,0 +1,82 @@
+<!-- Music Gallery Track Component -->
+{% assign all_musics = site.musics | sort: 'date' | reverse %}
+{% assign featured_musics = all_musics %}
+
+{% comment %} Load card_duration from config.yml {% endcomment %}
+{% assign card_duration = site.sections.music_gallery.card_duration | default: 5 | plus: 0 %}
+
+{% comment %} Calculate animation duration for constant speed
+  Formula: total_duration = item_count × card_duration
+  This ensures constant speed regardless of item count {% endcomment %}
+{% assign animation_duration = featured_musics.size | times: card_duration %}
+
+<section class="music-gallery-preview">
+    <div class="section-content">
+        <div class="music-gallery-link-text">
+            <a href="{{ '/musics/' | relative_url }}">{{ site.sections.music_gallery.link_text | default: "🎶 Duhyeon's pick" }}</a>
+        </div>
+        <div class="music-gallery-track-container" style="--track-duration: {{ animation_duration }}s;">
+            {% if featured_musics.size > 0 %}
+                {% if featured_musics.size >= 3 %}
+                    <div class="music-gallery-track music-gallery-track-animated">
+                        {% for i in (1..4) %}
+                            {% for music in featured_musics %}
+                                {% assign cover_path = music.cover_image | relative_url %}
+                                <div class="music-gallery-item">
+                                    <a href="{{ music.url | relative_url }}" class="music-gallery-link" aria-label="View {{ music.title }} by {{ music.artist }}">
+                                        <img
+                                            src="{{ cover_path }}"
+                                            alt="{{ music.title }} - {{ music.artist }}"
+                                            class="music-gallery-cover"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                        <div class="music-gallery-overlay">
+                                            <div class="music-gallery-info">
+                                                <span class="music-gallery-title">{{ music.title }}</span>
+                                                <span class="music-gallery-artist">{{ music.artist }}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <!-- For small number of albums (1-2), show without duplication, centered, no animation -->
+                    <div class="music-gallery-track music-gallery-track-static">
+                        {% for music in featured_musics %}
+                            {% assign cover_path = music.cover_image | relative_url %}
+
+                            <div class="music-gallery-item">
+                                <a href="{{ music.url | relative_url }}" class="music-gallery-link" aria-label="View {{ music.title }} by {{ music.artist }}">
+                                    <img
+                                        src="{{ cover_path }}"
+                                        alt="{{ music.title }} - {{ music.artist }}"
+                                        class="music-gallery-cover"
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                    <div class="music-gallery-overlay">
+                                        <div class="music-gallery-info">
+                                            <span class="music-gallery-title">{{ music.title }}</span>
+                                            <span class="music-gallery-artist">{{ music.artist }}</span>
+                                            {% if music.one_liner %}
+                                                <span class="music-gallery-oneliner">{{ music.one_liner }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="empty-gallery-message">
+                    <p>No albums yet. Add music entries to <code>_musics/</code> folder.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+

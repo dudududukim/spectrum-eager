@@ -29,25 +29,12 @@ site_theme:
   
   typography:
     font_family: "Lato"
-    font_weights:
-      light: 300
-      normal: 400
-      medium: 500
-      semibold: 600
-      bold: 700
-    font_sizes:
-      xs: "0.75rem"
-      sm: "0.875rem"
-      base: "1rem"
-      lg: "1.125rem"
-      xl: "1.25rem"
-      "2xl": "1.5rem"
-      "3xl": "1.875rem"
-      "4xl": "2.25rem"
-    line_heights:
-      tight: 1.25
-      normal: 1.5
-      relaxed: 1.75
+  layout:
+    max_width: "1125px"
+  animations:
+    duration: "0.3s"
+  dark_mode:
+    enabled: false
 
 # Personal Information (users should override)
 personal:
@@ -56,6 +43,12 @@ personal:
   bio: "Your bio"
   location: "Your Location"
   photo: "/assets/images/me/me.jpeg"
+  title: "Developer"
+  company: "Freelance"
+  social_links:
+    github: ""
+    linkedin: ""
+    twitter: ""
 
 # Social Media Links (users should override)
 social:
@@ -91,7 +84,6 @@ social:
 navigation:
   home_text: "Home"
   show_social: true
-  social_position: "right"
 
 # Footer Configuration
 footer:
@@ -121,6 +113,10 @@ content:
     films:
       title: "Films"
       description: "Photography collection showcasing moments captured through the lens"
+    
+    musics:
+      title: "Music"
+      description: "Duhyeon's music picks and reviews"
   
   ui:
     buttons:
@@ -138,58 +134,31 @@ content:
 
 # Homepage Section Controls
 homepage_sections:
-  tech_bites_preview:
+  music_preview:
     enabled: true
-    # Note: featured_sections is now automatically loaded from _sections/*/config.yml files
-  
-  films_preview:
-    enabled: true
-
-# Design Customization (maintain current defaults)
-design_options:
-  tech_bite_cards:
-    compact_mode: true          # Current ultra-compact design
-    show_excerpts: true
-    show_reading_time: true
-    max_excerpt_length: 150
-  
-  gallery_track:
-    auto_scroll: true
-    scroll_speed: 60           # Current animation duration
-    show_overlay_on_hover: true
-    
-  navigation:
-    fixed_position: true
-    show_breadcrumbs: true
-    social_position: "right"   # Current position
-  
-  footer:
-    show_theme_credit: true    # Current setting
-    compact_layout: true       # Current design
 
 # Section Configuration
 # Note: Section-specific settings are now managed in _sections/<name>/config.yml
 # Only global section settings should be here
 sections:
   gallery_track:
-    enabled: true
-    image_count: 6
-    animation_duration: 60
+    card_duration: 1      # Seconds per card (controls animation speed)
+  
+  music_gallery:
+    card_duration: 10      # Seconds per card (controls animation speed)
+    link_text: "🎶 Duhyeon's pick"
 
 # Collections
 collections:
   posts:
     output: true
     permalink: /posts/:name/
-  papers:
-    output: true
-    permalink: /papers/:name/
-  gallery:
-    output: true
-    permalink: /gallery/:name/
   films:
     output: true
     permalink: /films/:name/
+  musics:
+    output: true
+    permalink: /musics/:name/
   sections:
     output: true
     files: true
@@ -212,6 +181,12 @@ defaults:
       type: "films"
     values:
       layout: "film-detail"
+      show_sidebar: false
+  - scope:
+      path: ""
+      type: "musics"
+    values:
+      layout: "music-detail"
       show_sidebar: false
   - scope:
       path: "_sections"

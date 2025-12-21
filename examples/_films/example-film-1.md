@@ -4,6 +4,7 @@ camera: "Example Camera"
 film: "Example Film"
 location: "Example Location"
 image_path: "/assets/images/films/example-1.png"
+featured: true
 ---
 
 # Example Film 1

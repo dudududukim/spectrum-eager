@@ -158,6 +158,10 @@ content:
     films:
       title: "Films"
       description: "Photography collection showcasing moments captured through the lens"
+    
+    musics:
+      title: "Music"
+      description: "Duhyeon's music picks and reviews"
   
   ui:
     buttons:
@@ -183,6 +187,9 @@ homepage_sections:
     # Note: featured_sections is automatically loaded from _sections/*/config.yml files
   
   films_preview:
+    enabled: true
+  
+  music_preview:
     enabled: true
 
 # ===========================================
@@ -220,6 +227,11 @@ sections:
     enabled: true
     image_count: 6
     animation_duration: 60
+  
+  music_gallery:
+    enabled: true
+    animation_duration: 45
+    link_text: "🎶 duhyeon's pick"
 
 # ===========================================
 # COLLECTIONS
@@ -238,6 +250,9 @@ collections:
   films:
     output: true
     permalink: /films/:name/
+  musics:
+    output: true
+    permalink: /musics/:name/
   sections:
     output: true
     files: true
@@ -263,6 +278,12 @@ defaults:
       type: "films"
     values:
       layout: "film-detail"
+      show_sidebar: false
+  - scope:
+      path: ""
+      type: "musics"
+    values:
+      layout: "music-detail"
       show_sidebar: false
 
 # ===========================================

@@ -212,5 +212,10 @@ layout: default
         <!-- Gallery Track Preview -->
         {% include gallery-track.html %}
 
+        <!-- Music Gallery Preview -->
+        {% if site.homepage_sections.music_preview.enabled != false %}
+            {% include music-gallery-track.html %}
+        {% endif %}
+
     </div>
 </div>

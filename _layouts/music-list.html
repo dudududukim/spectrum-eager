@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<div class="musics-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">{{ site.content.pages.musics.title | default: "Music" }}</h1>
+            <p class="page-description">{{ site.content.pages.musics.description | default: "Duhyeon's music picks and reviews" }}</p>
+        </header>
+
+        <!-- Musics Grid -->
+        <div class="musics-grid">
+            {% assign musics = site.musics | sort: 'date' | reverse %}
+            {% if musics.size > 0 %}
+                {% for music in musics %}
+                    {% include music-card.html music=music %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-section-message">
+                    <p>No albums yet.</p>
+                    <p>Add music entries to <code>_musics/</code> folder and cover images to <code>assets/images/musics/</code> folder.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+

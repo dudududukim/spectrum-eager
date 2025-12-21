@@ -117,15 +117,15 @@
       // Universal category color buttons (category-color-1 to category-color-5)
       &.category-color-1 {
         &:hover {
-          background-color: #e3f2fd;
-          color: #1565c0;
-          border-color: #1565c0;
+          background-color: var(--category-1-bg);
+          color: var(--category-1-color);
+          border-color: var(--category-1-color);
         }
 
         &.active {
-          background-color: #e3f2fd;
-          color: #1565c0;
-          border-color: #1565c0;
+          background-color: var(--category-1-bg);
+          color: var(--category-1-color);
+          border-color: var(--category-1-color);
 
           &:hover {
             background-color: #bbdefb;
@@ -136,15 +136,15 @@
 
       &.category-color-2 {
         &:hover {
-          background-color: #f3e5f5;
-          color: #7b1fa2;
-          border-color: #7b1fa2;
+          background-color: var(--category-2-bg);
+          color: var(--category-2-color);
+          border-color: var(--category-2-color);
         }
 
         &.active {
-          background-color: #f3e5f5;
-          color: #7b1fa2;
-          border-color: #7b1fa2;
+          background-color: var(--category-2-bg);
+          color: var(--category-2-color);
+          border-color: var(--category-2-color);
 
           &:hover {
             background-color: #e1bee7;
@@ -155,15 +155,15 @@
 
       &.category-color-3 {
         &:hover {
-          background-color: #e8f5e8;
-          color: #2e7d32;
-          border-color: #2e7d32;
+          background-color: var(--category-3-bg);
+          color: var(--category-3-color);
+          border-color: var(--category-3-color);
         }
 
         &.active {
-          background-color: #e8f5e8;
-          color: #2e7d32;
-          border-color: #2e7d32;
+          background-color: var(--category-3-bg);
+          color: var(--category-3-color);
+          border-color: var(--category-3-color);
 
           &:hover {
             background-color: #c8e6c9;
@@ -174,15 +174,15 @@
 
       &.category-color-4 {
         &:hover {
-          background-color: #fff3e0;
-          color: #e65100;
-          border-color: #e65100;
+          background-color: var(--category-4-bg);
+          color: var(--category-4-color);
+          border-color: var(--category-4-color);
         }
 
         &.active {
-          background-color: #fff3e0;
-          color: #e65100;
-          border-color: #e65100;
+          background-color: var(--category-4-bg);
+          color: var(--category-4-color);
+          border-color: var(--category-4-color);
 
           &:hover {
             background-color: #ffe0b2;
@@ -193,15 +193,15 @@
 
       &.category-color-5 {
         &:hover {
-          background-color: #e0f7fa;
-          color: #00695c;
-          border-color: #00695c;
+          background-color: var(--category-5-bg);
+          color: var(--category-5-color);
+          border-color: var(--category-5-color);
         }
 
         &.active {
-          background-color: #e0f7fa;
-          color: #00695c;
-          border-color: #00695c;
+          background-color: var(--category-5-bg);
+          color: var(--category-5-color);
+          border-color: var(--category-5-color);
 
           &:hover {
             background-color: #b2ebf2;
@@ -221,15 +221,15 @@
       .filter-btn {
         &.category-color-1 {
           &:hover {
-            background-color: #1a237e;
-            color: #90caf9;
-            border-color: #90caf9;
+            background-color: var(--category-1-bg);
+            color: var(--category-1-color);
+            border-color: var(--category-1-color);
           }
 
           &.active {
-            background-color: #1a237e;
-            color: #90caf9;
-            border-color: #90caf9;
+            background-color: var(--category-1-bg);
+            color: var(--category-1-color);
+            border-color: var(--category-1-color);
 
             &:hover {
               background-color: #283593;
@@ -240,15 +240,15 @@
 
         &.category-color-2 {
           &:hover {
-            background-color: #4a148c;
-            color: #ce93d8;
-            border-color: #ce93d8;
+            background-color: var(--category-2-bg);
+            color: var(--category-2-color);
+            border-color: var(--category-2-color);
           }
 
           &.active {
-            background-color: #4a148c;
-            color: #ce93d8;
-            border-color: #ce93d8;
+            background-color: var(--category-2-bg);
+            color: var(--category-2-color);
+            border-color: var(--category-2-color);
 
             &:hover {
               background-color: #6a1b9a;
@@ -259,15 +259,15 @@
 
         &.category-color-3 {
           &:hover {
-            background-color: #1b5e20;
-            color: #a5d6a7;
-            border-color: #a5d6a7;
+            background-color: var(--category-3-bg);
+            color: var(--category-3-color);
+            border-color: var(--category-3-color);
           }
 
           &.active {
-            background-color: #1b5e20;
-            color: #a5d6a7;
-            border-color: #a5d6a7;
+            background-color: var(--category-3-bg);
+            color: var(--category-3-color);
+            border-color: var(--category-3-color);
 
             &:hover {
               background-color: #2e7d32;
@@ -278,15 +278,15 @@
 
         &.category-color-4 {
           &:hover {
-            background-color: #5d4037;
-            color: #ffb74d;
-            border-color: #ffb74d;
+            background-color: var(--category-4-bg);
+            color: var(--category-4-color);
+            border-color: var(--category-4-color);
           }
 
           &.active {
-            background-color: #5d4037;
-            color: #ffb74d;
-            border-color: #ffb74d;
+            background-color: var(--category-4-bg);
+            color: var(--category-4-color);
+            border-color: var(--category-4-color);
 
             &:hover {
               background-color: #6d4c41;
@@ -297,15 +297,15 @@
 
         &.category-color-5 {
           &:hover {
-            background-color: #004d40;
-            color: #80deea;
-            border-color: #80deea;
+            background-color: var(--category-5-bg);
+            color: var(--category-5-color);
+            border-color: var(--category-5-color);
           }
 
           &.active {
-            background-color: #004d40;
-            color: #80deea;
-            border-color: #80deea;
+            background-color: var(--category-5-bg);
+            color: var(--category-5-color);
+            border-color: var(--category-5-color);
 
             &:hover {
               background-color: #00695c;
@@ -459,55 +459,55 @@
     // Universal category colors (max 5 categories per section)
     // These colors are assigned based on the order in filter_categories
     &.category-color-1 {
-      background-color: #e3f2fd;
-      color: #1565c0;
+      background-color: var(--category-1-bg);
+      color: var(--category-1-color);
     }
 
     &.category-color-2 {
-      background-color: #f3e5f5;
-      color: #7b1fa2;
+      background-color: var(--category-2-bg);
+      color: var(--category-2-color);
     }
 
     &.category-color-3 {
-      background-color: #e8f5e8;
-      color: #2e7d32;
+      background-color: var(--category-3-bg);
+      color: var(--category-3-color);
     }
 
     &.category-color-4 {
-      background-color: #fff3e0;
-      color: #e65100;
+      background-color: var(--category-4-bg);
+      color: var(--category-4-color);
     }
 
     &.category-color-5 {
-      background-color: #e0f7fa;
-      color: #00695c;
+      background-color: var(--category-5-bg);
+      color: var(--category-5-color);
     }
 
     // Dark mode styles
     html[data-theme="dark"] & {
       &.category-color-1 {
-        background-color: #1a237e;
-        color: #90caf9;
+        background-color: var(--category-1-bg);
+        color: var(--category-1-color);
       }
 
       &.category-color-2 {
-        background-color: #4a148c;
-        color: #ce93d8;
+        background-color: var(--category-2-bg);
+        color: var(--category-2-color);
       }
 
       &.category-color-3 {
-        background-color: #1b5e20;
-        color: #a5d6a7;
+        background-color: var(--category-3-bg);
+        color: var(--category-3-color);
       }
 
       &.category-color-4 {
-        background-color: #5d4037;
-        color: #ffb74d;
+        background-color: var(--category-4-bg);
+        color: var(--category-4-color);
       }
 
       &.category-color-5 {
-        background-color: #004d40;
-        color: #80deea;
+        background-color: var(--category-5-bg);
+        color: var(--category-5-color);
       }
     }
   }
@@ -1089,7 +1089,7 @@
 .site-footer {
   background-color: var(--bg-color);
   border-top: 1px solid var(--border-light);
-  padding: 0.75rem 0 1rem 0;
+  padding: 0.75rem 0 0.5rem 0;
   margin-top: 1.5rem;
 
   .footer-content {
@@ -1251,7 +1251,7 @@
 
   // Footer responsive adjustments for mobile
   .site-footer {
-    padding: 0.5rem 0 0.75rem 0;
+    padding: 0.5rem 0 0.5rem 0;
     margin-top: 1rem;
 
     .footer-content {
@@ -1352,7 +1352,7 @@
 
   // Footer responsive adjustments for tablet
   .site-footer {
-    padding: 0.625rem 0 0.875rem 0;
+    padding: 0.625rem 0 0.625rem 0;
     margin-top: 1.25rem;
 
     .footer-content {

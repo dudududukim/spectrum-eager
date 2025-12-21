@@ -42,6 +42,14 @@
           <span class="nav-separator">/</span>
           <span class="nav-current">{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}</span>
         
+        {% comment %} Music pages {% endcomment %}
+        {% elsif page.layout == 'music-list' %}
+          <span class="nav-current">{{ site.content.pages.musics.title | default: "Music" }}</span>
+        {% elsif page.layout == 'music-detail' %}
+          <a href="{{ '/musics/' | relative_url }}" class="nav-link">{{ site.content.pages.musics.title | default: "Music" }}</a>
+          <span class="nav-separator">/</span>
+          <span class="nav-current">{{ page.title }}</span>
+        
         {% comment %} Default fallback {% endcomment %}
         {% else %}
           <span class="nav-current">{{ page.title | default: 'Page' }}</span>
