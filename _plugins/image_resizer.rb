@@ -1,5 +1,5 @@
 # Jekyll Image Resizer Plugin
-# Automatically resizes film images to max-width 1200px during build
+# Automatically resizes images in assets/images/* to max-width 1200px during build
 # Requires: image_processing gem (which requires vips or ImageMagick)
 # 
 # Usage: Add to _config.yml:
@@ -9,6 +9,7 @@
 #
 # Note: Uses Jekyll Hook to run after static files are copied to _site
 # This ensures resized images are not overwritten by original files
+# Processes all subdirectories under assets/images/ (e.g., films, musics, etc.)
 
 module Jekyll
   class ImageResizer
@@ -18,25 +19,23 @@ module Jekyll
       return unless image_config['enabled'] != false
       
       max_width = image_config['max_width'] || 1200
-      source_dir = File.join(site.source, 'assets/images/films')
+      base_images_dir = File.join(site.source, 'assets/images')
       
-      return unless Dir.exist?(source_dir)
+      return unless Dir.exist?(base_images_dir)
       
-      # Destination directory in _site (static files already copied here)
-      dest_dir = File.join(site.dest, 'assets/images/films')
-      FileUtils.mkdir_p(dest_dir) unless Dir.exist?(dest_dir)
+      # Initialize image processor (only once, reuse for all directories)
+      image_processor_available, processor_type = initialize_image_processor
       
-      # Process images from source, but write to destination (overwriting copied static files)
+      # Process all subdirectories under assets/images/
+      subdirs = Dir.glob(File.join(base_images_dir, '*')).select { |path| File.directory?(path) }
       
-      # Supported image formats
-      image_extensions = %w[.jpg .jpeg .png .JPG .JPEG .PNG .webp .WEBP]
-      
-      resized_count = 0
-      skipped_count = 0
-      error_count = 0
-      
-      # Try to load image processing library
-      image_processor_available = false
+      subdirs.each do |source_dir|
+        process_directory(site, source_dir, max_width, image_processor_available, processor_type)
+      end
+    end
+    
+    def self.initialize_image_processor
+      processor_available = false
       processor_type = nil
       
       # Try vips first
@@ -46,7 +45,7 @@ module Jekyll
         # Test if vips library is actually available
         # Just check if Vips module is defined, don't try to open a file
         if defined?(Vips) && Vips.respond_to?(:get_suffixes)
-          image_processor_available = true
+          processor_available = true
           processor_type = :vips
           Jekyll.logger.info "ImageResizer:", "Using image_processing/vips for image resizing"
         else
@@ -59,7 +58,7 @@ module Jekyll
           require 'mini_magick'
           # Test if ImageMagick CLI is actually available by checking if convert/identify commands exist
           # We'll test during actual image processing, but log that we're using mini_magick
-          image_processor_available = true
+          processor_available = true
           processor_type = :mini_magick
           Jekyll.logger.info "ImageResizer:", "Using image_processing/mini_magick for image resizing"
           if !e.is_a?(LoadError)
@@ -72,6 +71,27 @@ module Jekyll
           Jekyll.logger.warn "ImageResizer:", "Falling back to copying original images without resizing."
         end
       end
+      
+      [processor_available, processor_type]
+    end
+    
+    def self.process_directory(site, source_dir, max_width, image_processor_available, processor_type)
+      # Get relative path from assets/images/ to preserve subdirectory structure
+      base_images_dir = File.join(site.source, 'assets/images')
+      rel_path = source_dir.sub(/^#{Regexp.escape(base_images_dir)}\//, '')
+      
+      # Destination directory in _site (static files already copied here)
+      dest_dir = File.join(site.dest, 'assets/images', rel_path)
+      FileUtils.mkdir_p(dest_dir) unless Dir.exist?(dest_dir)
+      
+      # Process images from source, but write to destination (overwriting copied static files)
+      
+      # Supported image formats
+      image_extensions = %w[.jpg .jpeg .png .JPG .JPEG .PNG .webp .WEBP]
+      
+      resized_count = 0
+      skipped_count = 0
+      error_count = 0
       
       Dir.glob(File.join(source_dir, '*')).each do |image_path|
         next unless File.file?(image_path)
@@ -98,12 +118,12 @@ module Jekyll
                   original_width = image.width
                 rescue => magick_error
                   # ImageMagick CLI error (e.g., executable not found)
-                  Jekyll.logger.warn "ImageResizer:", "ImageMagick CLI error for #{filename}: #{magick_error.message}"
+                  Jekyll.logger.warn "ImageResizer:", "ImageMagick CLI error for #{rel_path}/#{filename}: #{magick_error.message}"
                   raise magick_error # Re-raise to trigger fallback
                 end
               end
             rescue => dim_error
-              Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{filename}, will resize anyway: #{dim_error.message}"
+              Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{rel_path}/#{filename}, will resize anyway: #{dim_error.message}"
             end
             
             # Only resize if image is wider than max_width (or if we couldn't get dimensions)
@@ -122,23 +142,23 @@ module Jekyll
                     .call(destination: dest_path)
                 rescue => magick_error
                   # ImageMagick CLI error (e.g., executable not found: "identify", "convert")
-                  Jekyll.logger.error "ImageResizer:", "ImageMagick CLI error while resizing #{filename}: #{magick_error.message}"
+                  Jekyll.logger.error "ImageResizer:", "ImageMagick CLI error while resizing #{rel_path}/#{filename}: #{magick_error.message}"
                   raise magick_error # Re-raise to trigger fallback copy
                 end
               end
               
               if original_width
                 resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{filename} (#{original_width}px -> #{max_width}px)"
+                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (#{original_width}px -> #{max_width}px)"
               else
                 resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{filename} (max-width: #{max_width}px)"
+                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (max-width: #{max_width}px)"
               end
             else
               # Copy original if it's already small enough
               FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path) && File.mtime(dest_path) >= File.mtime(image_path)
               skipped_count += 1
-              Jekyll.logger.debug "ImageResizer:", "Skipped #{filename} (already #{original_width}px <= #{max_width}px)"
+              Jekyll.logger.debug "ImageResizer:", "Skipped #{rel_path}/#{filename} (already #{original_width}px <= #{max_width}px)"
             end
           else
             # Fallback: just copy the original image
@@ -146,19 +166,19 @@ module Jekyll
             skipped_count += 1
           end
         rescue => e
-          Jekyll.logger.error "ImageResizer:", "Failed to process #{filename}: #{e.message}"
+          Jekyll.logger.error "ImageResizer:", "Failed to process #{rel_path}/#{filename}: #{e.message}"
           # Fallback: copy original image
           begin
             FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path)
             error_count += 1
           rescue => copy_error
-            Jekyll.logger.error "ImageResizer:", "Failed to copy #{filename}: #{copy_error.message}"
+            Jekyll.logger.error "ImageResizer:", "Failed to copy #{rel_path}/#{filename}: #{copy_error.message}"
           end
         end
       end
       
       if resized_count > 0 || skipped_count > 0 || error_count > 0
-        Jekyll.logger.info "ImageResizer:", "Processed images: #{resized_count} resized, #{skipped_count} copied, #{error_count} errors"
+        Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/: #{resized_count} resized, #{skipped_count} copied, #{error_count} errors"
       end
     end
   end
