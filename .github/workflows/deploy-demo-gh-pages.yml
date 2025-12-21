@@ -1,0 +1,54 @@
+name: Deploy Demo Site to GitHub Pages
+
+on:
+  push:
+    branches: [ "theme" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          # bundler-cache: true
+
+
+      - name: Create demo directory
+        run: mkdir -p demo
+
+      - name: Setup theme in demo directory
+        working-directory: ./demo
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh" | bash -s -- --no-serve
+
+      - name: Build Jekyll site
+        working-directory: ./demo
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          bundle install
+          bundle exec jekyll build --source . --destination ./_site --baseurl "/${REPO_NAME}"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: demo/_site
+          force_orphan: true
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+

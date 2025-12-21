@@ -7,9 +7,13 @@
 # for use as a remote theme in your Jekyll site.
 #
 # Usage:
+#   ./setup-remote-theme.sh
 #   curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
-#   or
-#   wget -O- https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/dudududukim/spectrum-eager/theme/setup-remote-theme.sh | bash -s -- --no-serve
+#
+# Options:
+#   --no-serve, --ci    Skip running Jekyll server (useful for CI/CD)
+#   --help, -h          Show this help message
 
 set -e  # Exit on error
 
@@ -442,6 +446,41 @@ run_jekyll_serve() {
     bundle exec jekyll serve
 }
 
+# Parse command line arguments
+NO_SERVE=false
+
+show_help() {
+    echo "Spectrum-Eager Jekyll Theme Setup Script"
+    echo ""
+    echo "Usage:"
+    echo "  ./setup-remote-theme.sh"
+    echo "  curl -fsSL <URL> | bash"
+    echo "  curl -fsSL <URL> | bash -s -- --no-serve"
+    echo ""
+    echo "Options:"
+    echo "  --no-serve, --ci    Skip running Jekyll server (useful for CI/CD)"
+    echo "  --help, -h          Show this help message"
+    echo ""
+}
+
+# Parse arguments
+for arg in "$@"; do
+    case "$arg" in
+        --no-serve|--ci)
+            NO_SERVE=true
+            ;;
+        --help|-h)
+            show_help
+            exit 0
+            ;;
+        *)
+            print_warning "Unknown option: $arg"
+            print_info "Use --help for usage information"
+            exit 1
+            ;;
+    esac
+done
+
 # Main setup function
 main() {
     echo ""
@@ -473,7 +512,16 @@ main() {
     # Bundle install & Serve
     if run_bundle_install; then
         echo ""
-        run_jekyll_serve
+        if [ "$NO_SERVE" = true ]; then
+            print_success "Setup completed in no-serve mode"
+            echo ""
+            print_info "Next steps:"
+            echo "  1. bundle exec jekyll build    # Build the site"
+            echo "  2. bundle exec jekyll serve    # Start local server"
+            echo ""
+        else
+            run_jekyll_serve
+        fi
     else
         echo ""
         print_info "Next steps:"
