@@ -56,6 +56,9 @@ module Jekyll
         # vips not available, try mini_magick
         begin
           require 'image_processing/mini_magick'
+          require 'mini_magick'
+          # Test if ImageMagick CLI is actually available by checking if convert/identify commands exist
+          # We'll test during actual image processing, but log that we're using mini_magick
           image_processor_available = true
           processor_type = :mini_magick
           Jekyll.logger.info "ImageResizer:", "Using image_processing/mini_magick for image resizing"
@@ -90,8 +93,14 @@ module Jekyll
                 original_width = original.width
               elsif processor_type == :mini_magick
                 require 'mini_magick'
-                image = MiniMagick::Image.open(image_path)
-                original_width = image.width
+                begin
+                  image = MiniMagick::Image.open(image_path)
+                  original_width = image.width
+                rescue => magick_error
+                  # ImageMagick CLI error (e.g., executable not found)
+                  Jekyll.logger.warn "ImageResizer:", "ImageMagick CLI error for #{filename}: #{magick_error.message}"
+                  raise magick_error # Re-raise to trigger fallback
+                end
               end
             rescue => dim_error
               Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{filename}, will resize anyway: #{dim_error.message}"
@@ -106,10 +115,16 @@ module Jekyll
                   .resize_to_limit(max_width, nil)
                   .call(destination: dest_path)
               elsif processor_type == :mini_magick
-                ImageProcessing::MiniMagick
-                  .source(image_path)
-                  .resize_to_limit(max_width, nil)
-                  .call(destination: dest_path)
+                begin
+                  ImageProcessing::MiniMagick
+                    .source(image_path)
+                    .resize_to_limit(max_width, nil)
+                    .call(destination: dest_path)
+                rescue => magick_error
+                  # ImageMagick CLI error (e.g., executable not found: "identify", "convert")
+                  Jekyll.logger.error "ImageResizer:", "ImageMagick CLI error while resizing #{filename}: #{magick_error.message}"
+                  raise magick_error # Re-raise to trigger fallback copy
+                end
               end
               
               if original_width
