@@ -517,11 +517,10 @@
 // Global Post Navigation Styles
 // Film Side Navigation (Side-by-side with image)
 .film-image-section {
-  position: relative; // For absolute positioning of nav arrows
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 0; // Remove gap since nav is now absolute
+  gap: 1rem;
   margin-bottom: 0.5rem;
   height: 70vh; // Fixed height instead of min-height
   max-width: 1400px;
@@ -529,22 +528,10 @@
   margin-right: auto;
 
   .film-side-nav {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    z-index: 10;
-
-    &.nav-left {
-      left: 0;
-    }
-
-    &.nav-right {
-      right: 0;
-    }
+    flex: 0 0 60px;
   }
 
   .film-image-container {
@@ -553,7 +540,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    max-width: 100%; // Allow full width
+    max-width: calc(100% - 140px);
     height: 100%; // Take full height of parent
     border-radius: 0; // No rounded corners
     overflow: hidden;
