@@ -1,0 +1,32 @@
+<nav class="post-navigation">
+    {% assign musics = site.musics | sort: 'date' %}
+    {% for music in musics %}
+    {% if music.url == page.url %}
+    {% assign current_index = forloop.index0 %}
+    {% break %}
+    {% endif %}
+    {% endfor %}
+
+    {% if current_index > 0 %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign prev_music = musics[prev_index] %}
+    <a href="{{ prev_music.url | relative_url }}" class="nav-link nav-prev">
+        <span class="nav-direction">
+            <i class="fas fa-chevron-left"></i>
+            Previous
+        </span>
+        <span class="nav-title">{{ prev_music.title }}</span>
+    </a>
+    {% endif %}
+
+    {% assign next_index = current_index | plus: 1 %}
+    {% if next_index < musics.size %} {% assign next_music=musics[next_index] %} <a
+        href="{{ next_music.url | relative_url }}" class="nav-link nav-next">
+        <span class="nav-direction">
+            <i class="fas fa-chevron-right"></i>
+            Next
+        </span>
+        <span class="nav-title">{{ next_music.title }}</span>
+        </a>
+        {% endif %}
+</nav>

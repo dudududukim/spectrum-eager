@@ -157,26 +157,26 @@ date: 2024-01-01
 
 1. Create `_sections/<name>/config.yml`:
 
-```yaml
+   ```yaml
 title: "Section Title"
 key: "section-name"
 description: "Description"
-button_text: "View All"
+   button_text: "View All"
 button_url: "/section-name/"
 order: 10
-type: "tech-bites-preview"
-enabled: true
-```
+   type: "tech-bites-preview"
+   enabled: true
+   ```
 
 2. Create `_sections/<name>/page.md`:
 
-```markdown
----
-layout: post-list
+   ```markdown
+   ---
+   layout: post-list
 title: "Section Title"
 section: "section-name"
 permalink: /section-name/
----
+   ---
 ```
 
 ## Configuration

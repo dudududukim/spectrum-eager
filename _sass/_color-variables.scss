@@ -4,10 +4,10 @@
 // CSS Custom Properties for theming
 :root {
   // Base HSL values - will be dynamically set by color-calculator.html
-  --primary-h: 207;  // Default hue (will be overridden by JavaScript)
-  --primary-s: 74%;  // Default saturation (will be overridden by JavaScript)
-  --primary-l: 57%;  // Default lightness (will be overridden by JavaScript)
-  
+  --primary-h: 207; // Default hue (will be overridden by JavaScript)
+  --primary-s: 74%; // Default saturation (will be overridden by JavaScript)
+  --primary-l: 57%; // Default lightness (will be overridden by JavaScript)
+
   // Primary colors - dynamically generated from HSL values
   --primary-color: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
   --primary-hover: hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 10%));
@@ -84,14 +84,14 @@
   --transition-theme: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   // Spacing variables (8px base scale)
-  --spacing-xs: 0.25rem;   // 4px
-  --spacing-sm: 0.5rem;    // 8px
-  --spacing-md: 1rem;      // 16px
-  --spacing-lg: 1.5rem;    // 24px
-  --spacing-xl: 2rem;      // 32px
-  --spacing-2xl: 3rem;     // 48px
-  --spacing-3xl: 4rem;     // 64px
-  --spacing-4xl: 6rem;     // 96px
+  --spacing-xs: 0.25rem; // 4px
+  --spacing-sm: 0.5rem; // 8px
+  --spacing-md: 1rem; // 16px
+  --spacing-lg: 1.5rem; // 24px
+  --spacing-xl: 2rem; // 32px
+  --spacing-2xl: 3rem; // 48px
+  --spacing-3xl: 4rem; // 64px
+  --spacing-4xl: 6rem; // 96px
 
   // Border radius
   --radius-sm: 0.25rem;
@@ -130,6 +130,21 @@
   --category-4-color: #e65100;
   --category-5-bg: #e0f7fa;
   --category-5-color: #00695c;
+
+  // Code block colors (automatically derived from primary color - increased saturation)
+  --code-bg: hsl(var(--primary-h), calc(var(--primary-s) * 0.5), 95%);
+  --code-border: hsl(var(--primary-h), calc(var(--primary-s) * 0.6), 88%);
+
+  // Fancy Syntax Highlighting (Light Mode)
+  --syntax-keyword: #d73a49;
+  --syntax-string: #032f62;
+  --syntax-comment: #6a737d;
+  --syntax-variable: #e36209;
+  --syntax-function: #6f42c1;
+  --syntax-constant: #005cc5;
+  --syntax-type: #d73a49;
+  --syntax-number: #005cc5;
+  --syntax-operator: #d73a49;
 }
 
 // 모바일 반응형 변수
@@ -156,7 +171,7 @@
     --bg-tertiary: #2a2a2a;
     --bg-elevated: #2a2a2a;
     --bg-overlay: rgba(24, 24, 24, 0.95);
-    
+
     // Card-specific variables for better hierarchy
     --card-bg: #242424;
     --card-bg-hover: #2a2a2a;
@@ -179,12 +194,12 @@
     --shadow-medium: rgba(157, 157, 157, 0.15);
     --shadow-dark: rgba(157, 157, 157, 0.25);
     --shadow-elevated: rgba(157, 157, 157, 0.08);
-    
+
     // Overlay colors for better theme adaptation
     --overlay-light: rgba(0, 0, 0, 0.1);
     --overlay-medium: rgba(0, 0, 0, 0.3);
     --overlay-dark: rgba(0, 0, 0, 0.7);
-    
+
     // Category colors (dark mode)
     --category-1-bg: #1a237e;
     --category-1-color: #90caf9;
@@ -196,6 +211,21 @@
     --category-4-color: #ffb74d;
     --category-5-bg: #004d40;
     --category-5-color: #80deea;
+
+    // Code block colors (automatically derived from primary color - increased saturation)
+    --code-bg: hsl(var(--primary-h), calc(var(--primary-s) * 0.6), 15%);
+    --code-border: hsl(var(--primary-h), calc(var(--primary-s) * 0.7), 22%);
+
+    // Fancy Syntax Highlighting (Dark Mode)
+    --syntax-keyword: #ff7b72;
+    --syntax-string: #a5d6ff;
+    --syntax-comment: #8b949e;
+    --syntax-variable: #ffa657;
+    --syntax-function: #d2a8ff;
+    --syntax-constant: #79c0ff;
+    --syntax-type: #ff7b72;
+    --syntax-number: #79c0ff;
+    --syntax-operator: #ff7b72;
   }
 }
 
@@ -207,7 +237,7 @@ html[data-theme="dark"] {
   --bg-tertiary: #2a2a2a;
   --bg-elevated: #2a2a2a;
   --bg-overlay: rgba(24, 24, 24, 0.95);
-  
+
   // Card-specific variables for better hierarchy
   --card-bg: #242424;
   --card-bg-hover: #2a2a2a;
@@ -230,12 +260,12 @@ html[data-theme="dark"] {
   --shadow-medium: rgba(157, 157, 157, 0.15);
   --shadow-dark: rgba(157, 157, 157, 0.25);
   --shadow-elevated: rgba(157, 157, 157, 0.08);
-  
+
   // Overlay colors for better theme adaptation
   --overlay-light: rgba(0, 0, 0, 0.1);
   --overlay-medium: rgba(0, 0, 0, 0.3);
   --overlay-dark: rgba(0, 0, 0, 0.7);
-  
+
   // Category colors (dark mode)
   --category-1-bg: #1a237e;
   --category-1-color: #90caf9;
@@ -247,6 +277,21 @@ html[data-theme="dark"] {
   --category-4-color: #ffb74d;
   --category-5-bg: #004d40;
   --category-5-color: #80deea;
+
+  // Code block colors (automatically derived from primary color - increased saturation)
+  --code-bg: hsl(var(--primary-h), calc(var(--primary-s) * 0.6), 15%);
+  --code-border: hsl(var(--primary-h), calc(var(--primary-s) * 0.7), 22%);
+
+  // Fancy Syntax Highlighting (Dark Mode)
+  --syntax-keyword: #ff7b72;
+  --syntax-string: #a5d6ff;
+  --syntax-comment: #8b949e;
+  --syntax-variable: #ffa657;
+  --syntax-function: #d2a8ff;
+  --syntax-constant: #79c0ff;
+  --syntax-type: #ff7b72;
+  --syntax-number: #79c0ff;
+  --syntax-operator: #ff7b72;
 }
 
 // Light mode data attribute (higher specificity without !important for smooth transitions)
@@ -257,7 +302,7 @@ html[data-theme="light"] {
   --bg-tertiary: #e9ecef;
   --bg-elevated: #ffffff;
   --bg-overlay: rgba(255, 255, 255, 0.95);
-  
+
   // Card-specific variables for better hierarchy
   --card-bg: #ffffff;
   --card-bg-hover: #f8f9fa;
@@ -280,16 +325,27 @@ html[data-theme="light"] {
   --shadow-medium: rgba(0, 0, 0, 0.15);
   --shadow-dark: rgba(0, 0, 0, 0.25);
   --shadow-elevated: rgba(0, 0, 0, 0.1);
-  
+
   // Overlay colors for better theme adaptation
   --overlay-light: rgba(0, 0, 0, 0.1);
   --overlay-medium: rgba(0, 0, 0, 0.3);
   --overlay-dark: rgba(0, 0, 0, 0.7);
+
+  // Code block colors (automatically derived from primary color - increased saturation)
+  --code-bg: hsl(var(--primary-h), calc(var(--primary-s) * 0.5), 95%);
+  --code-border: hsl(var(--primary-h), calc(var(--primary-s) * 0.6), 88%);
+
+  // Fancy Syntax Highlighting (Light Mode)
+  --syntax-keyword: #d73a49;
+  --syntax-string: #032f62;
+  --syntax-comment: #6a737d;
+  --syntax-variable: #e36209;
+  --syntax-function: #6f42c1;
+  --syntax-constant: #005cc5;
+  --syntax-type: #d73a49;
+  --syntax-number: #005cc5;
+  --syntax-operator: #d73a49;
 }
-
-
-
-
 
 // High contrast mode support
 @media (prefers-contrast: high) {
@@ -298,7 +354,7 @@ html[data-theme="light"] {
     --text-color: #ffffff;
     --border-color: #ffffff;
   }
-  
+
   html[data-theme="light"] {
     --bg-color: #ffffff;
     --text-color: #000000;
@@ -312,7 +368,7 @@ html[data-theme="light"] {
     background-color: #ffffff;
     color: #2c3e50;
   }
-  
+
   .dark-mode {
     background-color: #0f0f0f;
     color: #f5f5f5;

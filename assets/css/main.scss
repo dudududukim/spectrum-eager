@@ -1,7 +1,5 @@
 ---
-# Only the main Sass file needs front matter (the dashes are enough)
 ---
-
 @import "color-variables";
 @import "base";
 @import "mixins";
@@ -9,30 +7,4 @@
 @import "layouts";
 @import "sections";
 @import "utilities";
-
-// Main stylesheet - imports all modular styles
-// ============================================
-
-// All styles are now organized in modular files:
-// - _color-variables.scss: CSS custom properties and color system
-// - _base.scss: Base styles and typography
-// - _components.scss: Reusable component styles
-// - _layouts.scss: Page-specific layout styles
-// - _sections.scss: Reusable section styles and mixins
-// - _utilities.scss: Utility classes for rapid development
-
-// Force hide all scrollbars globally
-html,
-body,
-* {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-*::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-}
+@import "syntax-highlighting";

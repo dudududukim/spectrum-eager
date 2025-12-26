@@ -9,17 +9,17 @@ layout: default
 
             <div class="page-meta">
                 {% if page.date %}
-                    <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
-                        {{ page.date | date: "%B %d, %Y" }}
-                    </time>
+                <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+                    {{ page.date | date: "%B %d, %Y" }}
+                </time>
                 {% endif %}
 
                 {% if page.categories %}
-                    <div class="post-categories">
-                        {% for category in page.categories %}
-                            <span class="category-tag">{{ category }}</span>
-                        {% endfor %}
-                    </div>
+                <div class="post-categories">
+                    {% for category in page.categories %}
+                    <span class="category-tag">{{ category }}</span>
+                    {% endfor %}
+                </div>
                 {% endif %}
             </div>
         </header>
@@ -27,8 +27,5 @@ layout: default
         <article class="tech-bite-content">
             {{ content }}
         </article>
-
-        <!-- Navigation to other posts -->
-        {% include post-navigation.html %}
     </div>
 </div>

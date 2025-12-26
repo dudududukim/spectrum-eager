@@ -325,28 +325,28 @@ copy_examples() {
     fi
     
     # Download example files from remote
-    print_action "Downloading example files from remote..."
-    local files=(
-        "_posts/2025-12-19-example-post.md"
-        "_films/example-film-1.md"
-        "_films/example-film-2.md"
+        print_action "Downloading example files from remote..."
+        local files=(
+            "_posts/2025-12-19-example-post.md"
+            "_films/example-film-1.md"
+            "_films/example-film-2.md"
         "_films/example-film-3.md"
-        "_musics/example-music-1.md"
-        "_musics/example-music-2.md"
-        "_musics/example-music-3.md"
-        "assets/images/films/example-1.png"
-        "assets/images/films/example-2.png"
+            "_musics/example-music-1.md"
+            "_musics/example-music-2.md"
+            "_musics/example-music-3.md"
+            "assets/images/films/example-1.png"
+            "assets/images/films/example-2.png"
         "assets/images/films/example-3.png"
         "assets/images/musics/cover1.png"
         "assets/images/musics/cover2.jpg"
         "assets/images/musics/cover3.jpg"
-        "_sections/tech-bites/config.yml"
-        "_sections/tech-bites/page.md"
-        "_sections/hobbies/config.yml"
-        "_sections/hobbies/page.md"
-    )
-    
-    for file in "${files[@]}"; do
+            "_sections/tech-bites/config.yml"
+            "_sections/tech-bites/page.md"
+            "_sections/hobbies/config.yml"
+            "_sections/hobbies/page.md"
+        )
+        
+        for file in "${files[@]}"; do
         local target_file="${examples_dir}/${file}"
         
         # Download if file doesn't exist or --refresh-examples is set
@@ -356,7 +356,7 @@ copy_examples() {
                 print_warning "Failed to download examples/${file}, skipping"
             }
         fi
-    done
+        done
     
     # Copy all files from examples directory recursively
     print_action "Copying example files from ${examples_dir}/..."
@@ -523,7 +523,7 @@ main() {
             echo "  2. bundle exec jekyll serve    # Start local server"
             echo ""
         else
-            run_jekyll_serve
+        run_jekyll_serve
         fi
     else
         echo ""

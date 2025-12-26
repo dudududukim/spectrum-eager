@@ -1,0 +1,34 @@
+<nav class="post-navigation">
+    {% assign films = site.films | sort: 'date' %}
+    {% for film in films %}
+    {% if film.url == page.url %}
+    {% assign current_index = forloop.index0 %}
+    {% break %}
+    {% endif %}
+    {% endfor %}
+
+    {% if current_index > 0 %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign prev_film = films[prev_index] %}
+    <a href="{{ prev_film.url | relative_url }}" class="nav-link nav-prev">
+        <span class="nav-direction">
+            <i class="fas fa-chevron-left"></i>
+            Previous
+        </span>
+        <span class="nav-title">{{ prev_film.title | default: prev_film.name | remove: '.md' | replace: '-', ' ' |
+            capitalize }}</span>
+    </a>
+    {% endif %}
+
+    {% assign next_index = current_index | plus: 1 %}
+    {% if next_index < films.size %} {% assign next_film=films[next_index] %} <a
+        href="{{ next_film.url | relative_url }}" class="nav-link nav-next">
+        <span class="nav-direction">
+            <i class="fas fa-chevron-right"></i>
+            Next
+        </span>
+        <span class="nav-title">{{ next_film.title | default: next_film.name | remove: '.md' | replace: '-', ' ' |
+            capitalize }}</span>
+        </a>
+        {% endif %}
+</nav>
