@@ -7,7 +7,7 @@ layout: default
         <header class="page-header">
             <h1 class="page-title">{{ site.personal.name | default: site.site.author }}</h1>
             {% if site.personal.tagline %}
-                <p class="page-subtitle">{{ site.personal.tagline }}</p>
+            <p class="page-subtitle">{{ site.personal.tagline }}</p>
             {% endif %}
         </header>
 
@@ -15,136 +15,136 @@ layout: default
             <div class="about-main">
                 <div class="about-text">
                     {% if page.content %}
-                        {{ content }}
+                    {{ content }}
                     {% elsif site.personal.bio %}
-                        <p>{{ site.personal.bio }}</p>
+                    <p>{{ site.personal.bio }}</p>
                     {% else %}
-                        <p>{{ site.personal.bio | default: "Welcome to my personal website. I'm passionate about technology, design, and sharing knowledge through my daily tech insights and photography." }}</p>
+                    <p>{{ site.personal.bio | default: "Welcome to my personal website. I'm passionate about technology,
+                        design, and sharing knowledge through my daily tech insights and photography." }}</p>
                     {% endif %}
                 </div>
 
                 <div class="about-photo">
                     {% if site.personal.photo %}
-                        {% assign photo_path = site.personal.photo | relative_url %}
-                        <img 
-                            src="{{ photo_path }}" 
-                            alt="{{ site.personal.name | default: site.site.author }} portrait"
-                            loading="lazy"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-                        >
-                        <div class="empty-photo-placeholder" style="display: none;">
-                            <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set <code>personal.photo</code> in <code>_config.yml</code></p>
-                        </div>
+                    {% assign photo_path = site.personal.photo | relative_url %}
+                    <img src="{{ photo_path }}" alt="{{ site.personal.name | default: site.site.author }} portrait"
+                        loading="lazy"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="empty-photo-placeholder" style="display: none;">
+                        <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set
+                            <code>personal.photo</code> in <code>_config.yml</code></p>
+                    </div>
                     {% else %}
-                        <div class="empty-photo-placeholder">
-                            <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set <code>personal.photo</code> in <code>_config.yml</code></p>
-                        </div>
+                    <div class="empty-photo-placeholder">
+                        <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set
+                            <code>personal.photo</code> in <code>_config.yml</code></p>
+                    </div>
                     {% endif %}
                 </div>
             </div>
 
             {% if site.personal.location %}
-                <div class="about-details">
-                    <div class="detail-item">
-                        <span class="detail-label">Location</span>
-                        <span class="detail-value">{{ site.personal.location }}</span>
-                    </div>
+            <div class="about-details">
+                <div class="detail-item">
+                    <span class="detail-label">Location</span>
+                    <span class="detail-value">{{ site.personal.location }}</span>
                 </div>
+            </div>
             {% endif %}
         </div>
 
         <!-- Tech Bites Preview -->
         {% include get-section-config.html section_key="tech-bites" %}
         {% if section_config == null or section_config.enabled != false %}
-            <section class="tech-bites-preview">
-                {% comment %} Load featured sections from _sections config files (via site.section_definitions) {% endcomment %}
-                {% assign tabs = '' | split: '' %}
-                {% if site.section_definitions %}
-                    {% for section_pair in site.section_definitions %}
-                        {% assign section_key = section_pair[0] %}
-                        {% assign section_data = section_pair[1] %}
-                        {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
-                            {% assign tabs = tabs | push: section_data %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                {% comment %} Sort by order field {% endcomment %}
-                {% assign sorted_tabs = '' | split: '' %}
-                {% for i in (1..100) %}
-                    {% for tab in tabs %}
-                        {% if tab.order == i %}
-                            {% assign sorted_tabs = sorted_tabs | push: tab %}
-                        {% endif %}
-                    {% endfor %}
+        <section class="tech-bites-preview">
+            {% comment %} Load featured sections from _sections config files (via site.section_definitions) {%
+            endcomment %}
+            {% assign tabs = '' | split: '' %}
+            {% if site.section_definitions %}
+            {% for section_pair in site.section_definitions %}
+            {% assign section_key = section_pair[0] %}
+            {% assign section_data = section_pair[1] %}
+            {% if section_data.type == 'tech-bites-preview' and section_data.enabled != false %}
+            {% assign tabs = tabs | push: section_data %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% comment %} Sort by order field {% endcomment %}
+            {% assign sorted_tabs = '' | split: '' %}
+            {% for i in (1..100) %}
+            {% for tab in tabs %}
+            {% if tab.order == i %}
+            {% assign sorted_tabs = sorted_tabs | push: tab %}
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% if sorted_tabs.size > 0 %}
+            {% assign tabs = sorted_tabs %}
+            {% endif %}
+            {% if site.section_definitions and tabs.size > 0 %}
+            <div class="section-header section-header-slider" data-tabs="{{ tabs | jsonify | escape }}"
+                data-baseurl="{{ '' | relative_url }}"
+                data-default-label="{{ site.content.ui.buttons.view_all_tech_bites | default: 'View All Tech Bites' }}">
+                <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
+                <div class="section-header-text">
+                    {% include get-section-config.html section_key="tech-bites" %}
+                    <h2 class="section-title" id="section-tab-title">
+                        {{ section_config.title | default: "Recent Tech Bites" }}
+                    </h2>
+                    <p class="section-description" id="section-tab-desc">
+                        {{ section_config.description | default: "Daily tech insights and discoveries" }}
+                    </p>
+                </div>
+                <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>
+            </div>
+
+            {% comment %} Generate grids dynamically for all tech-bites-preview sections {% endcomment %}
+            {% for tab in tabs %}
+            {% assign section_key = tab.key %}
+            {% assign is_first = forloop.first %}
+            <div class="tech-bites-grid" data-section="{{ section_key }}" {% unless is_first %}hidden{% endunless %}>
+                {% include get-section-config.html section_key=section_key %}
+                {% assign section_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
+                {% assign section_limit = section_config.main_page_count | default: 5 %}
+                {% if section_posts.size > 0 %}
+                {% for tech_bite in section_posts limit: section_limit %}
+                {% include tech-bite-card.html tech_bite=tech_bite %}
                 {% endfor %}
-                {% if sorted_tabs.size > 0 %}
-                    {% assign tabs = sorted_tabs %}
-                {% endif %}
-                {% if site.section_definitions and tabs.size > 0 %}
-                    <div 
-                        class="section-header section-header-slider" 
-                        data-tabs="{{ tabs | jsonify | escape }}"
-                        data-baseurl="{{ '' | relative_url }}"
-                        data-default-label="{{ site.content.ui.buttons.view_all_tech_bites | default: 'View All Tech Bites' }}"
-                    >
-                        <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
-                        <div class="section-header-text">
-                            {% include get-section-config.html section_key="tech-bites" %}
-                            <h2 class="section-title" id="section-tab-title">
-                                {{ section_config.title | default: "Recent Tech Bites" }}
-                            </h2>
-                            <p class="section-description" id="section-tab-desc">
-                                {{ section_config.description | default: "Daily tech insights and discoveries" }}
-                            </p>
-                        </div>
-                        <button class="section-nav-btn section-nav-next" type="button" aria-label="Next section">›</button>
-                    </div>
-
-                    {% comment %} Generate grids dynamically for all tech-bites-preview sections {% endcomment %}
-                    {% for tab in tabs %}
-                        {% assign section_key = tab.key %}
-                        {% assign is_first = forloop.first %}
-                        <div class="tech-bites-grid" data-section="{{ section_key }}" {% unless is_first %}hidden{% endunless %}>
-                            {% include get-section-config.html section_key=section_key %}
-                            {% assign section_posts = site.posts | where: "section", section_key | sort: 'date' | reverse %}
-                            {% assign section_limit = section_config.main_page_count | default: 5 %}
-                            {% if section_posts.size > 0 %}
-                                {% for tech_bite in section_posts limit: section_limit %}
-                                    {% include tech-bite-card.html tech_bite=tech_bite %}
-                                {% endfor %}
-                            {% else %}
-                                <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with <code>section: "{{ section_key }}"</code> in front matter.</p>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
                 {% else %}
-                    <div class="empty-section-message">
-                        <p>No sections configured yet. Create <code>_sections/</code> folder and add section config files.</p>
-                        <p>Example: Create <code>_sections/tech-bites/config.yml</code> with section settings.</p>
-                    </div>
+                <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with
+                    <code>section: "{{ section_key }}"</code> in front matter.</p>
                 {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-section-message">
+                <p>No sections configured yet. Create <code>_sections/</code> folder and add section config files.</p>
+                <p>Example: Create <code>_sections/tech-bites/config.yml</code> with section settings.</p>
+            </div>
+            {% endif %}
 
-                {% comment %} Only show button if sections are configured {% endcomment %}
-                {% if site.section_definitions and tabs.size > 0 %}
-                    {% assign first_tab = tabs | first %}
-                    <div class="section-footer">
-                        <a href="{{ first_tab.button_url | default: '/tech-bites/' | relative_url }}" class="section-button">
-                            <span class="btn-label">{{ first_tab.button_text | default: site.content.ui.buttons.view_all_tech_bites | default: "View All Tech Bites" }}</span>
-                            <span class="btn-icon">→</span>
-                        </a>
-                    </div>
-                {% endif %}
+            {% comment %} Only show button if sections are configured {% endcomment %}
+            {% if site.section_definitions and tabs.size > 0 %}
+            {% assign first_tab = tabs | first %}
+            <div class="section-footer">
+                <a href="{{ first_tab.button_url | default: '/tech-bites/' | relative_url }}" class="section-button">
+                    <span class="btn-label">{{ first_tab.button_text | default:
+                        site.content.ui.buttons.view_all_tech_bites | default: "View All Tech Bites" }}</span>
+                    <span class="btn-icon">→</span>
+                </a>
+            </div>
+            {% endif %}
 
-                <script>
-                  (function() {
+            <script>
+                (function () {
                     const header = document.querySelector('.section-header-slider');
                     if (!header) return;
 
                     let tabs;
                     try {
-                      tabs = JSON.parse(header.dataset.tabs || '[]');
+                        tabs = JSON.parse(header.dataset.tabs || '[]');
                     } catch (e) {
-                      tabs = [];
+                        tabs = [];
                     }
                     if (!Array.isArray(tabs) || tabs.length === 0) return;
 
@@ -161,52 +161,52 @@ layout: default
                     let idx = 0;
 
                     function resolveUrl(url) {
-                      if (!url) return '#';
-                      if (url.startsWith('http') || url.startsWith('#')) return url;
-                      if (url.startsWith('/')) return `${baseUrl}${url}`;
-                      return url;
+                        if (!url) return '#';
+                        if (url.startsWith('http') || url.startsWith('#')) return url;
+                        if (url.startsWith('/')) return `${baseUrl}${url}`;
+                        return url;
                     }
 
                     function buildButtonClass(key) {
-                      const safeKey = key ? key.replace(/[^a-z0-9_-]/gi, '').toLowerCase() : 'default';
-                      return `section-button section-button--${safeKey}`;
+                        const safeKey = key ? key.replace(/[^a-z0-9_-]/gi, '').toLowerCase() : 'default';
+                        return `section-button section-button--${safeKey}`;
                     }
 
                     function render() {
-                      const tab = tabs[idx];
-                      if (!tab || !titleEl || !descEl) return;
-                      titleEl.textContent = tab.title || '';
-                      descEl.textContent = tab.description || '';
+                        const tab = tabs[idx];
+                        if (!tab || !titleEl || !descEl) return;
+                        titleEl.textContent = tab.title || '';
+                        descEl.textContent = tab.description || '';
 
-                      // Show/hide grids based on current section key
-                      const currentKey = tab.key || 'tech-bites';
-                      grids.forEach(grid => {
-                        const gridSection = grid.dataset.section;
-                        grid.hidden = gridSection !== currentKey;
-                      });
+                        // Show/hide grids based on current section key
+                        const currentKey = tab.key || 'tech-bites';
+                        grids.forEach(grid => {
+                            const gridSection = grid.dataset.section;
+                            grid.hidden = gridSection !== currentKey;
+                        });
 
-                      if (actionBtn) {
-                        const label = tab.button_text || defaultLabel || tab.title || '';
-                        if (actionBtnLabel) actionBtnLabel.textContent = label;
-                        const url = tab.url || tab.button_url || '';
-                        actionBtn.href = resolveUrl(url);
-                        actionBtn.className = buildButtonClass(tab.key);
-                        actionBtn.hidden = !url;
-                      }
+                        if (actionBtn) {
+                            const label = tab.button_text || defaultLabel || tab.title || '';
+                            if (actionBtnLabel) actionBtnLabel.textContent = label;
+                            const url = tab.url || tab.button_url || '';
+                            actionBtn.href = resolveUrl(url);
+                            actionBtn.className = buildButtonClass(tab.key);
+                            actionBtn.hidden = !url;
+                        }
                     }
 
                     function step(delta) {
-                      idx = (idx + delta + tabs.length) % tabs.length;
-                      render();
+                        idx = (idx + delta + tabs.length) % tabs.length;
+                        render();
                     }
 
                     prevBtn?.addEventListener('click', () => step(-1));
                     nextBtn?.addEventListener('click', () => step(1));
 
                     render();
-                  })();
-                </script>
-            </section>
+                })();
+            </script>
+        </section>
         {% endif %}
 
         <!-- Gallery Track Preview -->
@@ -214,7 +214,7 @@ layout: default
 
         <!-- Music Gallery Preview -->
         {% if site.homepage_sections.music_preview.enabled != false %}
-            {% include music-gallery-track.html %}
+        {% include music-gallery-track.html %}
         {% endif %}
 
     </div>

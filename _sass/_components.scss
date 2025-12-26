@@ -812,6 +812,20 @@
         font-size: 1.2rem;
         line-height: 1;
       }
+
+      // CV link specific styling
+      &.nav-cv-link {
+        .cv-text {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: var(--text-secondary);
+          transition: color var(--transition-fast);
+        }
+
+        &:hover .cv-text {
+          color: var(--primary-color);
+        }
+      }
     }
   }
 
