@@ -32,12 +32,14 @@ layout: default
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="empty-photo-placeholder" style="display: none;">
                         <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set
-                            <code>personal.photo</code> in <code>_config.yml</code></p>
+                            <code>personal.photo</code> in <code>_config.yml</code>
+                        </p>
                     </div>
                     {% else %}
                     <div class="empty-photo-placeholder">
                         <p class="empty-message">Add your profile photo to <code>assets/images/me/</code> folder and set
-                            <code>personal.photo</code> in <code>_config.yml</code></p>
+                            <code>personal.photo</code> in <code>_config.yml</code>
+                        </p>
                     </div>
                     {% endif %}
                 </div>
@@ -82,8 +84,11 @@ layout: default
             {% assign tabs = sorted_tabs %}
             {% endif %}
             {% if site.section_definitions and tabs.size > 0 %}
+            {%- comment -%} Find the most recent post to determine which section to show first {%- endcomment -%}
+            {%- assign latest_post = site.posts | sort: 'date' | reverse | first -%}
+            {%- assign latest_section = latest_post.section | default: 'tech-bites' -%}
             <div class="section-header section-header-slider" data-tabs="{{ tabs | jsonify | escape }}"
-                data-baseurl="{{ '' | relative_url }}"
+                data-baseurl="{{ '' | relative_url }}" data-latest-section="{{ latest_section }}"
                 data-default-label="{{ site.content.ui.buttons.view_all_tech_bites | default: 'View All Tech Bites' }}">
                 <button class="section-nav-btn section-nav-prev" type="button" aria-label="Previous section">‹</button>
                 <div class="section-header-text">
@@ -112,7 +117,8 @@ layout: default
                 {% endfor %}
                 {% else %}
                 <p class="empty-section-message">No posts yet. Add posts to <code>_posts/</code> folder with
-                    <code>section: "{{ section_key }}"</code> in front matter.</p>
+                    <code>section: "{{ section_key }}"</code> in front matter.
+                </p>
                 {% endif %}
             </div>
             {% endfor %}
@@ -157,8 +163,16 @@ layout: default
                     const actionBtnLabel = actionBtn?.querySelector('.btn-label');
                     const baseUrl = (header.dataset.baseurl || '').replace(/\/$/, '');
                     const defaultLabel = header.dataset.defaultLabel || '';
+                    const latestSection = header.dataset.latestSection || '';
 
+                    // Find initial index based on latest post's section
                     let idx = 0;
+                    if (latestSection) {
+                        const foundIdx = tabs.findIndex(tab => tab.key === latestSection);
+                        if (foundIdx !== -1) {
+                            idx = foundIdx;
+                        }
+                    }
 
                     function resolveUrl(url) {
                         if (!url) return '#';
