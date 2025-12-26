@@ -1,0 +1,17 @@
+{%- comment -%}
+Get resize path for an image
+Usage: {% include get-resize-path.html path="/assets/images/films/IMG_9270.jpg" %}
+Output: Sets 'resize_image_path' variable to "/assets/images/films/resize/IMG_9270.jpg"
+{%- endcomment -%}
+
+{%- assign original_path = include.path -%}
+
+{%- if original_path contains "/films/" -%}
+{%- comment -%} Films directory uses resize cache {%- endcomment -%}
+{%- assign path_parts = original_path | split: "/" -%}
+{%- assign filename = path_parts | last -%}
+{%- assign resize_image_path = "/assets/images/films/resize/" | append: filename -%}
+{%- else -%}
+{%- comment -%} Other directories use original path {%- endcomment -%}
+{%- assign resize_image_path = original_path -%}
+{%- endif -%}

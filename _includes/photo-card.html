@@ -1,38 +1,35 @@
 {% if include.film %}
-    {% assign film = include.film %}
-    {% assign image_path = film.image_path | relative_url %}
-    {% assign image_name = film.title | default: film.name | remove: '.md' | replace: '-', ' ' | capitalize %}
+{% assign film = include.film %}
+{%- include get-resize-path.html path=film.image_path -%}
+{% assign image_path = resize_image_path | relative_url %}
+{% assign image_name = film.title | default: film.name | remove: '.md' | replace: '-', ' ' | capitalize %}
 {% else %}
-    {% assign image = include.image %}
-    {% assign image_name = image.name | remove: image.extname %}
-    {% assign image_path = image.path | relative_url %}
+{% assign image = include.image %}
+{% assign image_name = image.name | remove: image.extname %}
+{% assign image_path = image.path | relative_url %}
 {% endif %}
 
 <article class="photo-card card" data-image="{{ image_name }}">
     <div class="photo-container">
         {% if include.film %}
-            <a href="{{ film.url | relative_url }}" class="photo-link">
-        {% else %}
-            <a href="{{ image_path }}" class="photo-link" data-lightbox="films" data-title="{{ image_name | replace: '-', ' ' | capitalize }}">
-        {% endif %}
-            <img
-                src="{{ image_path }}"
-                alt="{{ image_name }}"
-                class="photo-image"
-                loading="lazy"
-                decoding="async"
-            />
-            <div class="photo-overlay">
-                <div class="photo-info">
-                    {% if include.film %}
+        <a href="{{ film.url | relative_url }}" class="photo-link">
+            {% else %}
+            <a href="{{ image_path }}" class="photo-link" data-lightbox="films"
+                data-title="{{ image_name | replace: '-', ' ' | capitalize }}">
+                {% endif %}
+                <img src="{{ image_path }}" alt="{{ image_name }}" class="photo-image" loading="lazy"
+                    decoding="async" />
+                <div class="photo-overlay">
+                    <div class="photo-info">
+                        {% if include.film %}
                         {% if film.location %}
-                            <span class="photo-meta">{{ film.location }}</span>
+                        <span class="photo-meta">{{ film.location }}</span>
                         {% endif %}
-                    {% else %}
+                        {% else %}
                         <span class="photo-meta">{{ image.extname | remove: '.' | upcase }}</span>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
     </div>
 </article>

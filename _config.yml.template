@@ -311,6 +311,9 @@ image_resize:
   max_width: 1200  # Maximum width in pixels for resized images (default for all directories)
   per_dir:  # Per-directory max-width overrides (optional)
     musics: 800  # musics folder images will be resized to max 800px width
+    films: 1200  # films folder images will be resized to max 1200px width
+  exclude_originals:  # Directories where original images should never be deployed (only resized versions)
+    - films
 
 # ===========================================
 # ANALYTICS CONFIGURATION

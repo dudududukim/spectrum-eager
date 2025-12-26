@@ -8,13 +8,13 @@
 {% assign direction = site.section_settings.gallery_track.direction | default: 'left' | downcase %}
 {% assign track_direction = 'normal' %}
 {% if direction == 'right' %}
-  {% assign track_direction = 'reverse' %}
+{% assign track_direction = 'reverse' %}
 {% endif %}
 <!-- DEBUG card_duration={{ card_duration }}, direction={{ direction }} -->
 
 {% comment %} Calculate animation duration for constant speed
-  Formula: total_duration = item_count × card_duration
-  This ensures constant speed regardless of item count {% endcomment %}
+Formula: total_duration = item_count × card_duration
+This ensures constant speed regardless of item count {% endcomment %}
 {% assign animation_duration = recent_films.size | times: card_duration %}
 
 <section class="gallery-track-preview">
@@ -27,62 +27,58 @@
         <div class="gallery-track-container">
 
             {% if recent_films.size > 0 %}
-                    <!-- Generate gallery items with seamless loop duplication (only if enough images) -->
-                    {% if recent_films.size >= 3 %}
-                        <!-- For seamless infinite scroll, duplicate items when we have enough images -->
-                        <div class="gallery-track gallery-track-animated" style="--track-duration: {{ animation_duration }}s; --track-direction: {{ track_direction }};">
-                            {% for i in (1..2) %}
-                                {% for film in recent_films %}
-                                    {% assign image_path = film.image_path | relative_url %}
+            <!-- Generate gallery items with seamless loop duplication (only if enough images) -->
+            {% if recent_films.size >= 3 %}
+            <!-- For seamless infinite scroll, duplicate items when we have enough images -->
+            <div class="gallery-track gallery-track-animated"
+                style="--track-duration: {{ animation_duration }}s; --track-direction: {{ track_direction }};">
+                {% for i in (1..2) %}
+                {% for film in recent_films %}
+                {%- include get-resize-path.html path=film.image_path -%}
+                {% assign image_path = resize_image_path | relative_url %}
 
-                                    <div class="gallery-item">
-                                        <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
-                                            <img
-                                                src="{{ image_path }}"
-                                                alt="{{ film.title }}"
-                                                class="gallery-image"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                            <div class="gallery-overlay">
-                                                <div class="gallery-info">
-                                                    <span class="gallery-title">{{ film.title }}</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
+                <div class="gallery-item">
+                    <a href="{{ film.url | relative_url }}" class="gallery-link"
+                        aria-label="View {{ film.title }} in gallery">
+                        <img src="{{ image_path }}" alt="{{ film.title }}" class="gallery-image" loading="lazy"
+                            decoding="async" />
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <span class="gallery-title">{{ film.title }}</span>
+                            </div>
                         </div>
-                    {% else %}
-                        <!-- For small number of images (1-2), show without duplication, centered, no animation -->
-                        <div class="gallery-track gallery-track-static">
-                            {% for film in recent_films %}
-                                {% assign image_path = film.image_path | relative_url %}
-
-                                <div class="gallery-item">
-                                    <a href="{{ film.url | relative_url }}" class="gallery-link" aria-label="View {{ film.title }} in gallery">
-                                        <img
-                                            src="{{ image_path }}"
-                                            alt="{{ film.title }}"
-                                            class="gallery-image"
-                                            loading="lazy"
-                                            decoding="async"
-                                        />
-                                        <div class="gallery-overlay">
-                                            <div class="gallery-info">
-                                                <span class="gallery-title">{{ film.title }}</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-            {% else %}
-                <div class="empty-gallery-message">
-                    <p>No films yet. Add film entries to <code>_films/</code> folder and images to <code>assets/images/films/</code> folder.</p>
+                    </a>
                 </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- For small number of images (1-2), show without duplication, centered, no animation -->
+            <div class="gallery-track gallery-track-static">
+                {% for film in recent_films %}
+                {%- include get-resize-path.html path=film.image_path -%}
+                {% assign image_path = resize_image_path | relative_url %}
+
+                <div class="gallery-item">
+                    <a href="{{ film.url | relative_url }}" class="gallery-link"
+                        aria-label="View {{ film.title }} in gallery">
+                        <img src="{{ image_path }}" alt="{{ film.title }}" class="gallery-image" loading="lazy"
+                            decoding="async" />
+                        <div class="gallery-overlay">
+                            <div class="gallery-info">
+                                <span class="gallery-title">{{ film.title }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="empty-gallery-message">
+                <p>No films yet. Add film entries to <code>_films/</code> folder and images to
+                    <code>assets/images/films/</code> folder.</p>
+            </div>
             {% endif %}
         </div>
 
@@ -94,4 +90,3 @@
         </div>
     </div>
 </section>
-

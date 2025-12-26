@@ -25,6 +25,9 @@ module Jekyll
       
       return unless Dir.exist?(base_images_dir)
       
+      # Get list of directories to exclude originals (only deploy resized versions)
+      exclude_originals = image_config['exclude_originals'] || []
+      
       # Initialize image processor (only once, reuse for all directories)
       image_processor_available, processor_type = initialize_image_processor
       
@@ -32,7 +35,13 @@ module Jekyll
       subdirs = Dir.glob(File.join(base_images_dir, '*')).select { |path| File.directory?(path) }
       
       subdirs.each do |source_dir|
-        process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type)
+        # Get relative directory name (e.g., 'films', 'musics')
+        rel_path = File.basename(source_dir)
+        
+        # Check if this directory should have originals excluded
+        is_excluded = exclude_originals.include?(rel_path)
+        
+        process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type, is_excluded)
       end
     end
     
@@ -77,9 +86,7 @@ module Jekyll
       [processor_available, processor_type]
     end
     
-    def self.process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type)
-      start_time = Time.now  # ✅ 시간 측정 시작
-      
+    def self.process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type, is_excluded = false)
       # Get relative path from assets/images/ to preserve subdirectory structure
       base_images_dir = File.join(site.source, 'assets/images')
       rel_path = source_dir.sub(/^#{Regexp.escape(base_images_dir)}\//, '')
@@ -87,107 +94,162 @@ module Jekyll
       # Get directory-specific max_width if configured, otherwise use default
       dir_max_width = image_config.dig('per_dir', rel_path) || max_width
       
-      # Destination directory in _site (static files already copied here)
+      # Destination directory in _site
       dest_dir = File.join(site.dest, 'assets/images', rel_path)
       FileUtils.mkdir_p(dest_dir) unless Dir.exist?(dest_dir)
       
-      # Process images from source, but write to destination (overwriting copied static files)
+      # For excluded directories, use resize/ subfolder as cache
+      if is_excluded
+        resize_cache_dir = File.join(source_dir, 'resize')
+        FileUtils.mkdir_p(resize_cache_dir) unless Dir.exist?(resize_cache_dir)
+      end
       
       # Supported image formats
       image_extensions = %w[.jpg .jpeg .png .JPG .JPEG .PNG .webp .WEBP]
       
       resized_count = 0
+      cached_count = 0
       skipped_count = 0
       error_count = 0
       
-      Dir.glob(File.join(source_dir, '*')).each do |image_path|
-        next unless File.file?(image_path)
-        
-        ext = File.extname(image_path)
-        next unless image_extensions.include?(ext)
-        
+      # Get list of images to process
+      images_to_process = if is_excluded
+        # For excluded dirs: process originals from source_dir (not from resize/)
+        Dir.glob(File.join(source_dir, '*')).select do |path|
+          File.file?(path) && image_extensions.include?(File.extname(path))
+        end
+      else
+        # For non-excluded dirs: process from source_dir as before
+        Dir.glob(File.join(source_dir, '*')).select do |path|
+          File.file?(path) && image_extensions.include?(File.extname(path))
+        end
+      end
+      
+      images_to_process.each do |image_path|
         filename = File.basename(image_path)
         dest_path = File.join(dest_dir, filename)
         
         begin
-          if image_processor_available
-            # Get original image dimensions using image_processing
-            original_width = nil
-            begin
-              if processor_type == :vips
-                require 'vips'
-                original = Vips::Image.new_from_file(image_path)
-                original_width = original.width
-              elsif processor_type == :mini_magick
-                require 'mini_magick'
-                begin
-                image = MiniMagick::Image.open(image_path)
-                original_width = image.width
-                rescue => magick_error
-                  # ImageMagick CLI error (e.g., executable not found)
-                  Jekyll.logger.warn "ImageResizer:", "ImageMagick CLI error for #{rel_path}/#{filename}: #{magick_error.message}"
-                  raise magick_error # Re-raise to trigger fallback
-                end
-              end
-            rescue => dim_error
-              Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{rel_path}/#{filename}, will resize anyway: #{dim_error.message}"
-            end
+          if is_excluded
+            # EXCLUDED DIRECTORY LOGIC: Use resize cache
+            resize_cache_path = File.join(source_dir, 'resize', filename)
             
-            # Only resize if image is wider than dir_max_width (or if we couldn't get dimensions)
-            if original_width.nil? || original_width > dir_max_width
-              # Resize image
+            # Check if we need to generate/update cached resize
+            need_resize = !File.exist?(resize_cache_path) || 
+                         File.mtime(image_path) > File.mtime(resize_cache_path)
+            
+            if need_resize && image_processor_available
+              # Generate resized image to cache
               if processor_type == :vips
                 ImageProcessing::Vips
                   .source(image_path)
                   .resize_to_limit(dir_max_width, nil)
-                  .call(destination: dest_path)
+                  .call(destination: resize_cache_path)
               elsif processor_type == :mini_magick
-                begin
                 ImageProcessing::MiniMagick
                   .source(image_path)
-                    .resize_to_limit(dir_max_width, nil)
-                  .call(destination: dest_path)
-                rescue => magick_error
-                  # ImageMagick CLI error (e.g., executable not found: "identify", "convert")
-                  Jekyll.logger.error "ImageResizer:", "ImageMagick CLI error while resizing #{rel_path}/#{filename}: #{magick_error.message}"
-                  raise magick_error # Re-raise to trigger fallback copy
-                end
+                  .resize_to_limit(dir_max_width, nil)
+                  .call(destination: resize_cache_path)
               end
               
-              if original_width
+              resized_count += 1
+              Jekyll.logger.info "ImageResizer:", "Generated cache #{rel_path}/resize/#{filename}"
+            elsif need_resize && !image_processor_available
+              Jekyll.logger.error "ImageResizer:", "Cannot cache #{rel_path}/#{filename}: no image processor available"
+              error_count += 1
+              next
+            else
+              cached_count += 1
+              Jekyll.logger.debug "ImageResizer:", "Using cached #{rel_path}/resize/#{filename}"
+            end
+            
+            # Copy cached resize to _site (hide resize path)
+            FileUtils.cp(resize_cache_path, dest_path)
+            
+          else
+            # NON-EXCLUDED DIRECTORY LOGIC: Original behavior
+            if image_processor_available
+              # Get original image dimensions
+              original_width = nil
+              begin
+                if processor_type == :vips
+                  require 'vips'
+                  original = Vips::Image.new_from_file(image_path)
+                  original_width = original.width
+                elsif processor_type == :mini_magick
+                  require 'mini_magick'
+                  image = MiniMagick::Image.open(image_path)
+                  original_width = image.width
+                end
+              rescue => dim_error
+                Jekyll.logger.warn "ImageResizer:", "Could not get dimensions for #{rel_path}/#{filename}, will resize anyway: #{dim_error.message}"
+              end
+              
+              # Only resize if image is wider than dir_max_width
+              should_resize = original_width.nil? || original_width > dir_max_width
+              
+              if should_resize
+                # Resize image
+                if processor_type == :vips
+                  ImageProcessing::Vips
+                    .source(image_path)
+                    .resize_to_limit(dir_max_width, nil)
+                    .call(destination: dest_path)
+                elsif processor_type == :mini_magick
+                  ImageProcessing::MiniMagick
+                    .source(image_path)
+                    .resize_to_limit(dir_max_width, nil)
+                    .call(destination: dest_path)
+                end
+                
                 resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (#{original_width}px -> #{dir_max_width}px)"
+                if original_width
+                  Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (#{original_width}px -> #{dir_max_width}px)"
+                else
+                  Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (max-width: #{dir_max_width}px)"
+                end
               else
-                resized_count += 1
-                Jekyll.logger.info "ImageResizer:", "Resized #{rel_path}/#{filename} (max-width: #{dir_max_width}px)"
+                # Copy original if it's already small enough
+                FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path) && File.mtime(dest_path) >= File.mtime(image_path)
+                skipped_count += 1
+                Jekyll.logger.debug "ImageResizer:", "Skipped #{rel_path}/#{filename} (already #{original_width}px <= #{dir_max_width}px)"
               end
             else
-              # Copy original if it's already small enough
+              # Fallback: just copy the original image
               FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path) && File.mtime(dest_path) >= File.mtime(image_path)
               skipped_count += 1
-              Jekyll.logger.debug "ImageResizer:", "Skipped #{rel_path}/#{filename} (already #{original_width}px <= #{dir_max_width}px)"
             end
-          else
-            # Fallback: just copy the original image
-            FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path) && File.mtime(dest_path) >= File.mtime(image_path)
-            skipped_count += 1
           end
+          
         rescue => e
           Jekyll.logger.error "ImageResizer:", "Failed to process #{rel_path}/#{filename}: #{e.message}"
-          # Fallback: copy original image
-          begin
-            FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path)
+          Jekyll.logger.debug "ImageResizer:", "Error details: #{e.backtrace.first(3).join("\n")}"
+          
+          # Fallback: For excluded dirs, we can't copy originals
+          if is_excluded
+            Jekyll.logger.error "ImageResizer:", "Cannot deploy #{rel_path}/#{filename}: directory uses resize cache only"
             error_count += 1
-          rescue => copy_error
-            Jekyll.logger.error "ImageResizer:", "Failed to copy #{rel_path}/#{filename}: #{copy_error.message}"
+          else
+            # For non-excluded, try to copy original
+            begin
+              FileUtils.cp(image_path, dest_path) unless File.exist?(dest_path)
+              error_count += 1
+            rescue => copy_error
+              Jekyll.logger.error "ImageResizer:", "Failed to copy #{rel_path}/#{filename}: #{copy_error.message}"
+            end
           end
         end
       end
       
-      # ✅ 시간 측정 종료 및 로깅
-      elapsed = Time.now - start_time
-      if resized_count > 0 || skipped_count > 0 || error_count > 0
-        Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/ in #{elapsed.round(2)}s: #{resized_count} resized, #{skipped_count} skipped, #{error_count} errors"
+      # Summary log
+      if is_excluded
+        if resized_count > 0 || cached_count > 0 || error_count > 0
+          Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/ [CACHE MODE]: #{resized_count} generated, #{cached_count} cached, #{error_count} errors"
+        end
+      else
+        if resized_count > 0 || skipped_count > 0 || error_count > 0
+          Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/: #{resized_count} resized, #{skipped_count} copied, #{error_count} errors"
+        end
       end
     end
   end
