@@ -15,9 +15,8 @@ layout: default
             <div class="film-image-section">
                 <!-- Side Navigation Arrows -->
                 <div class="film-side-nav">
-                    {% if page.previous %}
-                    <a href="{{ page.previous.url | relative_url }}" class="nav-arrow nav-prev"
-                        aria-label="Previous Photo">
+                    {% if page.next %}
+                    <a href="{{ page.next.url | relative_url }}" class="nav-arrow nav-next" aria-label="Newer Photo">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                     {% else %}
@@ -32,8 +31,9 @@ layout: default
                 </div>
 
                 <div class="film-side-nav">
-                    {% if page.next %}
-                    <a href="{{ page.next.url | relative_url }}" class="nav-arrow nav-next" aria-label="Next Photo">
+                    {% if page.previous %}
+                    <a href="{{ page.previous.url | relative_url }}" class="nav-arrow nav-prev"
+                        aria-label="Older Photo">
                         <i class="fas fa-chevron-right"></i>
                     </a>
                     {% else %}

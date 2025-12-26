@@ -1,5 +1,5 @@
 <nav class="post-navigation">
-    {% assign musics = site.musics | sort: 'date' %}
+    {% assign musics = site.musics | sort: 'date' | reverse %}
     {% for music in musics %}
     {% if music.url == page.url %}
     {% assign current_index = forloop.index0 %}

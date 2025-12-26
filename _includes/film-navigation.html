@@ -1,5 +1,5 @@
 <nav class="post-navigation">
-    {% assign films = site.films | sort: 'date' %}
+    {% assign films = site.films | sort: 'date' | reverse %}
     {% for film in films %}
     {% if film.url == page.url %}
     {% assign current_index = forloop.index0 %}
