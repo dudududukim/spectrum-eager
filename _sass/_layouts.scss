@@ -542,6 +542,8 @@
     position: relative;
     max-width: calc(100% - 140px);
     height: 100%; // Take full height of parent
+    border-radius: 0; // No rounded corners
+    overflow: hidden;
 
     .film-image {
       max-height: 100%;
@@ -550,6 +552,7 @@
       height: auto;
       object-fit: contain; // Fit within container while maintaining aspect ratio
       object-position: center;
+      border-radius: 0; // No rounded corners
     }
   }
 
