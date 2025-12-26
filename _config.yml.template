@@ -90,6 +90,11 @@ personal:
 social:
   enabled: true
   platforms:
+    cv:
+      enabled: false  # CHANGE THIS: Set to true and update URL with your Google Drive CV link
+      url: "https://drive.google.com/file/d/YOUR_FILE_ID/view"  # CHANGE THIS: Your Google Drive CV link
+      label: "CV"
+      icon: "fa-solid fa-file-lines"
     email:
       enabled: true
       url: "mailto:your.email@example.com"  # CHANGE THIS
