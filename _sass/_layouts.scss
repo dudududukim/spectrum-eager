@@ -515,9 +515,93 @@
 }
 
 // Global Post Navigation Styles
+// Film Side Navigation (Side-by-side with image)
+.film-image-section {
+  display: flex;
+  align-items: stretch; // Make arrows as tall as the section
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  min-height: 400px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .film-side-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 60px;
+  }
+
+  .film-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: calc(100% - 140px);
+
+    .film-image {
+      max-height: 80vh;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .nav-arrow {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    font-size: 1.5rem;
+    opacity: 0.3;
+
+    &:hover:not(.disabled) {
+      opacity: 1;
+      text-decoration: none;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .film-side-nav {
+      flex: 1;
+      order: 2;
+      height: 60px;
+    }
+
+    .film-image-container {
+      flex: 0 0 100%;
+      order: 1;
+      max-width: 100%;
+
+      .film-image {
+        max-height: 60vh;
+      }
+    }
+
+    .nav-arrow {
+      height: 60px;
+      opacity: 0.6;
+    }
+  }
+}
+
 .post-navigation {
   max-width: var(--content-max-width);
-  margin: 2rem auto 0; // Reduced bottom margin to 0
+  margin: 0 auto; // Remove top/bottom margin, manage via container padding
   display: flex;
   justify-content: space-between;
   gap: 1.5rem;
@@ -1433,7 +1517,7 @@
 .films-page {
   .films-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-bottom: 3rem;
     max-width: var(--content-max-width);
@@ -1446,7 +1530,7 @@
     }
 
     @media (max-width: 767px) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
   }
@@ -1472,7 +1556,7 @@
       position: relative;
       width: 100%;
       height: 0;
-      padding-bottom: 100%; // Square aspect ratio
+      padding-bottom: 100%; // Square aspect ratio for grid cell
       overflow: hidden;
 
       .photo-link {
@@ -1491,7 +1575,7 @@
           left: 0;
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain; // Changed from cover to contain to maintain image aspect ratio
           object-position: center;
           transition: transform var(--transition-normal);
         }
@@ -1504,8 +1588,8 @@
           height: 100%;
           background: linear-gradient(to bottom,
               transparent 0%,
-              var(--overlay-light) 50%,
-              var(--overlay-dark) 100%);
+              rgba(var(--primary-color-rgb, 51, 152, 219), 0.15) 50%,
+              rgba(var(--primary-color-rgb, 51, 152, 219), 0.4) 100%);
           opacity: 0;
           transition: opacity var(--transition-normal);
           display: flex;

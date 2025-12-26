@@ -13,59 +13,62 @@ layout: default
         <div class="film-content">
             <!-- Image Section -->
             <div class="film-image-section">
+                <!-- Side Navigation Arrows -->
+                <div class="film-side-nav">
+                    {% if page.previous %}
+                    <a href="{{ page.previous.url | relative_url }}" class="nav-arrow nav-prev"
+                        aria-label="Previous Photo">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    {% else %}
+                    <div class="nav-arrow disabled"></div>
+                    {% endif %}
+                </div>
+
                 <div class="film-image-container">
                     <img src="{{ page.image_path | relative_url }}"
                         alt="{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}"
                         class="film-image" loading="eager" decoding="async" />
                 </div>
+
+                <div class="film-side-nav">
+                    {% if page.next %}
+                    <a href="{{ page.next.url | relative_url }}" class="nav-arrow nav-next" aria-label="Next Photo">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% else %}
+                    <div class="nav-arrow disabled"></div>
+                    {% endif %}
+                </div>
             </div>
 
-            <!-- Metadata Section -->
+            <!-- Simplified Metadata Section -->
             <div class="film-metadata">
                 <!-- Main Content (markdown content) -->
                 <div class="film-main-content">
                     {{ content }}
                 </div>
 
-                <!-- Metadata Cards -->
-                <div class="metadata-cards">
-                    <!-- Technical Specifications -->
-                    {% if page.camera or page.film %}
-                    <div class="metadata-card card">
-                        <h3 class="metadata-title">
-                            <i class="fas fa-camera"></i>
-                            Technical Details
-                        </h3>
-                        <div class="metadata-content">
-                            {% if page.camera %}
-                            <div class="metadata-item">
-                                <span class="metadata-label">Camera:</span>
-                                <span class="metadata-value">{{ page.camera }}</span>
-                            </div>
-                            {% endif %}
-                            {% if page.film %}
-                            <div class="metadata-item">
-                                <span class="metadata-label">Film:</span>
-                                <span class="metadata-value">{{ page.film }}</span>
-                            </div>
-                            {% endif %}
-                        </div>
+                <!-- Metadata Row -->
+                <div class="metadata-row">
+                    {% if page.camera %}
+                    <div class="metadata-item">
+                        <span class="metadata-label">Camera</span>
+                        <span class="metadata-value">{{ page.camera }}</span>
                     </div>
                     {% endif %}
 
-                    <!-- Location -->
+                    {% if page.film %}
+                    <div class="metadata-item">
+                        <span class="metadata-label">Film</span>
+                        <span class="metadata-value">{{ page.film }}</span>
+                    </div>
+                    {% endif %}
+
                     {% if page.location %}
-                    <div class="metadata-card card">
-                        <h3 class="metadata-title">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Location
-                        </h3>
-                        <div class="metadata-content">
-                            <div class="metadata-item">
-                                <span class="metadata-label">Location:</span>
-                                <span class="metadata-value">{{ page.location }}</span>
-                            </div>
-                        </div>
+                    <div class="metadata-item">
+                        <span class="metadata-label">Location</span>
+                        <span class="metadata-value">{{ page.location }}</span>
                     </div>
                     {% endif %}
                 </div>

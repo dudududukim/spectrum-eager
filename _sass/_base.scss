@@ -44,10 +44,15 @@ body {
   flex-direction: column;
 }
 
-.site-navigation-container {
+.container.site-navigation-container {
   margin-top: auto;
-  padding-bottom: 0.5rem; // Reduced from 2rem to move closer to footer
+  padding-top: 10rem; // Large responsive gap from content
+  padding-bottom: 0;
   width: 100%;
+
+  &.film-nav {
+    padding-top: 2rem; // Much smaller gap for portfolio-style film pages
+  }
 }
 
 // Typography
