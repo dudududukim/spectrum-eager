@@ -11,13 +11,13 @@ layout: default
     <div class="container">
         <!-- Main Content -->
         <div class="film-content">
-            <!-- Image Section -->
+            <!-- Film Image with Side Navigation -->
             <div class="film-image-section">
-                <!-- Side Navigation Arrows -->
-                <div class="film-side-nav">
-                    {% if page.previous %}
-                    <a href="{{ page.previous.url | relative_url }}" class="nav-arrow nav-prev"
-                        aria-label="Previous Photo">
+                <!-- Left Navigation Arrow -->
+                <div class="film-side-nav nav-left">
+                    {% if page.previous.url %}
+                    <a href="{{ page.previous.url | relative_url }}" class="nav-arrow"
+                        title="{{ page.previous.title }}">
                         <i class="fas fa-chevron-left"></i>
                     </a>
                     {% else %}
@@ -25,15 +25,17 @@ layout: default
                     {% endif %}
                 </div>
 
+                <!-- Film Image -->
                 <div class="film-image-container">
-                    <img src="{{ page.image_path | relative_url }}"
-                        alt="{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}"
-                        class="film-image" loading="eager" decoding="async" />
+                    {% if page.image %}
+                    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="film-image">
+                    {% endif %}
                 </div>
 
-                <div class="film-side-nav">
-                    {% if page.next %}
-                    <a href="{{ page.next.url | relative_url }}" class="nav-arrow nav-next" aria-label="Next Photo">
+                <!-- Right Navigation Arrow -->
+                <div class="film-side-nav nav-right">
+                    {% if page.next.url %}
+                    <a href="{{ page.next.url | relative_url }}" class="nav-arrow" title="{{ page.next.title }}">
                         <i class="fas fa-chevron-right"></i>
                     </a>
                     {% else %}
