@@ -25,9 +25,16 @@ layout: default
                 </div>
 
                 <div class="film-image-container">
-                    <img src="{{ page.image_path | relative_url }}"
+                    {%- comment -%} Try to use resized image first, fallback to original {%- endcomment -%}
+                    {%- assign original_path = page.image_path -%}
+                    {%- assign path_parts = original_path | split: "/" -%}
+                    {%- assign filename = path_parts | last -%}
+                    {%- assign resize_path = "/assets/images/films/resize/" | append: filename -%}
+
+                    <img src="{{ resize_path | relative_url }}"
                         alt="{{ page.title | default: page.name | remove: '.md' | replace: '-', ' ' | capitalize }}"
-                        class="film-image" loading="eager" decoding="async" />
+                        class="film-image" loading="eager" decoding="async"
+                        onerror="this.onerror=null; this.src='{{ original_path | relative_url }}';" />
                 </div>
 
                 <div class="film-side-nav">
