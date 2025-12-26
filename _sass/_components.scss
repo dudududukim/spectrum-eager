@@ -1407,78 +1407,8 @@
 }
 
 // Film Image Section
-.film-image-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-
-  .film-image-container {
-    position: relative;
-    border-radius: 0; // 둥근 모서리 제거
-    overflow: hidden;
-    max-width: 800px; // 최대 너비 800px로 제한
-    width: 100%;
-    margin: 0 auto; // 중앙 정렬
-
-    .film-image {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0;
-      border-radius: 0;
-      max-width: 100%; // 컨테이너를 넘지 않도록
-    }
-  }
-}
-
-// Landscape device (가로 디바이스) - 세로 사진 높이 제한
-@media (orientation: landscape) and (min-width: 768px) {
-  .film-image-section {
-    .film-image-container {
-      max-height: 70vh; // 뷰포트 높이의 70%로 제한
-
-      .film-image {
-        width: 100%;
-        height: auto;
-        max-height: 70vh;
-        object-fit: contain; // 비율 유지하면서 컨테이너에 맞춤
-        object-position: center;
-        margin: 0;
-        border-radius: 0;
-      }
-    }
-  }
-}
-
-// Portrait device (세로 디바이스) - 너비에 맞춰서 표시
-@media (orientation: portrait) {
-  .film-image-section {
-    .film-image-container {
-      .film-image {
-        width: 100%;
-        height: auto;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 0;
-      }
-    }
-  }
-}
-
-// 큰 가로 화면에서 추가 제한
-@media (orientation: landscape) and (min-width: 1200px) {
-  .film-image-section {
-    .film-image-container {
-      max-height: 60vh; // 더 큰 화면에서는 60%로 제한
-
-      .film-image {
-        max-height: 60vh;
-        margin: 0;
-        border-radius: 0;
-      }
-    }
-  }
-}
+// Film Image Section styles moved to _layouts.scss to avoid conflicts
+// All .film-image-section styles are now defined in _layouts.scss
 
 // Film Metadata
 .film-metadata {

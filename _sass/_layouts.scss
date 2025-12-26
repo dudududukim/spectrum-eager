@@ -518,11 +518,11 @@
 // Film Side Navigation (Side-by-side with image)
 .film-image-section {
   display: flex;
-  align-items: stretch; // Make arrows as tall as the section
+  align-items: stretch;
   justify-content: center;
   gap: 1rem;
   margin-bottom: 0.5rem;
-  min-height: 400px;
+  height: 70vh; // Fixed height instead of min-height
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
@@ -541,11 +541,15 @@
     align-items: center;
     position: relative;
     max-width: calc(100% - 140px);
+    height: 100%; // Take full height of parent
 
     .film-image {
-      max-height: 80vh;
+      max-height: 100%;
+      max-width: 100%;
       width: auto;
-      object-fit: contain;
+      height: auto;
+      object-fit: contain; // Fit within container while maintaining aspect ratio
+      object-position: center;
     }
   }
 
@@ -575,6 +579,7 @@
   @media (max-width: 767px) {
     flex-wrap: wrap;
     gap: 0.5rem;
+    height: auto; // Allow height to be flexible on mobile
 
     .film-side-nav {
       flex: 1;
@@ -586,9 +591,10 @@
       flex: 0 0 100%;
       order: 1;
       max-width: 100%;
+      height: 60vh; // Fixed height for mobile
 
       .film-image {
-        max-height: 60vh;
+        max-height: 100%;
       }
     }
 
