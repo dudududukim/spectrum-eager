@@ -78,6 +78,8 @@ module Jekyll
     end
     
     def self.process_directory(site, source_dir, max_width, image_config, image_processor_available, processor_type)
+      start_time = Time.now  # ✅ 시간 측정 시작
+      
       # Get relative path from assets/images/ to preserve subdirectory structure
       base_images_dir = File.join(site.source, 'assets/images')
       rel_path = source_dir.sub(/^#{Regexp.escape(base_images_dir)}\//, '')
@@ -119,8 +121,8 @@ module Jekyll
               elsif processor_type == :mini_magick
                 require 'mini_magick'
                 begin
-                  image = MiniMagick::Image.open(image_path)
-                  original_width = image.width
+                image = MiniMagick::Image.open(image_path)
+                original_width = image.width
                 rescue => magick_error
                   # ImageMagick CLI error (e.g., executable not found)
                   Jekyll.logger.warn "ImageResizer:", "ImageMagick CLI error for #{rel_path}/#{filename}: #{magick_error.message}"
@@ -141,10 +143,10 @@ module Jekyll
                   .call(destination: dest_path)
               elsif processor_type == :mini_magick
                 begin
-                  ImageProcessing::MiniMagick
-                    .source(image_path)
+                ImageProcessing::MiniMagick
+                  .source(image_path)
                     .resize_to_limit(dir_max_width, nil)
-                    .call(destination: dest_path)
+                  .call(destination: dest_path)
                 rescue => magick_error
                   # ImageMagick CLI error (e.g., executable not found: "identify", "convert")
                   Jekyll.logger.error "ImageResizer:", "ImageMagick CLI error while resizing #{rel_path}/#{filename}: #{magick_error.message}"
@@ -182,8 +184,10 @@ module Jekyll
         end
       end
       
+      # ✅ 시간 측정 종료 및 로깅
+      elapsed = Time.now - start_time
       if resized_count > 0 || skipped_count > 0 || error_count > 0
-        Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/: #{resized_count} resized, #{skipped_count} copied, #{error_count} errors"
+        Jekyll.logger.info "ImageResizer:", "Processed #{rel_path}/ in #{elapsed.round(2)}s: #{resized_count} resized, #{skipped_count} skipped, #{error_count} errors"
       end
     end
   end

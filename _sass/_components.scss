@@ -1,6 +1,8 @@
 // Component Styles
 // ================
 
+@import "mixins";
+
 // Buttons
 .btn {
   display: inline-flex;
@@ -388,7 +390,7 @@
     grid-template-columns: 1fr; // 모바일에서 단일 컬럼
     gap: 1rem;
   }
-  
+
   // 매우 작은 화면에서 추가 조정
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -458,57 +460,11 @@
 
     // Universal category colors (max 5 categories per section)
     // These colors are assigned based on the order in filter_categories
-    &.category-color-1 {
-      background-color: var(--category-1-bg);
-      color: var(--category-1-color);
-    }
+    @include category-colors('&');
 
-    &.category-color-2 {
-      background-color: var(--category-2-bg);
-      color: var(--category-2-color);
-    }
-
-    &.category-color-3 {
-      background-color: var(--category-3-bg);
-      color: var(--category-3-color);
-    }
-
-    &.category-color-4 {
-      background-color: var(--category-4-bg);
-      color: var(--category-4-color);
-    }
-
-    &.category-color-5 {
-      background-color: var(--category-5-bg);
-      color: var(--category-5-color);
-    }
-
-    // Dark mode styles
+    // Dark mode styles - use same colors from CSS variables
     html[data-theme="dark"] & {
-      &.category-color-1 {
-        background-color: var(--category-1-bg);
-        color: var(--category-1-color);
-      }
-
-      &.category-color-2 {
-        background-color: var(--category-2-bg);
-        color: var(--category-2-color);
-      }
-
-      &.category-color-3 {
-        background-color: var(--category-3-bg);
-        color: var(--category-3-color);
-      }
-
-      &.category-color-4 {
-        background-color: var(--category-4-bg);
-        color: var(--category-4-color);
-      }
-
-      &.category-color-5 {
-        background-color: var(--category-5-bg);
-        color: var(--category-5-color);
-      }
+      @include category-colors('&');
     }
   }
 
@@ -563,7 +519,8 @@
 #reading-progress,
 .reading-progress-bar {
   position: fixed !important;
-  top: var(--nav-height, 6rem) !important; /* Desktop: 네비게이션 높이에 맞춤 (JavaScript에서 동적으로 조정) */
+  top: var(--nav-height, 6rem) !important;
+  /* Desktop: 네비게이션 높이에 맞춤 (JavaScript에서 동적으로 조정) */
   left: 0 !important;
   right: 0 !important;
   width: 0% !important;
@@ -578,17 +535,21 @@
 
 // Responsive adjustments for reading progress bar
 @media (max-width: 767px) {
+
   #reading-progress,
   .reading-progress-bar {
-    top: var(--nav-height-mobile, 5.5rem) !important; /* Mobile: 네비게이션 높이에 맞춤 */
+    top: var(--nav-height-mobile, 5.5rem) !important;
+    /* Mobile: 네비게이션 높이에 맞춤 */
     height: 2px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+
   #reading-progress,
   .reading-progress-bar {
-    top: var(--nav-height-tablet, 5.75rem) !important; /* Tablet: 네비게이션 높이에 맞춤 */
+    top: var(--nav-height-tablet, 5.75rem) !important;
+    /* Tablet: 네비게이션 높이에 맞춤 */
   }
 }
 
@@ -719,17 +680,17 @@
     margin: 0;
     outline: none;
     cursor: pointer;
-    
+
     // Mobile touch target optimization (minimum 44px)
     min-width: 44px;
     min-height: 44px;
-    
+
     // Accessibility improvements
     &:focus-visible {
       outline: 2px solid var(--primary-color);
       outline-offset: 2px;
     }
-    
+
     // Touch feedback for mobile
     &:active {
       transform: translate(-50%, -50%) scale(0.95);
@@ -749,7 +710,7 @@
       background-color: var(--bg-secondary);
       border-radius: 1rem;
       position: relative;
-      box-shadow: 
+      box-shadow:
         inset 2px 2px 4px var(--shadow-light),
         inset -2px -2px 4px var(--overlay-light);
     }
@@ -762,7 +723,7 @@
       position: absolute;
       top: 0.125rem;
       left: 0.125rem;
-      box-shadow: 
+      box-shadow:
         2px 2px 4px var(--shadow-light),
         -1px -1px 2px var(--overlay-light);
       display: flex;
@@ -952,7 +913,7 @@
       background-color: var(--bg-color);
       border-radius: 1rem;
       position: relative;
-      box-shadow: 
+      box-shadow:
         inset 2px 2px 4px var(--shadow-light),
         inset -2px -2px 4px var(--overlay-light);
     }
@@ -965,7 +926,7 @@
       position: absolute;
       top: 0.125rem;
       left: 0.125rem;
-      box-shadow: 
+      box-shadow:
         2px 2px 4px var(--shadow-light),
         -1px -1px 2px var(--overlay-light);
       display: flex;
@@ -1475,7 +1436,7 @@
   .film-image-section {
     .film-image-container {
       max-height: 70vh; // 뷰포트 높이의 70%로 제한
-      
+
       .film-image {
         width: 100%;
         height: auto;
@@ -1509,7 +1470,7 @@
   .film-image-section {
     .film-image-container {
       max-height: 60vh; // 더 큰 화면에서는 60%로 제한
-      
+
       .film-image {
         max-height: 60vh;
         margin: 0;
@@ -1552,7 +1513,8 @@
       }
     }
 
-    ul, ol {
+    ul,
+    ol {
       color: var(--text-secondary);
       line-height: 1.6;
       margin-bottom: 1rem;
@@ -1588,14 +1550,14 @@
   margin: 2rem 0;
 }
 
-  .metadata-card {
-    background-color: var(--bg-color);
-    padding: 1.5rem 1.25rem 1.5rem 2rem;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    transition: background-color var(--transition-fast);
-    position: relative;
+.metadata-card {
+  background-color: var(--bg-color);
+  padding: 1.5rem 1.25rem 1.5rem 2rem;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: background-color var(--transition-fast);
+  position: relative;
 
   &:hover {
     background-color: var(--bg-secondary);
@@ -1665,7 +1627,11 @@
   padding-top: 2rem;
   border-top: 1px solid var(--border-light);
 
-  h2, h3, h4, h5, h6 {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--text-color);
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
@@ -1677,7 +1643,8 @@
     margin-bottom: 1rem;
   }
 
-  ul, ol {
+  ul,
+  ol {
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 1rem;

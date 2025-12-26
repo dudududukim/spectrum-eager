@@ -1,0 +1,61 @@
+// Mixins for Spectrum-Eager Theme
+// =================================
+
+// Category Colors Mixin
+// =====================
+// Generates category color classes (category-color-1 to category-color-5)
+// Used by: category filters, badges, tags
+
+/// Apply category background and text colors
+/// @param {String} $prefix - Selector prefix (usually '&')
+@mixin category-colors($prefix: '') {
+    @for $i from 1 through 5 {
+        #{$prefix}.category-color-#{$i} {
+            background-color: var(--category-#{$i}-bg);
+            color: var(--category-#{$i}-color);
+        }
+    }
+}
+
+/// Apply category colors with borders
+/// @param {String} $prefix - Selector prefix (usually '&')
+@mixin category-colors-with-border($prefix: '') {
+    @for $i from 1 through 5 {
+        #{$prefix}.category-color-#{$i} {
+            background-color: var(--category-#{$i}-bg);
+            color: var(--category-#{$i}-color);
+            border-color: var(--category-#{$i}-color);
+        }
+    }
+}
+
+// Responsive Breakpoint Mixins
+// =============================
+
+/// Mobile breakpoint (max-width: 767px)
+@mixin mobile {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+
+/// Small mobile breakpoint (max-width: 480px)
+@mixin mobile-small {
+    @media (max-width: 480px) {
+        @content;
+    }
+}
+
+/// Tablet breakpoint (768px - 1023px)
+@mixin tablet {
+    @media (min-width: 768px) and (max-width: 1023px) {
+        @content;
+    }
+}
+
+/// Desktop breakpoint (min-width: 1024px)
+@mixin desktop {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}
