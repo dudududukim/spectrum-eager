@@ -380,13 +380,27 @@
     }
 
     blockquote {
-      margin: 2rem 0;
+      margin: 2rem 0 1.5rem 0;
       padding: 1.5rem;
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
       border-radius: var(--radius-md);
       font-style: italic;
       color: var(--text-secondary);
+
+      p,
+      ul,
+      ol {
+        margin-bottom: 0;
+      }
+
+      li {
+        margin-bottom: 0;
+      }
+
+      >*:last-child {
+        margin-bottom: 0;
+      }
     }
 
     code {
@@ -461,13 +475,27 @@
     }
 
     blockquote {
-      margin: 2rem 0;
+      margin: 2rem 0 1.5rem 0;
       padding: 1.5rem;
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
       border-radius: var(--radius-md);
       font-style: italic;
       color: var(--text-secondary);
+
+      p,
+      ul,
+      ol {
+        margin-bottom: 0;
+      }
+
+      li {
+        margin-bottom: 0;
+      }
+
+      >*:last-child {
+        margin-bottom: 0;
+      }
     }
 
     code {
