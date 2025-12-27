@@ -488,6 +488,23 @@
       }
     }
 
+    table {
+      width: calc(100% - 2rem);
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+
+      &.small-table {
+        width: auto;
+        max-width: calc(100% - 2rem);
+
+        th,
+        td {
+          padding: 0.75rem 1rem;
+          min-width: 6rem;
+        }
+      }
+    }
+
     img {
       max-width: 100%;
       height: auto;
@@ -635,6 +652,23 @@
 
       &:hover {
         text-decoration: underline;
+      }
+    }
+
+    table {
+      width: calc(100% - 2rem);
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+
+      &.small-table {
+        width: auto;
+        max-width: calc(100% - 2rem);
+
+        th,
+        td {
+          padding: 0.75rem 1rem;
+          min-width: 6rem;
+        }
       }
     }
 
