@@ -387,20 +387,43 @@
         margin-bottom: 0;
       }
 
-      // Reference style variant
+      // Reference style variant - minimal design with icon only
       &.reference {
-        margin-left: 0;
-        margin-right: 0;
-        background-color: transparent;
+        margin: 1.5rem 0;
+        padding: 1rem 1.5rem 1rem 2.2rem;
+        position: relative;
+
+        background-color: var(--bg-secondary);
         border: 1px solid var(--border-color);
-        border-left: 1px solid var(--border-color);
         border-radius: var(--radius-sm);
-        padding: 1rem 1.5rem;
+
         color: var(--text-color);
         font-size: 0.9rem;
+        font-style: normal;
+
+        &::before {
+          content: '\f02e';
+          font-family: 'Font Awesome 6 Free';
+          font-weight: 900;
+          font-size: 0.9rem;
+          color: var(--primary-color);
+          position: absolute;
+          left: 1rem;
+          top: 1rem;
+        }
+
+        p {
+          margin-bottom: 0.5rem;
+          color: var(--text-color);
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
 
         a {
           font-weight: 500;
+          color: var(--primary-color);
         }
       }
     }
@@ -520,20 +543,43 @@
         margin-bottom: 0;
       }
 
-      // Reference style variant
+      // Reference style variant - minimal design with icon only
       &.reference {
-        margin-left: 0;
-        margin-right: 0;
-        background-color: transparent;
+        margin: 1.5rem 0;
+        padding: 1rem 1.5rem 1rem 2.2rem;
+        position: relative;
+
+        background-color: var(--bg-secondary);
         border: 1px solid var(--border-color);
-        border-left: 1px solid var(--border-color);
         border-radius: var(--radius-sm);
-        padding: 1rem 1.5rem;
+
         color: var(--text-color);
         font-size: 0.9rem;
+        font-style: normal;
+
+        &::before {
+          content: '\f02e';
+          font-family: 'Font Awesome 6 Free';
+          font-weight: 900;
+          font-size: 0.9rem;
+          color: var(--primary-color);
+          position: absolute;
+          left: 1rem;
+          top: 1rem;
+        }
+
+        p {
+          margin-bottom: 0.5rem;
+          color: var(--text-color);
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
 
         a {
           font-weight: 500;
+          color: var(--primary-color);
         }
       }
     }

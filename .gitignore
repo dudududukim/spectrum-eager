@@ -84,7 +84,7 @@ docs/reports/
 # for remote-theme collision
 /assets/posts/pdfs
 /test/
-/_posts/
+# /_posts/
 /assets/images/films/
 /assets/images/musics/
 /_films/
