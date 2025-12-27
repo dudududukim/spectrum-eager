@@ -416,12 +416,14 @@
 
     p {
       margin-bottom: 1.5rem;
+      margin-left: 2rem;
       color: var(--text-color);
     }
 
     ul,
     ol {
       margin-bottom: 1.5rem;
+      margin-left: 2rem;
       padding-left: 1.5rem;
 
       li {
@@ -431,7 +433,7 @@
     }
 
     blockquote {
-      margin: 2rem 0 1.5rem 0;
+      margin: 2rem 2rem 1.5rem 2rem;
       padding: 1.5rem;
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
@@ -443,6 +445,7 @@
       ul,
       ol {
         margin-bottom: 0;
+        margin-left: 0;
       }
 
       li {
@@ -467,7 +470,7 @@
       padding: 1.5rem;
       border-radius: var(--radius-md);
       overflow-x: auto;
-      margin: 2rem 0;
+      margin: 2rem 2rem;
 
       code {
         background: none;
@@ -563,12 +566,14 @@
 
     p {
       margin-bottom: 1.5rem;
+      margin-left: 2rem;
       color: var(--text-color);
     }
 
     ul,
     ol {
       margin-bottom: 1.5rem;
+      margin-left: 2rem;
       padding-left: 1.5rem;
 
       li {
@@ -578,7 +583,7 @@
     }
 
     blockquote {
-      margin: 2rem 0 1.5rem 0;
+      margin: 2rem 2rem 1.5rem 2rem;
       padding: 1.5rem;
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
@@ -590,6 +595,7 @@
       ul,
       ol {
         margin-bottom: 0;
+        margin-left: 0;
       }
 
       li {
@@ -614,7 +620,7 @@
       padding: 1.5rem;
       border-radius: var(--radius-md);
       overflow-x: auto;
-      margin: 2rem 0;
+      margin: 2rem 2rem;
 
       code {
         background: none;
