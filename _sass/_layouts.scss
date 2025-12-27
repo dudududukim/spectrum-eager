@@ -438,7 +438,6 @@
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
       border-radius: var(--radius-md);
-      font-style: italic;
       color: var(--text-secondary);
 
       p,
@@ -454,6 +453,21 @@
 
       >*:last-child {
         margin-bottom: 0;
+      }
+
+      // Reference style variant
+      &.reference {
+        background-color: transparent;
+        border: 1px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        padding: 1rem 1.5rem;
+        color: var(--text-color);
+        font-size: 0.9rem;
+
+        a {
+          font-weight: 500;
+        }
       }
     }
 
@@ -624,7 +638,6 @@
       background-color: var(--bg-secondary);
       border-left: 4px solid var(--primary-color);
       border-radius: var(--radius-md);
-      font-style: italic;
       color: var(--text-secondary);
 
       p,
@@ -640,6 +653,21 @@
 
       >*:last-child {
         margin-bottom: 0;
+      }
+
+      // Reference style variant
+      &.reference {
+        background-color: transparent;
+        border: 1px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        padding: 1rem 1.5rem;
+        color: var(--text-color);
+        font-size: 0.9rem;
+
+        a {
+          font-weight: 500;
+        }
       }
     }
 

@@ -7,6 +7,10 @@ description: "Comprehensive examples of all Kramdown/Markdown syntax supported i
 reading_time: 15
 ---
 
+> Original Paper : [OpenVLA: An Open-Source Vision-Language-Action Model](https://arxiv.org/pdf/2406.09246)
+> <br>OpenSource repo : [OpenVLA](https://openvla.github.io/)
+{: .reference}
+
 # Headings
 
 # Heading 1
