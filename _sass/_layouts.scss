@@ -457,6 +457,8 @@
 
       // Reference style variant
       &.reference {
+        margin-left: 0;
+        margin-right: 0;
         background-color: transparent;
         border: 1px solid var(--border-color);
         border-left: 1px solid var(--border-color);
@@ -657,6 +659,8 @@
 
       // Reference style variant
       &.reference {
+        margin-left: 0;
+        margin-right: 0;
         background-color: transparent;
         border: 1px solid var(--border-color);
         border-left: 1px solid var(--border-color);
