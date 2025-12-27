@@ -3,7 +3,9 @@ layout: default
 ---
 
 <!-- Reading Progress Bar -->
-<div id="reading-progress" class="reading-progress-bar" style="position: fixed !important; top: 6rem !important; left: 0 !important; right: 0 !important; width: 0% !important; height: 3px !important; background: var(--primary-color, #3498db) !important; z-index: 999 !important; pointer-events: none !important; display: block !important;"></div>
+<div id="reading-progress" class="reading-progress-bar"
+    style="position: fixed !important; top: 6rem !important; left: 0 !important; right: 0 !important; width: 0% !important; height: 3px !important; background: var(--primary-color, #3498db) !important; z-index: 999 !important; pointer-events: none !important; display: block !important;">
+</div>
 
 <div class="tech-bite-page">
     <div class="container">
@@ -12,20 +14,20 @@ layout: default
 
             <div class="page-meta">
                 {% if page.date %}
-                    <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
-                        {{ page.date | date: "%B %d, %Y" }}
-                    </time>
+                <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+                    {{ page.date | date: "%B %d, %Y" }}
+                </time>
                 {% endif %}
 
                 {% if page.categories %}
-                    {% assign post_section = page.section | default: "tech-bites" %}
-                    {% include get-section-config.html section_key=post_section %}
-                    <div class="post-categories">
-                        {% for category in page.categories %}
-                            {% include get-category-color-index.html category=category section_config=section_config %}
-                            <span class="category-tag category-color-{{ color_index }}">{{ category }}</span>
-                        {% endfor %}
-                    </div>
+                {% assign post_section = page.section | default: "tech-bites" %}
+                {% include get-section-config.html section_key=post_section %}
+                <div class="post-categories">
+                    {% for category in page.categories %}
+                    {% include get-category-color-index.html category=category section_config=section_config %}
+                    <span class="category-tag category-color-{{ color_index }}">{{ category }}</span>
+                    {% endfor %}
+                </div>
                 {% endif %}
             </div>
         </header>

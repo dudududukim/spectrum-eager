@@ -59,3 +59,99 @@
         @content;
     }
 }
+
+// Content Styling Mixins
+// =======================
+
+/// Common heading styles for content areas
+/// @param {Boolean} $with-borders - Add borders to h1 and h2
+/// @param {Boolean} $primary-colors - Use primary color for h3-h6
+@mixin heading-styles($with-borders: true, $primary-colors: true) {
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+
+        @if $with-borders {
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        color: var(--text-color);
+
+        @if $with-borders {
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+    }
+
+    h3 {
+        font-size: 1.3rem;
+        color: if($primary-colors, var(--primary-color), var(--text-color));
+    }
+
+    h4 {
+        font-size: 1.15rem;
+        color: if($primary-colors, var(--primary-color), var(--text-color));
+    }
+
+    h5 {
+        font-size: 1.05rem;
+        color: if($primary-colors, var(--primary-color), var(--text-color));
+    }
+
+    h6 {
+        font-size: 1rem;
+        color: if($primary-colors, var(--primary-color), var(--text-color));
+    }
+}
+
+/// Common content spacing for text elements
+/// @param {Boolean} $with-indent - Add left margin to paragraphs and lists
+@mixin content-spacing($with-indent: false) {
+    p {
+        margin-bottom: 1.5rem;
+
+        @if $with-indent {
+            margin-left: 2rem;
+        }
+
+        color: var(--text-color);
+    }
+
+    ul,
+    ol {
+        margin-bottom: 1.5rem;
+
+        @if $with-indent {
+            margin-left: 2rem;
+        }
+
+        padding-left: 1.5rem;
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+    }
+}
+
+/// Base card styling
+@mixin card-base {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all var(--transition-normal);
+}
+
+/// Card hover effect
+@mixin card-hover {
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--shadow-md);
+        border-color: var(--primary-color);
+    }
+}

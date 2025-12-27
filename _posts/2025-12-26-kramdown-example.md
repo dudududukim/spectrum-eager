@@ -1,10 +1,11 @@
 ---
 title: "Kramdown Grammar List"
-date: 2025-12-19
+date: 2025-12-26
 section: "tech-bites"
-categories: ["markdown", "reference"]
+categories: ["markdown", "tips"]
 description: "Comprehensive examples of all Kramdown/Markdown syntax supported in this blog."
 reading_time: 15
+toc : true
 ---
 
 > Original Paper : [OpenVLA: An Open-Source Vision-Language-Action Model](https://arxiv.org/pdf/2406.09246)
