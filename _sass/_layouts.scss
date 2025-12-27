@@ -389,7 +389,9 @@
 
     h2 {
       font-size: 1.5rem;
-      color: var(--primary-color);
+      color: var(--text-color);
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
     }
 
     h3 {
@@ -533,7 +535,9 @@
 
     h2 {
       font-size: 1.5rem;
-      color: var(--primary-color);
+      color: var(--text-color);
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
     }
 
     h3 {
