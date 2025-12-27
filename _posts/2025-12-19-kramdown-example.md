@@ -201,6 +201,8 @@ Just plain text.
 | Left         | Center         | Right         |
 | Text         | Text           | Text          |
 | More         | More           | More          |
+{: .no-indent}
+
 
 ## Small Table (Auto Width)
 

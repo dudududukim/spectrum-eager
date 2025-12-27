@@ -511,6 +511,25 @@
       border-radius: var(--radius-md);
       margin: 1.5rem 0;
     }
+
+    // Utility class to remove default left margin
+    .no-indent {
+      margin-left: 0 !important;
+
+      &.blockquote {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    p.no-indent,
+    ul.no-indent,
+    ol.no-indent,
+    blockquote.no-indent,
+    pre.no-indent,
+    table.no-indent {
+      margin-left: 0 !important;
+    }
   }
 
   .post-navigation {
@@ -677,6 +696,25 @@
       height: auto;
       border-radius: var(--radius-md);
       margin: 1.5rem 0;
+    }
+
+    // Utility class to remove default left margin
+    .no-indent {
+      margin-left: 0 !important;
+
+      &.blockquote {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    p.no-indent,
+    ul.no-indent,
+    ol.no-indent,
+    blockquote.no-indent,
+    pre.no-indent,
+    table.no-indent {
+      margin-left: 0 !important;
     }
   }
 
